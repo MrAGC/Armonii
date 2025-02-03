@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/negro_fondo">
+
+    <EditText
+        android:id="@+id/Etx_correo"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:background="@drawable/redondear_edittext"
+        android:hint="correo"
+        android:layout_margin="10dp"
+        android:inputType="textEmailAddress"
+        android:textColorHint="@color/black"
+        android:paddingStart="10dp"
+
+        />
+    <EditText
+        android:id="@+id/Etx_contraseña"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:background="@drawable/redondear_edittext"
+        android:hint="contraseña"
+        android:layout_margin="10dp"
+        android:inputType="textPassword"
+        android:textColorHint="@color/black"
+        android:paddingStart="10dp"
+        />
+
+    <Button
+        android:id="@+id/Btn_iniciar_sesion"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:text="Iniciar "
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@color/naranja"
+        android:textSize="19sp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿No tienes cuenta?"
+            android:textColor="@color/white"
+            android:layout_marginTop="50dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  Registrate!"
+            android:textColor="@color/naranja_letras"
+            android:layout_marginTop="50dp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

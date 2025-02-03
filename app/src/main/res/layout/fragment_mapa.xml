@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/negro_fondo"
+    tools:context=".MapaFragment">
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="Ubicacion"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:textColor="@color/naranja_letras"
+            android:textStyle="bold"
+            android:layout_margin="20dp"
+            />
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/MapView"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            />
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="75dp"
+            android:text="Ubicarme"
+            android:id="@+id/btnUpdate"
+            android:textSize="30sp"
+            android:layout_margin="10dp"
+            tools:ignore="MissingConstraints"
+            android:backgroundTint="@color/naranja"/>
+
+
+
+    </LinearLayout>
+
+</FrameLayout>
