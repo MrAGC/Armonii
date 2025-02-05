@@ -7,21 +7,19 @@
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        android:layout_height="match_parent" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/navegation_menu"
+        android:layout_height="300px"
         android:layout_gravity="bottom"
-        android:background="@color/naranja"
-        app:itemIconTint="@color/blanco_otro"
-        app:itemBackground="@drawable/menu_item_background"
-        app:labelVisibilityMode="unlabeled"
+        android:background="@drawable/gardient_background"
         app:itemActiveIndicatorStyle="@color/black"
-/>
+        app:itemBackground="@drawable/menu_item_selector"
+        app:itemIconTint="@color/blanco_otro"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/navegation_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
