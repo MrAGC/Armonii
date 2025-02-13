@@ -17,6 +17,7 @@ class IniciarSesionActivity: AppCompatActivity() {
             val intent = Intent(this, MenuActivity::class.java)
             startActivity(intent)
             finish()
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
 
     }

@@ -65,5 +65,17 @@ class MenuActivity: AppCompatActivity() {
             addToBackStack("replacement")
         }
 
+        supportFragmentManager.commit {
+            setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+                               )
+            replace<HomeFragment>(R.id.fragmentContainer)
+            setReorderingAllowed(true)
+            addToBackStack("replacement")
+        }
+
     }
 }

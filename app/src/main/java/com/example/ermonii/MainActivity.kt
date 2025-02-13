@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, IniciarSesionActivity::class.java)
             startActivity(intent)
             finish()
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
     }
     private fun animateText() {
