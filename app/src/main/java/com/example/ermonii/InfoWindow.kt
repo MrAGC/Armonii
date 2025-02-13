@@ -23,7 +23,7 @@ class CustomInfoWindow(mapView: MapView) : InfoWindow(R.layout.custom_info_windo
         snippetView.text = marker.snippet
 
         // Recuperar la imagen asociada al marcador
-        val local = marker.relatedObject as? Locales // Recupera el objeto Locales
+        val local = marker.relatedObject as? Local // Recupera el objeto Locales
 
         // Cargar la imagen desde los recursos locales
         if (local != null) {

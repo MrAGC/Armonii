@@ -3,15 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/negro_fondo"
-    tools:context=".HomeFragment">
+    android:background="@drawable/background_gardient_black"
+    tools:context=".HomeFragment"
+    android:layout_marginBottom="80dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="@color/blanco_otro"
-        android:layout_gravity="center"
-        android:text="HomeFragment" />
+    <!-- RecyclerView para mostrar la lista de locales -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewEventos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:layout_marginTop="16dp" />
 
 </FrameLayout>
