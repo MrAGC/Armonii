@@ -28,6 +28,7 @@ class MapaFragment : Fragment(), LocationListener {
     var ubicado = false
     private var ubicacionMarker: Marker? = null
 
+
     val localesList = listOf(
         Local(
             id = 1,
@@ -141,19 +142,25 @@ class MapaFragment : Fragment(), LocationListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+                             ): View? {
         // Inflar el layout del fragmento
         val view = inflater.inflate(R.layout.fragment_mapa, container, false)
 
-        // Inicializar el MapView
+        // Inicializar el CustomMapView
         Configuration.getInstance().load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()))
-        mapView = view.findViewById(R.id.MapView)
+        mapView = view.findViewById(R.id.MapView) // Ahora es un CustomMapView
         mapView.setMultiTouchControls(true)
 
-        mapView.setOnTouchListener { _, _ ->
-            mapView.overlays.forEach { overlay ->
-                if (overlay is Marker) {
-                    overlay.closeInfoWindow() // Close the info window of the marker
+        // Configurar el listener para deshabilitar gestos de ViewPager2 cuando se interactúa con el mapa
+        mapView.setOnTouchListener { _, event ->
+            when (event.action) {
+                android.view.MotionEvent.ACTION_DOWN -> {
+                    // Deshabilitar gestos de ViewPager2
+                    (requireActivity() as? MenuActivity)?.disableViewPagerGestures()
+                }
+                android.view.MotionEvent.ACTION_UP, android.view.MotionEvent.ACTION_CANCEL -> {
+                    // Habilitar gestos de ViewPager2
+                    (requireActivity() as? MenuActivity)?.enableViewPagerGestures()
                 }
             }
             false
@@ -185,17 +192,21 @@ class MapaFragment : Fragment(), LocationListener {
         val locationManager = requireContext().getSystemService(android.content.Context.LOCATION_SERVICE) as LocationManager
         if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
+            // Solicitar actualizaciones de ubicación
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
+
+            // Obtener la última ubicación conocida
             val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             if (location != null) {
                 locatePoint(location)
                 ponerMarcasLocales(PZCAT_LATITUDE, PZCAT_LONGITUDE)
                 addUbicacioMarker(location)
             } else {
-                Toast.makeText(requireContext(), "Last known location is null, waiting for location update...", Toast.LENGTH_SHORT).show()
+                // Si no hay última ubicación conocida, mostrar un mensaje
+                Toast.makeText(requireContext(), "Esperando actualización de ubicación...", Toast.LENGTH_SHORT).show()
             }
         } else {
-            Toast.makeText(requireContext(), "Location permission not granted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Permiso de ubicación no concedido", Toast.LENGTH_SHORT).show()
         }
     }
 

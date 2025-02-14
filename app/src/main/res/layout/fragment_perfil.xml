@@ -22,7 +22,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_editarPerfil"
             android:layout_width="100dp"
-            android:layout_height="30dp"
+            android:layout_height="0dp"
             android:background="@drawable/degradado_boton"
             android:text="Editar"
             android:textColor="@color/white"
