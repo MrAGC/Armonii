@@ -5,6 +5,7 @@
     <color name="negro_fondo">#141515</color>
     <color name="naranja">#f5783a</color>
     <color name="naranja_item_select">#F6864B</color>
+    <color name="naranja_icon_select_registro">#F09A6C</color>
     <color name="naranja_letras">#f0580d</color>
     <color name="blanco_otro">#fefeff</color>
     <color name="blanco_fondo_edit_text">#dddddd</color>
