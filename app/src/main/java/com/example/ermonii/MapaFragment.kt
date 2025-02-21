@@ -123,8 +123,6 @@ class MapaFragment : Fragment(), LocationListener {
 
     companion object {
         private const val DEFAULT_ZOOM = 17.0
-
-        // Coordenadas Plaza Cataluña
         private const val PZCAT_LATITUDE = 41.3870
         private const val PZCAT_LONGITUDE = 2.1700
 
@@ -138,22 +136,45 @@ class MapaFragment : Fragment(), LocationListener {
             }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Retener la instancia del fragmento
+        retainInstance = true
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+                             ): View? {
         // Inflar el layout del fragmento
         val view = inflater.inflate(R.layout.fragment_mapa, container, false)
 
-        // Inicializar el MapView
+        // Reinicializar el MapView
         Configuration.getInstance().load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()))
         mapView = view.findViewById(R.id.MapView)
         mapView.setMultiTouchControls(true)
 
-        mapView.setOnTouchListener { _, _ ->
-            mapView.overlays.forEach { overlay ->
-                if (overlay is Marker) {
-                    overlay.closeInfoWindow() // Close the info window of the marker
+        // Establecer el zoom mínimo y máximo
+        mapView.minZoomLevel = 5.0
+        mapView.maxZoomLevel = 20.0
+
+        // Configurar el listener para deshabilitar gestos de ViewPager2 cuando se interactúa con el mapa
+        mapView.setOnTouchListener { _, event ->
+            when (event.action) {
+                android.view.MotionEvent.ACTION_DOWN -> {
+                    // Deshabilitar gestos de ViewPager2
+                    (requireActivity() as? MenuActivity)?.disableViewPagerGestures()
+                }
+                android.view.MotionEvent.ACTION_UP, android.view.MotionEvent.ACTION_CANCEL -> {
+                    // Habilitar gestos de ViewPager2
+                    (requireActivity() as? MenuActivity)?.enableViewPagerGestures()
+
+                    // Cerrar las ventanas de información de los marcadores al pulsar fuera de ellos
+                    mapView.overlays.forEach { overlay ->
+                        if (overlay is Marker) {
+                            overlay.closeInfoWindow() // Cierra la ventana de información del marcador
+                        }
+                    }
                 }
             }
             false
@@ -175,10 +196,47 @@ class MapaFragment : Fragment(), LocationListener {
         // Configurar el botón para actualizar la ubicación
         val button = view.findViewById<Button>(R.id.btnUpdate)
         button.setOnClickListener {
-            initializeLocationUpdates()
+            try {
+                // Verificar si los permisos están concedidos
+                if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                    // Si los permisos están concedidos, iniciar actualizaciones de ubicación
+                    initializeLocationUpdates()
+                } else {
+                    // Si los permisos no están concedidos, solicitarlos nuevamente
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                        PERMISSIONS_CODE
+                                                     )
+                    Toast.makeText(requireContext(), "Permiso de ubicación requerido para actualizar", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: SecurityException) {
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Error de seguridad: Verifica los permisos en configuración", Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Error inesperado al actualizar la ubicación", Toast.LENGTH_LONG).show()
+            }
         }
 
+
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume() // Reiniciar el MapView cuando el fragmento se vuelve a mostrar
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause() // Pausar el MapView cuando el fragmento se oculta
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mapView.onDetach() // Liberar recursos del MapView cuando el fragmento se destruye
     }
 
     private fun initializeLocationUpdates() {
@@ -192,31 +250,27 @@ class MapaFragment : Fragment(), LocationListener {
                 ponerMarcasLocales(PZCAT_LATITUDE, PZCAT_LONGITUDE)
                 addUbicacioMarker(location)
             } else {
-                Toast.makeText(requireContext(), "Last known location is null, waiting for location update...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Esperando actualización de ubicación...", Toast.LENGTH_SHORT).show()
             }
         } else {
-            Toast.makeText(requireContext(), "Location permission not granted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Permiso de ubicación no concedido", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun addUbicacioMarker(location: Location?) {
-        // Elimina el marcador "Yo" existente si ya está añadido
         ubicacionMarker?.let {
-            mapView.overlays.remove(it) // Elimina el marcador "Yo" del mapa.
-            mapView.invalidate() // Redibuja el mapa para reflejar los cambios.
+            mapView.overlays.remove(it)
+            mapView.invalidate()
         }
 
-        // Crea y añade un nuevo marcador "Yo"
         if (location != null) {
             val marker = Marker(mapView)
             marker.position = GeoPoint(location.latitude, location.longitude)
             marker.title = "Yo"
-            marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.yo_mark) // Cambia "yo_mark" por tu drawable.
+            marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.yo_mark)
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-            mapView.overlays.add(marker) // Añade el marcador al mapa.
-            mapView.invalidate() // Redibuja el mapa.
-
-            // Almacena el nuevo marcador "Yo"
+            mapView.overlays.add(marker)
+            mapView.invalidate()
             ubicacionMarker = marker
         } else {
             Toast.makeText(requireContext(), "Ubicación no disponible", Toast.LENGTH_SHORT).show()
@@ -231,7 +285,7 @@ class MapaFragment : Fragment(), LocationListener {
             marker.snippet = local.description
             marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.location_mark)
             marker.infoWindow = CustomInfoWindow(mapView)
-            marker.setRelatedObject(local) // Asociar el objeto Locales al marcador
+            marker.setRelatedObject(local)
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             mapView.overlays.add(marker)
         }
@@ -246,15 +300,13 @@ class MapaFragment : Fragment(), LocationListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSIONS_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(requireContext(), "Permission granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Permiso concedido", Toast.LENGTH_SHORT).show()
                 initializeLocationUpdates()
             } else {
-                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Permiso denegado", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-
 
     private fun locatePoint(location: Location?) {
         if (location != null) {
@@ -262,7 +314,11 @@ class MapaFragment : Fragment(), LocationListener {
             mapController.setZoom(DEFAULT_ZOOM)
             mapController.setCenter(GeoPoint(location.latitude, location.longitude))
         } else {
-            Toast.makeText(requireContext(), "Location not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Ubicación no encontrada", Toast.LENGTH_SHORT).show()
         }
     }
 }
+
+
+
+

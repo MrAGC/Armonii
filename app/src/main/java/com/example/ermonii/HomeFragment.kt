@@ -149,6 +149,8 @@ class HomeFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context) // Usamos el contexto del fragmento
         recyclerView.adapter = EventoAdapter(eventList) // Pasamos la lista de objetos Local al adaptador
 
+
+
         return view
     }
 }

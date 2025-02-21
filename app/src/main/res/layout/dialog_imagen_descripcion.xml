@@ -1,0 +1,77 @@
+<!-- res/layout/dialog_imagen_descripcion.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/negro_fondo"
+    android:gravity="center">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="La Central Burguers"
+                android:textSize="25dp"
+                android:textColor="@color/naranja"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="17dp"
+                android:textColor="@color/white"
+                android:text="Publicado: "
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Duracion del evento: "
+                android:textSize="17dp"
+                android:textColor="@color/white"
+                />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/dialog_imagen"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_armonii" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dialog_descripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:text="Descripción del producto"
+        />
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="20dp"
+        android:text="Contactar"
+        />
+</LinearLayout>
