@@ -1,5 +1,8 @@
 package com.example.ermonii
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -23,18 +26,20 @@ class RegistroActivity : AppCompatActivity() {
 
         // Declaraciones
         var musico = false
-        var LLType = findViewById<LinearLayout>(R.id.LLType)
-        var imgMusico = findViewById<ImageView>(R.id.imgMusico)
-        var imgLocal = findViewById<ImageView>(R.id.imgLocal)
-        var btnType = findViewById<Button>(R.id.btnContinuarType)
-        var LLNombre = findViewById<LinearLayout>(R.id.LLNombre)
-        var btnNombre = findViewById<Button>(R.id.btnContinuarNombre)
-        var LLApellido = findViewById<LinearLayout>(R.id.LLApellido)
-        var btnApellido = findViewById<Button>(R.id.btnContinuarApellido)
-        var LLCorreo = findViewById<LinearLayout>(R.id.LLCorreo)
-        var btnCorreo = findViewById<Button>(R.id.btnContinuarCorreo)
-        var LLEdad = findViewById<LinearLayout>(R.id.LLEdad)
-        var btnEdad = findViewById<Button>(R.id.btnContinuarEdad)
+        val LLType = findViewById<LinearLayout>(R.id.LLType)
+        val imgMusico = findViewById<ImageView>(R.id.imgMusico)
+        val imgLocal = findViewById<ImageView>(R.id.imgLocal)
+        val btnType = findViewById<Button>(R.id.btnContinuarType)
+        val LLNombre = findViewById<LinearLayout>(R.id.LLNombre)
+        val btnNombre = findViewById<Button>(R.id.btnContinuarNombre)
+        val LLApodo = findViewById<LinearLayout>(R.id.LLApodo)
+        val btnApodo = findViewById<Button>(R.id.btnContinuarApodo)
+        val LLApellido = findViewById<LinearLayout>(R.id.LLApellido)
+        val btnApellido = findViewById<Button>(R.id.btnContinuarApellido)
+        val LLCorreo = findViewById<LinearLayout>(R.id.LLCorreo)
+        val btnCorreo = findViewById<Button>(R.id.btnContinuarCorreo)
+        val LLEdad = findViewById<LinearLayout>(R.id.LLEdad)
+        val btnEdad = findViewById<Button>(R.id.btnContinuarEdad)
         val edtEdad = findViewById<EditText>(R.id.edtEdad)
 
         // Obtén la fecha actual
@@ -43,18 +48,19 @@ class RegistroActivity : AppCompatActivity() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        var LLTelefono = findViewById<LinearLayout>(R.id.LLTelefono)
-        var btnTelefono = findViewById<Button>(R.id.btnContinuarTelefono)
-        var LLGenero = findViewById<LinearLayout>(R.id.LLGenero)
-        var btnGenero = findViewById<Button>(R.id.btnContinuarGenero)
-        var LLContrasena = findViewById<LinearLayout>(R.id.LLContrasena)
-        var btnContrasena = findViewById<Button>(R.id.btnContinuarContrasena)
+        val LLTelefono = findViewById<LinearLayout>(R.id.LLTelefono)
+        val btnTelefono = findViewById<Button>(R.id.btnContinuarTelefono)
+        val LLGenero = findViewById<LinearLayout>(R.id.LLGenero)
+        val btnGenero = findViewById<Button>(R.id.btnContinuarGenero)
+        val LLContrasena = findViewById<LinearLayout>(R.id.LLContrasena)
+        val btnContrasena = findViewById<Button>(R.id.btnContinuarContrasena)
         val rbAceptarTerminos = findViewById<RadioButton>(R.id.radioButtonAceptarTerminos)
         val txtTerminos = findViewById<TextView>(R.id.txtTerminosCondiciones)
         val LLTipoLocal = findViewById<LinearLayout>(R.id.LLTipoLocal)
         val btnTipoLocal = findViewById<Button>(R.id.btnContinuarTipoLocal)
 
         val btnNombreVolver = findViewById<Button>(R.id.btnVolverNombre)
+        val btnApodoVolver = findViewById<Button>(R.id.btnVolverApodo)
         val btnApellidoVolver = findViewById<Button>(R.id.btnVolverApellido)
         val btnCorreoVolver = findViewById<Button>(R.id.btnVolverCorreo)
         val btnEdadVolver = findViewById<Button>(R.id.btnVolverEdad)
@@ -111,181 +117,69 @@ class RegistroActivity : AppCompatActivity() {
 
         LLType.visibility = View.VISIBLE
 
-        // Manejar el clic del botón btnContinuarType
+        // Función para animar la transición entre vistas
+        fun animateTransition(fromView: View, toView: View) {
+            val fadeOut = ObjectAnimator.ofFloat(fromView, "alpha", 1f, 0f).setDuration(300)
+            val fadeIn = ObjectAnimator.ofFloat(toView, "alpha", 0f, 1f).setDuration(300)
+            fadeOut.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    fromView.visibility = View.GONE
+                    toView.visibility = View.VISIBLE
+                    fadeIn.start()
+                }
+            })
+            fadeOut.start()
+        }
+
+        // Función para configurar el botón de volver en las vistas
+        fun setBackButtonListener(button: Button, fromView: View, toView: View) {
+            button.setOnClickListener { animateTransition(fromView, toView) }
+        }
+
+        // Manejo del clic en los términos y condiciones
+        txtTerminos.setOnClickListener {
+            rbAceptarTerminos.isChecked = !rbAceptarTerminos.isChecked
+        }
+
+        // Mostrar el DatePickerDialog al hacer clic en el campo de edad
+        edtEdad.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                edtEdad.setText(selectedDate)
+            }, year, month, day)
+            datePickerDialog.show()
+        }
+
+        // Manejo de la selección de tipo de usuario y navegación entre vistas
         btnType.setOnClickListener {
-            LLType.visibility = View.GONE
-
-            // Comprobar el tipo de usuario y mostrar el layout correspondiente
+            animateTransition(LLType, LLNombre)
             if (musico) {
-                // Camino para el músico
-                LLNombre.visibility = View.VISIBLE
-
-                btnNombre.setOnClickListener {
-                    LLNombre.visibility = View.GONE
-
-                    LLApellido.visibility = View.VISIBLE
-                }
-                btnNombreVolver.setOnClickListener {
-                    LLNombre.visibility = View.GONE
-
-                    LLType.visibility = View.VISIBLE
-                }
-
-                btnApellido.setOnClickListener {
-                    LLApellido.visibility = View.GONE
-
-                    LLCorreo.visibility = View.VISIBLE
-                }
-                btnApellidoVolver.setOnClickListener {
-                    LLApellido.visibility = View.GONE
-
-                    LLNombre.visibility = View.VISIBLE
-                }
-
-                btnCorreo.setOnClickListener {
-                    LLCorreo.visibility = View.GONE
-
-                    LLEdad.visibility = View.VISIBLE
-                }
-                btnCorreoVolver.setOnClickListener {
-                    LLCorreo.visibility = View.GONE
-
-                    LLApellido.visibility = View.VISIBLE
-                }
-
-                btnEdad.setOnClickListener {
-                    LLEdad.visibility = View.GONE
-
-                    LLTelefono.visibility = View.VISIBLE
-                }
-                btnEdadVolver.setOnClickListener {
-                    LLEdad.visibility = View.GONE
-
-                    LLCorreo.visibility = View.VISIBLE
-                }
-
-                // Mostrar calendario para seleccionar fecha de nacimiento
-                edtEdad.setOnClickListener {
-                    // Crea un DatePickerDialog
-                    val datePickerDialog =
-                        DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                            // Formatea la fecha seleccionada y la establece en el EditText
-                            val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-                            edtEdad.setText(selectedDate)
-                        }, year, month, day)
-
-                    // Muestra el DatePickerDialog
-                    datePickerDialog.show()
-                }
-
-                btnTelefono.setOnClickListener {
-                    LLTelefono.visibility = View.GONE
-
-                    LLGenero.visibility = View.VISIBLE
-                }
-                btnTelefonoVolver.setOnClickListener {
-                    LLTelefono.visibility = View.GONE
-
-                    LLEdad.visibility = View.VISIBLE
-                }
-
-                btnGenero.setOnClickListener {
-                    // FALTA COMPROBACIÓN DE GENERO SELECCIONADO
-                    LLGenero.visibility = View.GONE
-
-                    LLContrasena.visibility = View.VISIBLE
-                }
-                btnGeneroVolver.setOnClickListener {
-                    LLGenero.visibility = View.GONE
-
-                    LLTelefono.visibility = View.VISIBLE
-                }
-
-                txtTerminos.setOnClickListener {
-                    // Cambiar el estado del RadioButton
-                    rbAceptarTerminos.isChecked = !rbAceptarTerminos.isChecked
-                }
-
-                btnContrasena.setOnClickListener {
-                    LLContrasena.visibility = View.GONE
-
-                    // FALTA COMPROBACIÓN DE CONTRASEÑAS
-
-                    // Saltamos al home
-                }
-                btnContrasenaVolver.setOnClickListener {
-                    LLContrasena.visibility = View.GONE
-
-                    LLGenero.visibility = View.VISIBLE
-                }
-
-
+                btnNombre.setOnClickListener { animateTransition(LLNombre, LLApodo) }
+                btnApodo.setOnClickListener { animateTransition(LLApodo, LLApellido) }
+                btnApellido.setOnClickListener { animateTransition(LLApellido, LLCorreo) }
+                btnCorreo.setOnClickListener { animateTransition(LLCorreo, LLEdad) }
+                btnEdad.setOnClickListener { animateTransition(LLEdad, LLTelefono) }
+                btnTelefono.setOnClickListener { animateTransition(LLTelefono, LLGenero) }
+                btnGenero.setOnClickListener { animateTransition(LLGenero, LLContrasena) }
+                btnContrasena.setOnClickListener {  } // Implementar Home Fragment
             } else {
-                // Camino para el local
-                LLNombre.visibility = View.VISIBLE
-
-                btnNombre.setOnClickListener {
-                    LLNombre.visibility = View.GONE
-
-                    LLCorreo.visibility = View.VISIBLE
-                }
-                btnNombreVolver.setOnClickListener {
-                    LLNombre.visibility = View.GONE
-
-                    LLType.visibility = View.VISIBLE
-                }
-
-                btnCorreo.setOnClickListener {
-                    LLCorreo.visibility = View.GONE
-
-                    LLTelefono.visibility = View.VISIBLE
-                }
-                btnCorreoVolver.setOnClickListener {
-                    LLCorreo.visibility = View.GONE
-
-                    LLNombre.visibility = View.VISIBLE
-                }
-
-                btnTelefono.setOnClickListener {
-                    LLTelefono.visibility = View.GONE
-
-                    LLTipoLocal.visibility = View.VISIBLE
-                }
-                btnTelefonoVolver.setOnClickListener {
-                    LLTelefono.visibility = View.GONE
-
-                    LLCorreo.visibility = View.VISIBLE
-                }
-
-                btnTipoLocal.setOnClickListener {
-                    LLTipoLocal.visibility = View.GONE
-
-                    LLContrasena.visibility = View.VISIBLE
-                }
-                btnTipoLocalVolver.setOnClickListener {
-                    LLTipoLocal.visibility = View.GONE
-
-                    LLTelefono.visibility = View.VISIBLE
-                }
-
-                txtTerminos.setOnClickListener {
-                    // Cambiar el estado del RadioButton
-                    rbAceptarTerminos.isChecked = !rbAceptarTerminos.isChecked
-                }
-
-                btnContrasena.setOnClickListener {
-                    LLContrasena.visibility = View.GONE
-
-                    // FALTA COMPROBACIÓN DE CONTRASEÑAS
-
-                    // Saltamos al home
-                }
-                btnContrasenaVolver.setOnClickListener {
-                    LLContrasena.visibility = View.GONE
-
-                    LLTipoLocal.visibility = View.VISIBLE
-                }
+                btnNombre.setOnClickListener { animateTransition(LLNombre, LLCorreo) }
+                btnCorreo.setOnClickListener { animateTransition(LLCorreo, LLTelefono) }
+                btnTelefono.setOnClickListener { animateTransition(LLTelefono, LLTipoLocal) }
+                btnTipoLocal.setOnClickListener { animateTransition(LLTipoLocal, LLContrasena) }
+                btnContrasena.setOnClickListener {  } // Implementar Home Fragment
             }
         }
+
+        // Configuración de los botones de volver
+        setBackButtonListener(btnNombreVolver, LLNombre, LLType)
+        setBackButtonListener(btnApodoVolver, LLApodo, LLNombre)
+        setBackButtonListener(btnApellidoVolver, LLApellido, LLApodo)
+        setBackButtonListener(btnCorreoVolver, LLCorreo, LLApellido)
+        setBackButtonListener(btnEdadVolver, LLEdad, LLCorreo)
+        setBackButtonListener(btnTelefonoVolver, LLTelefono, LLEdad)
+        setBackButtonListener(btnGeneroVolver, LLGenero, LLTelefono)
+        setBackButtonListener(btnContrasenaVolver, LLContrasena, LLGenero)
+        setBackButtonListener(btnTipoLocalVolver, LLTipoLocal, LLTelefono)
     }
 }
