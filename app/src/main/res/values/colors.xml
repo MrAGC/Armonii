@@ -8,7 +8,8 @@
     <color name="naranja_icon_select_registro">#F09A6C</color>
     <color name="naranja_letras">#f0580d</color>
     <color name="blanco_otro">#fefeff</color>
-    <color name="blanco_fondo_edit_text">#dddddd</color>
-
+    <color name="blanco_fondo_edit_text">#DDDDDD</color>
+    <color name="green">#008000</color>
+    <color name="red">#FF0000</color>
 
 </resources>

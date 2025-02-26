@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gardient_black"
@@ -25,11 +26,11 @@
         android:layout_margin="10dp"
         android:background="@drawable/redondear_edittext"
         android:drawableStart="@drawable/email_icon"
+        android:drawablePadding="15dp"
         android:hint="  Correo"
         android:inputType="textEmailAddress"
         android:paddingStart="15dp"
-        android:textColorHint="#555555"
-        android:drawablePadding="15dp"/>
+        android:textColorHint="#555555" />
 
     <EditText
         android:id="@+id/edtContrasena"
@@ -38,11 +39,11 @@
         android:layout_margin="10dp"
         android:background="@drawable/redondear_edittext"
         android:drawableStart="@drawable/password_icon"
+        android:drawablePadding="15dp"
         android:hint="  Contraseña"
         android:inputType="textPassword"
         android:paddingStart="15dp"
-        android:textColorHint="#555555"
-        android:drawablePadding="15dp"/>
+        android:textColorHint="#555555" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/Btn_iniciar_sesion"
@@ -51,9 +52,10 @@
         android:layout_marginTop="50dp"
         android:background="@drawable/degradado_boton"
         android:text="Iniciar"
+        android:textColor="@color/white"
         android:textSize="19sp"
         android:textStyle="bold"
-        android:textColor="@color/white"/>
+        app:backgroundTint="@null" />
 
     <Space
         android:layout_width="match_parent"

@@ -8,8 +8,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.ermonii.FragmentLocal.MenuActivityLocal
-import com.example.ermonii.FragmentMusico.MenuActivityMusico
+import com.example.ermonii.fragmentLocal.MenuActivityLocal
+import com.example.ermonii.fragmentMusico.MenuActivityMusico
 
 class IniciarSesion: AppCompatActivity() {
     @SuppressLint("MissingInflatedId")

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gardient_black"
+    tools:context=".fragmentLocal.MenuActivityLocal"
+    android:layout_marginBottom="80dp">
+
+    <!-- RecyclerView para mostrar la lista de locales -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMusicos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:layout_marginTop="16dp" />
+
+</FrameLayout>

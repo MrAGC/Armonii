@@ -31,11 +31,11 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".FragmentMusico.MenuActivityMusico"
+            android:name=".fragmentMusico.MenuActivityMusico"
             android:exported="true">
         </activity>
         <activity
-            android:name=".FragmentLocal.MenuActivityLocal"
+            android:name=".fragmentLocal.MenuActivityLocal"
             android:exported="true">
         </activity>
         <activity android:name=".Registro"

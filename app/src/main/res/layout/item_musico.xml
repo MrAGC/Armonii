@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtNombreMusico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            android:textColor="@color/naranja"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtApodo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/txtEdad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edad: XX - "
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/txtEstado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Activo"
+                android:textColor="@color/green" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtGeneroMusical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rock Metal Country"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtBiografia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Biografía: Apasionado por la música y el arte, siempre en busca de nuevas experiencias. Amante de los viajes, la fotografía y la buena compañía."
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgMusico"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgVal1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/star_fill_img" />
+
+            <ImageView
+                android:id="@+id/imgVal2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/star_fill_img" />
+
+            <ImageView
+                android:id="@+id/imgVal3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/star_fill_img" />
+
+            <ImageView
+                android:id="@+id/imgVal4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/star_black_img" />
+
+            <ImageView
+                android:id="@+id/imgVal5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/star_black_img" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

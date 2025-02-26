@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -87,11 +88,12 @@
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/degradado_boton"
+            android:layerType="hardware"
             android:text="Continuar"
             android:textColor="@color/white"
             android:textSize="19sp"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
     </LinearLayout>
 
 
@@ -139,10 +141,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
 
             <Space
                 android:layout_width="10dp"
@@ -155,10 +159,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
         </LinearLayout>
 
     </LinearLayout>
@@ -207,10 +213,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
 
             <Space
                 android:layout_width="10dp"
@@ -223,10 +231,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
         </LinearLayout>
 
     </LinearLayout>
@@ -275,10 +285,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
 
             <Space
                 android:layout_width="10dp"
@@ -291,10 +303,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
         </LinearLayout>
     </LinearLayout>
 
@@ -342,10 +356,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
 
             <Space
                 android:layout_width="10dp"
@@ -358,10 +374,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
         </LinearLayout>
     </LinearLayout>
 
@@ -410,10 +428,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
 
             <Space
                 android:layout_width="10dp"
@@ -426,10 +446,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
         </LinearLayout>
     </LinearLayout>
 
@@ -477,10 +499,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
 
             <Space
                 android:layout_width="10dp"
@@ -493,10 +517,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
         </LinearLayout>
     </LinearLayout>
 
@@ -543,10 +569,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
 
             <Space
                 android:layout_width="10dp"
@@ -559,10 +587,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
         </LinearLayout>
     </LinearLayout>
 
@@ -646,10 +676,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
 
             <Space
                 android:layout_width="10dp"
@@ -662,10 +694,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Registrarse"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
         </LinearLayout>
     </LinearLayout>
 
@@ -712,10 +746,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
 
             <Space
                 android:layout_width="10dp"
@@ -728,10 +764,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
                 android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
         </LinearLayout>
     </LinearLayout>
 

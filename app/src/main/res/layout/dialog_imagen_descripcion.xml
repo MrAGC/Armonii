@@ -1,50 +1,48 @@
 <!-- res/layout/dialog_imagen_descripcion.xml -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:background="@color/negro_fondo"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="200dp"
             android:layout_height="150dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="La Central Burguers"
-                android:textSize="25dp"
                 android:textColor="@color/naranja"
-                android:textStyle="bold"
-                />
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="17dp"
-                android:textColor="@color/white"
                 android:text="Publicado: "
-                />
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Duracion del evento: "
-                android:textSize="17dp"
                 android:textColor="@color/white"
-                />
+                android:textSize="17dp" />
 
 
         </LinearLayout>
@@ -63,15 +61,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textSize="16sp"
-        android:textColor="@android:color/white"
         android:text="Descripción del producto"
-        />
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnContactar"
         android:layout_width="250dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/degradado_boton"
+        android:layerType="hardware"
         android:text="Contactar"
-        />
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:backgroundTint="@null" />
 </LinearLayout>
