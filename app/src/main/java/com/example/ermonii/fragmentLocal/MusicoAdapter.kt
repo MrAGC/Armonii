@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ermonii.R
 import com.example.ermonii.clases.Musico
-import kotlin.math.roundToInt
 
 class MusicoAdapter(private val musicos: List<Musico>) :
     RecyclerView.Adapter<MusicoAdapter.MusicoViewHolder>() {

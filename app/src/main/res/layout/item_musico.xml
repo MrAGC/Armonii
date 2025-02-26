@@ -114,6 +114,5 @@
                 android:src="@drawable/star_black_img" />
 
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>
