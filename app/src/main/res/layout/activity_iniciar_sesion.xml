@@ -19,7 +19,7 @@
         android:src="@drawable/logo_armonii" />
 
     <EditText
-        android:id="@+id/Etx_correo"
+        android:id="@+id/edtCorreo"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
@@ -32,7 +32,7 @@
         android:drawablePadding="15dp"/>
 
     <EditText
-        android:id="@+id/Etx_contraseña"
+        android:id="@+id/edtContrasena"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gardient_black"
-    tools:context=".HomeFragment"
+    tools:context=".FragmentMusico.HomeFragmentMusico"
     android:layout_marginBottom="80dp">
 
     <!-- RecyclerView para mostrar la lista de locales -->

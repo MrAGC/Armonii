@@ -1,6 +1,5 @@
-package com.example.ermonii
+package com.example.ermonii.Clases
 
-import Chat
 import java.io.Serializable
 import java.util.Date
 

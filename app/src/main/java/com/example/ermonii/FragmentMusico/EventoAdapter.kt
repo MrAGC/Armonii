@@ -1,3 +1,5 @@
+package com.example.ermonii.FragmentMusico
+
 import android.app.Dialog
 import android.content.Context
 import android.view.Gravity
@@ -8,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ermonii.Evento
+import com.example.ermonii.Clases.Evento
 import com.example.ermonii.R
 
 class EventoAdapter(private val eventList: List<Evento>) : RecyclerView.Adapter<EventoAdapter.EventoViewHolder>() {

@@ -1,6 +1,5 @@
-package com.example.ermonii
+package com.example.ermonii.FragmentMusico
 
-import EventoAdapter
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ermonii.Clases.Evento
+import com.example.ermonii.Clases.Local
+import com.example.ermonii.R
 import java.util.Date
 
-class HomeFragment : Fragment() {
+class HomeFragmentMusico : Fragment() {
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -23,16 +25,26 @@ class HomeFragment : Fragment() {
 
 
         val localList =  listOf(
-            Local(1, "Restaurante A", "restaurantea@example.com", "password123", 1234567890, 40.7128f, -74.0060f, Date(), true, emptyList(), 4.5f, "Comida italiana deliciosa", R.drawable.profile_icon, 40.7128, -74.0060, 5),
-            Local(2, "Restaurante B", "restauranteb@example.com", "password123", 1234567891, 40.7128f, -74.0060f, Date(), true, emptyList(), 4.2f, "Comida mexicana auténtica", R.drawable.profile_icon, 40.7128, -74.0060, 4),
-            Local(3, "Café Central", "cafecentral@example.com", "password123", 1234567892, 34.0522f, -118.2437f, Date(), true, emptyList(), 4.7f, "Café y postres caseros", R.drawable.profile_icon, 34.0522, -118.2437, 5),
-            Local(4, "Pizzería Napoli", "pizzerianapoli@example.com", "password123", 1234567893, 41.9028f, 12.4964f, Date(), true, emptyList(), 4.9f, "Pizza al estilo de Nápoles", R.drawable.profile_icon, 41.9028, 12.4964, 5),
-            Local(5, "Taco Bell", "tacobell@example.com", "password123", 1234567894, 36.1627f, -86.7816f, Date(), true, emptyList(), 3.8f, "Tacos y burritos rápidos", R.drawable.profile_icon, 36.1627, -86.7816, 3),
-            Local(6, "La Taquería", "lataqueria@example.com", "password123", 1234567895, 19.4326f, -99.1332f, Date(), true, emptyList(), 5.0f, "Tacos auténticos mexicanos", R.drawable.profile_icon, 19.4326, -99.1332, 5),
-            Local(7, "Restaurante Sushi King", "sushiking@example.com", "password123", 1234567896, 35.6762f, 139.6503f, Date(), true, emptyList(), 4.6f, "Sushi fresco y delicioso", R.drawable.profile_icon, 35.6762, 139.6503, 4),
-            Local(8, "Burguer House", "burguerhouse@example.com", "password123", 1234567897, 48.8566f, 2.3522f, Date(), true, emptyList(), 4.4f, "Hamburguesas gourmet", R.drawable.profile_icon, 48.8566, 2.3522, 4),
-            Local(9, "Café de París", "cafedeparis@example.com", "password123", 1234567898, 48.8566f, 2.3522f, Date(), true, emptyList(), 5.0f, "Café y pasteles franceses", R.drawable.profile_icon, 48.8566, 2.3522, 5),
-            Local(10, "Panadería El Horno", "panaderiaelhorn@example.com", "password123", 1234567899, 40.7306f, -73.9352f, Date(), true, emptyList(), 4.3f, "Pan recién horneado", R.drawable.profile_icon, 40.7306, -73.9352, 4)
+            Local(1, "Restaurante A", "restaurantea@example.com", "password123", 1234567890, 40.7128f, -74.0060f, Date(), true, emptyList(), 4.5f, "Comida italiana deliciosa",
+                  R.drawable.profile_icon, 40.7128, -74.0060, 5),
+            Local(2, "Restaurante B", "restauranteb@example.com", "password123", 1234567891, 40.7128f, -74.0060f, Date(), true, emptyList(), 4.2f, "Comida mexicana auténtica",
+                  R.drawable.profile_icon, 40.7128, -74.0060, 4),
+            Local(3, "Café Central", "cafecentral@example.com", "password123", 1234567892, 34.0522f, -118.2437f, Date(), true, emptyList(), 4.7f, "Café y postres caseros",
+                  R.drawable.profile_icon, 34.0522, -118.2437, 5),
+            Local(4, "Pizzería Napoli", "pizzerianapoli@example.com", "password123", 1234567893, 41.9028f, 12.4964f, Date(), true, emptyList(), 4.9f, "Pizza al estilo de Nápoles",
+                  R.drawable.profile_icon, 41.9028, 12.4964, 5),
+            Local(5, "Taco Bell", "tacobell@example.com", "password123", 1234567894, 36.1627f, -86.7816f, Date(), true, emptyList(), 3.8f, "Tacos y burritos rápidos",
+                  R.drawable.profile_icon, 36.1627, -86.7816, 3),
+            Local(6, "La Taquería", "lataqueria@example.com", "password123", 1234567895, 19.4326f, -99.1332f, Date(), true, emptyList(), 5.0f, "Tacos auténticos mexicanos",
+                  R.drawable.profile_icon, 19.4326, -99.1332, 5),
+            Local(7, "Restaurante Sushi King", "sushiking@example.com", "password123", 1234567896, 35.6762f, 139.6503f, Date(), true, emptyList(), 4.6f, "Sushi fresco y delicioso",
+                  R.drawable.profile_icon, 35.6762, 139.6503, 4),
+            Local(8, "Burguer House", "burguerhouse@example.com", "password123", 1234567897, 48.8566f, 2.3522f, Date(), true, emptyList(), 4.4f, "Hamburguesas gourmet",
+                  R.drawable.profile_icon, 48.8566, 2.3522, 4),
+            Local(9, "Café de París", "cafedeparis@example.com", "password123", 1234567898, 48.8566f, 2.3522f, Date(), true, emptyList(), 5.0f, "Café y pasteles franceses",
+                  R.drawable.profile_icon, 48.8566, 2.3522, 5),
+            Local(10, "Panadería El Horno", "panaderiaelhorn@example.com", "password123", 1234567899, 40.7306f, -73.9352f, Date(), true, emptyList(), 4.3f, "Pan recién horneado",
+                  R.drawable.profile_icon, 40.7306, -73.9352, 4)
                                 )
 
         val eventList = listOf(

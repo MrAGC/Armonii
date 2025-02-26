@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/negro_fondo"
-    tools:context=".MapaFragment">
+    tools:context=".FragmentMusico.MapaFragmentMusico">
 
     <LinearLayout
         android:id="@+id/main"
@@ -24,7 +24,7 @@
             android:layout_margin="20dp"
             />
 
-        <com.example.ermonii.CustomMapView
+        <com.example.ermonii.FragmentMusico.CustomMapView
             android:id="@+id/MapView"
             android:layout_width="match_parent"
             android:layout_height="600dp" />

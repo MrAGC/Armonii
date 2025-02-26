@@ -1,47 +1,44 @@
-package com.example.ermonii
+package com.example.ermonii.FragmentLocal
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.example.ermonii.FragmentMusico.ViewPagerAdapterMusico
+import com.example.ermonii.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MenuActivity : AppCompatActivity() {
+class MenuActivityLocal : AppCompatActivity() {
 
     private lateinit var viewPager: ViewPager2
-    private lateinit var navegation: BottomNavigationView
+    private lateinit var navigation: BottomNavigationView
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_menu)
+        setContentView(R.layout.activity_menu_local)
 
         // Inicializar ViewPager2
-        viewPager = findViewById(R.id.viewPager)
-        viewPager.adapter = ViewPagerAdapter(this)
+        viewPager = findViewById(R.id.viewPagerLocal)
+        viewPager.adapter = ViewPagerAdapterLocal(this)
 
         // Inicializar BottomNavigationView
-        navegation = findViewById(R.id.navMenu)
-        navegation.setOnNavigationItemSelectedListener { item ->
+        navigation = findViewById(R.id.navMenu)
+        navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.itemHomeFragment -> {
+                R.id.itemHomeFragmentLocal -> {
                     viewPager.currentItem = 0
                     true
                 }
-                R.id.itemMapaFragment -> {
+                R.id.itemCrearFragmentLocal -> {
                     viewPager.currentItem = 1
                     true
                 }
-                R.id.itemChatFragment -> {
+                R.id.itemChatFragmentLocal -> {
                     viewPager.currentItem = 2
                     true
                 }
-                R.id.itemPerfilFragment -> {
+                R.id.itemPerfilFragmentLocal -> {
                     viewPager.currentItem = 3
                     true
                 }
@@ -54,10 +51,10 @@ class MenuActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 when (position) {
-                    0 -> navegation.selectedItemId = R.id.itemHomeFragment
-                    1 -> navegation.selectedItemId = R.id.itemMapaFragment
-                    2 -> navegation.selectedItemId = R.id.itemChatFragment
-                    3 -> navegation.selectedItemId = R.id.itemPerfilFragment
+                    0 -> navigation.selectedItemId = R.id.itemHomeFragmentLocal
+                    1 -> navigation.selectedItemId = R.id.itemCrearFragmentLocal
+                    2 -> navigation.selectedItemId = R.id.itemChatFragmentLocal
+                    3 -> navigation.selectedItemId = R.id.itemPerfilFragmentLocal
                 }
             }
         })
@@ -71,5 +68,4 @@ class MenuActivity : AppCompatActivity() {
     fun enableViewPagerGestures() {
         viewPager.isUserInputEnabled = true
     }
-
 }

@@ -1,4 +1,4 @@
-package com.example.ermonii
+package com.example.ermonii.FragmentMusico
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.ermonii.Clases.Local
+import com.example.ermonii.R
 
-class LocalAdapter(private val localList: List<Local>) : RecyclerView.Adapter<LocalAdapter.LocalViewHolder>() {
+class LocalAdapterMusico(private val localList: List<Local>) : RecyclerView.Adapter<LocalAdapterMusico.LocalViewHolder>() {
 
     // Crear las vistas que se van a usar para mostrar los datos
     class LocalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

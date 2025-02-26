@@ -27,14 +27,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".IniciarSesionActivity"
+            android:name=".IniciarSesion"
             android:exported="true">
         </activity>
         <activity
-            android:name=".MenuActivity"
+            android:name=".FragmentMusico.MenuActivityMusico"
             android:exported="true">
         </activity>
-        <activity android:name=".RegistroActivity"
+        <activity
+            android:name=".FragmentLocal.MenuActivityLocal"
+            android:exported="true">
+        </activity>
+        <activity android:name=".Registro"
             android:exported="true">
         </activity>
 

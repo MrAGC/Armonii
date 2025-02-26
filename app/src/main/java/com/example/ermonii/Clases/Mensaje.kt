@@ -1,3 +1,5 @@
+package com.example.ermonii.Clases
+
 import java.time.LocalDateTime
 
 data class Mensaje(

@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         val btn_comenzar = findViewById<TextView>(R.id.Btn_comenzar)
         btn_comenzar.setOnClickListener {
             mediaPlayer.release()
-            val intent = Intent(this, IniciarSesionActivity::class.java)
+            val intent = Intent(this, IniciarSesion::class.java)
             startActivity(intent)
             finish()
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemHomeFragmentMusico"
+        android:icon="@drawable/ic_fragment_home"
+        android:title="Home Fragment"
+
+        />
+    <item
+        android:id="@+id/itemMapaFragmentMusico"
+        android:icon="@drawable/ic_fragment_mapa"
+        android:title="Mapa Fragment"
+
+        />
+    <item
+        android:id="@+id/itemChatFragmentMusico"
+        android:icon="@drawable/ic_fragment_chat"
+        android:title="Chat Fragment"
+
+        />
+    <item
+        android:id="@+id/itemPerfilFragmentMusico"
+        android:icon="@drawable/ic_fragment_perfil"
+        android:title="Perfil Fragment"
+
+        />
+</menu>

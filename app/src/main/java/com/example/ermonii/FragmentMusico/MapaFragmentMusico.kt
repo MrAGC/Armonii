@@ -1,4 +1,4 @@
-package com.example.ermonii
+package com.example.ermonii.FragmentMusico
 
 import android.content.pm.PackageManager
 import android.location.Location
@@ -18,9 +18,11 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import androidx.preference.PreferenceManager
+import com.example.ermonii.Clases.Local
+import com.example.ermonii.R
 import java.util.Date
 
-class MapaFragment : Fragment(), LocationListener {
+class MapaFragmentMusico : Fragment(), LocationListener {
 
     val PERMISSIONS_CODE = 1
     lateinit var mapView: MapView
@@ -128,7 +130,7 @@ class MapaFragment : Fragment(), LocationListener {
 
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            MapaFragment().apply {
+            MapaFragmentMusico().apply {
                 arguments = Bundle().apply {
                     putString("param1", param1)
                     putString("param2", param2)
@@ -163,11 +165,11 @@ class MapaFragment : Fragment(), LocationListener {
             when (event.action) {
                 android.view.MotionEvent.ACTION_DOWN -> {
                     // Deshabilitar gestos de ViewPager2
-                    (requireActivity() as? MenuActivity)?.disableViewPagerGestures()
+                    (requireActivity() as? MenuActivityMusico)?.disableViewPagerGestures()
                 }
                 android.view.MotionEvent.ACTION_UP, android.view.MotionEvent.ACTION_CANCEL -> {
                     // Habilitar gestos de ViewPager2
-                    (requireActivity() as? MenuActivity)?.enableViewPagerGestures()
+                    (requireActivity() as? MenuActivityMusico)?.enableViewPagerGestures()
 
                     // Cerrar las ventanas de información de los marcadores al pulsar fuera de ellos
                     mapView.overlays.forEach { overlay ->

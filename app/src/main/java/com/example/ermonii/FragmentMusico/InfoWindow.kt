@@ -1,9 +1,10 @@
-package com.example.ermonii
+package com.example.ermonii.FragmentMusico
 
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.example.ermonii.Clases.Local
+import com.example.ermonii.R
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.infowindow.InfoWindow

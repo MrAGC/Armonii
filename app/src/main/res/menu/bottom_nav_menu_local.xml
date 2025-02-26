@@ -2,25 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/itemHomeFragment"
+        android:id="@+id/itemHomeFragmentLocal"
         android:icon="@drawable/ic_fragment_home"
         android:title="Home Fragment"
 
         />
     <item
-        android:id="@+id/itemMapaFragment"
-        android:icon="@drawable/ic_fragment_mapa"
-        android:title="Mapa Fragment"
+        android:id="@+id/itemCrearFragmentLocal"
+        android:icon="@drawable/ic_fragment_home"
+        android:title="Crear Fragment"
 
         />
     <item
-        android:id="@+id/itemChatFragment"
+        android:id="@+id/itemChatFragmentLocal"
         android:icon="@drawable/ic_fragment_chat"
         android:title="Chat Fragment"
 
         />
     <item
-        android:id="@+id/itemPerfilFragment"
+        android:id="@+id/itemPerfilFragmentLocal"
         android:icon="@drawable/ic_fragment_perfil"
         android:title="Perfil Fragment"
 
