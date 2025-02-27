@@ -9,7 +9,7 @@
         />
     <item
         android:id="@+id/itemCrearFragmentLocal"
-        android:icon="@drawable/ic_fragment_home"
+        android:icon="@drawable/ic_fragment_crear"
         android:title="Crear Fragment"
 
         />

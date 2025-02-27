@@ -34,7 +34,7 @@ class CustomInfoWindow(mapView: MapView) : InfoWindow(R.layout.custom_info_windo
             ratingStarsLayout.removeAllViews() // Limpiar las estrellas anteriores
             for (i in 1..local.rating) {
                 val starImageView = ImageView(mView.context)
-                starImageView.setImageResource(R.drawable.star) // Cambia "ic_star" por tu drawable de estrella
+                starImageView.setImageResource(R.drawable.star_fill_img) // Cambia "ic_star" por tu drawable de estrella
                 starImageView.layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT

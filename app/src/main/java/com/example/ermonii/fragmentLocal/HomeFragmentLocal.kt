@@ -41,7 +41,6 @@ class HomeFragmentLocal : Fragment() {
                 "Masculino",
                 listOf("Rock", "Blues"),
                 emptyList(),
-                "El Guitarra",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -63,7 +62,6 @@ class HomeFragmentLocal : Fragment() {
                 "Femenino",
                 listOf("Jazz", "Funk"),
                 emptyList(),
-                "La Batería",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -85,7 +83,6 @@ class HomeFragmentLocal : Fragment() {
                 "Masculino",
                 listOf("Pop", "Rock"),
                 emptyList(),
-                "El Tecladista",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -107,7 +104,6 @@ class HomeFragmentLocal : Fragment() {
                 "Femenino",
                 listOf("Balada", "Soul"),
                 emptyList(),
-                "La Voz",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -129,7 +125,6 @@ class HomeFragmentLocal : Fragment() {
                 "Masculino",
                 listOf("Alternativa", "Indie"),
                 emptyList(),
-                "El Bajo",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -151,7 +146,6 @@ class HomeFragmentLocal : Fragment() {
                 "Femenino",
                 listOf("Clásica", "Celta"),
                 emptyList(),
-                "La Violinista",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -173,7 +167,6 @@ class HomeFragmentLocal : Fragment() {
                 "Masculino",
                 listOf("Salsa", "Merengue"),
                 emptyList(),
-                "El Percusionista",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -195,7 +188,6 @@ class HomeFragmentLocal : Fragment() {
                 "Femenino",
                 listOf("Rock Alternativo", "Folk"),
                 emptyList(),
-                "La Guitarrista",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -217,7 +209,6 @@ class HomeFragmentLocal : Fragment() {
                 "Masculino",
                 listOf("Rock", "Pop"),
                 emptyList(),
-                "El Cantante",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -239,7 +230,6 @@ class HomeFragmentLocal : Fragment() {
                 "Femenino",
                 listOf("Contemporánea", "Clásica"),
                 emptyList(),
-                "La Flautista",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -261,7 +251,6 @@ class HomeFragmentLocal : Fragment() {
                 "Masculino",
                 listOf("Jazz", "Funk"),
                 emptyList(),
-                "El Saxo",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -283,7 +272,6 @@ class HomeFragmentLocal : Fragment() {
                 "Femenino",
                 listOf("Clásica", "Barroca"),
                 emptyList(),
-                "La Chelista",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -305,7 +293,6 @@ class HomeFragmentLocal : Fragment() {
                 "Masculino",
                 listOf("Folclor", "Tradicional"),
                 emptyList(),
-                "El Folklorista",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -327,7 +314,6 @@ class HomeFragmentLocal : Fragment() {
                 "Femenino",
                 listOf("Clásica", "Sinfónica"),
                 emptyList(),
-                "La Sinfonista",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -349,7 +335,6 @@ class HomeFragmentLocal : Fragment() {
                 "Masculino",
                 listOf("Urbano", "Latino"),
                 emptyList(),
-                "El Urbano",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -371,7 +356,6 @@ class HomeFragmentLocal : Fragment() {
                 "Femenino",
                 listOf("Folk", "Indie"),
                 emptyList(),
-                "La Cantautora",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -393,7 +377,6 @@ class HomeFragmentLocal : Fragment() {
                 "Masculino",
                 listOf("Rock", "Progresivo"),
                 emptyList(),
-                "El Progresivo",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -415,7 +398,6 @@ class HomeFragmentLocal : Fragment() {
                 "Femenino",
                 listOf("Rock", "Pop"),
                 emptyList(),
-                "La Batería",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -437,7 +419,6 @@ class HomeFragmentLocal : Fragment() {
                 "Masculino",
                 listOf("Metal", "Rock"),
                 emptyList(),
-                "El Metálico",
                 R.drawable.profile_icon
                   ),
             Musico(
@@ -459,7 +440,6 @@ class HomeFragmentLocal : Fragment() {
                 "Femenino",
                 listOf("Contemporánea", "Experimental"),
                 emptyList(),
-                "La Experimental",
                 R.drawable.profile_icon
                   )
                                 )

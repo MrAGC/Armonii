@@ -29,7 +29,7 @@ class LocalAdapterMusico(private val localList: List<Local>) : RecyclerView.Adap
         val currentLocal = localList[position]
         holder.nameTextView.text = currentLocal.name
         holder.descriptionTextView.text = currentLocal.description
-        holder.imageView.setImageResource(currentLocal.image) // Asegúrate de tener imágenes en tu drawable
+        holder.imageView.setImageResource(currentLocal.image)
     }
 
     // Retorna el tamaño de la lista

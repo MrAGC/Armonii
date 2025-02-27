@@ -7,10 +7,6 @@
     tools:context=".fragmentLocal.MenuActivityLocal"
     android:layout_marginBottom="80dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Crear"
-        android:layout_gravity="center"/>
+
 
 </FrameLayout>

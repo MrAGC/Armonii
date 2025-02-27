@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -37,16 +36,9 @@ class EventoAdapter(private val eventList: List<Evento>) : RecyclerView.Adapter<
         // Asignar la imagen del Local asociado al evento al ImageView
         holder.imageView.setImageResource(currentEvento.local.image)  // Usa la imagen del Local
 
-        // Configurar el listener para mostrar el diálogo al hacer clic en la imagen
-        holder.imageView.setOnTouchListener { _, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    // Mostrar el diálogo personalizado
-                    mostrarDialogoImagen(holder.itemView.context, currentEvento)
-                    true // Consumir el evento
-                }
-                else -> false // No consumir otros eventos
-            }
+        // Configurar el listener para mostrar el diálogo al hacer clic en el item
+        holder.itemView.setOnClickListener {
+            mostrarDialogoImagen(holder.itemView.context, currentEvento)
         }
     }
 

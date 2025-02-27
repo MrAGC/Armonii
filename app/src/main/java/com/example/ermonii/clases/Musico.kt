@@ -21,6 +21,5 @@ class Musico(
     val genero: String,
     val generoMusical: List<String>,
     val historialEventos: List<Evento>,
-    val nombreArtistico: String,
     val image: Int
     ) : Usuario(id, name, correo, contrasenya, telefono, latitud, longitud, fechaRegistro, estado, chat, valoracion)
