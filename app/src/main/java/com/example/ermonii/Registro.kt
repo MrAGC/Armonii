@@ -143,10 +143,11 @@ class Registro : AppCompatActivity() {
 
         // Mostrar el DatePickerDialog al hacer clic en el campo de edad
         edtEdad.setOnClickListener {
-            val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-                edtEdad.setText(selectedDate)
-            }, year, month, day)
+            val datePickerDialog =
+                DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                    val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                    edtEdad.setText(selectedDate)
+                }, year, month, day)
             datePickerDialog.show()
         }
 
@@ -161,13 +162,13 @@ class Registro : AppCompatActivity() {
                 btnEdad.setOnClickListener { animateTransition(LLEdad, LLTelefono) }
                 btnTelefono.setOnClickListener { animateTransition(LLTelefono, LLGenero) }
                 btnGenero.setOnClickListener { animateTransition(LLGenero, LLContrasena) }
-                btnContrasena.setOnClickListener {  } // Implementar Home Fragment
+                btnContrasena.setOnClickListener { } // Implementar Home Fragment
             } else {
                 btnNombre.setOnClickListener { animateTransition(LLNombre, LLCorreo) }
                 btnCorreo.setOnClickListener { animateTransition(LLCorreo, LLTelefono) }
                 btnTelefono.setOnClickListener { animateTransition(LLTelefono, LLTipoLocal) }
                 btnTipoLocal.setOnClickListener { animateTransition(LLTipoLocal, LLContrasena) }
-                btnContrasena.setOnClickListener {  } // Implementar Home Fragment
+                btnContrasena.setOnClickListener { } // Implementar Home Fragment
             }
         }
 
@@ -175,11 +176,25 @@ class Registro : AppCompatActivity() {
         setBackButtonListener(btnNombreVolver, LLNombre, LLType)
         setBackButtonListener(btnApodoVolver, LLApodo, LLNombre)
         setBackButtonListener(btnApellidoVolver, LLApellido, LLApodo)
-        setBackButtonListener(btnCorreoVolver, LLCorreo, LLApellido)
+        btnCorreoVolver.setOnClickListener {
+            if (musico) {
+                animateTransition(LLCorreo, LLApellido)
+            } else {
+                animateTransition(LLCorreo, LLNombre)
+            }
+        }
         setBackButtonListener(btnEdadVolver, LLEdad, LLCorreo)
         setBackButtonListener(btnTelefonoVolver, LLTelefono, LLEdad)
         setBackButtonListener(btnGeneroVolver, LLGenero, LLTelefono)
-        setBackButtonListener(btnContrasenaVolver, LLContrasena, LLGenero)
+        setBackButtonListener(btnContrasenaVolver, LLContrasena, LLGenero) // Musico
+        btnContrasenaVolver.setOnClickListener {
+            if (musico) {
+                animateTransition(LLContrasena, LLGenero)
+            } else {
+                animateTransition(LLContrasena, LLTipoLocal)
+
+            }
+        }
         setBackButtonListener(btnTipoLocalVolver, LLTipoLocal, LLTelefono)
     }
 }

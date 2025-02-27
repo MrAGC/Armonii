@@ -48,7 +48,7 @@
             android:id="@+id/imgVal4"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/star_black_img" />
+            android:src="@drawable/star_half" />
 
         <ImageView
             android:id="@+id/imgVal5"

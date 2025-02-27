@@ -11,26 +11,46 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+
         android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCerrarSesion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_weight="0.8"
+            android:background="@drawable/degradado_boton"
+            android:minWidth="120dp"
+            android:text="Cerrar Sesión"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="0.2" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_editarPerfil"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_weight="0.8"
             android:background="@drawable/degradado_boton"
-            android:layerType="hardware"
+            android:minWidth="120dp"
             android:text="Editar"
             android:textColor="@color/white"
-            android:textSize="10dp"
+            android:textSize="16dp"
             android:textStyle="bold"
             app:backgroundTint="@null" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -50,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Local"
+            android:text="Nombre de local"
             android:textColor="#ff5722"
             android:textSize="30sp" />
 
@@ -60,29 +80,34 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/imgVal1"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/star_fill" />
+                android:src="@drawable/star_fill_img" />
 
             <ImageView
+                android:id="@+id/imgVal2"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/star_fill" />
+                android:src="@drawable/star_fill_img" />
 
             <ImageView
+                android:id="@+id/imgVal3"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/star_fill" />
+                android:src="@drawable/star_fill_img" />
 
             <ImageView
+                android:id="@+id/imgVal4"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/star_black" />
+                android:src="@drawable/star_half" />
 
             <ImageView
+                android:id="@+id/imgVal5"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/star_black" />
+                android:src="@drawable/star_black_img" />
 
         </LinearLayout>
 
@@ -91,16 +116,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txt_profiel_artistico"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_margin="5dp"
-                android:text="Nombre artistico: @null"
-                android:textColor="@color/blanco_otro"
-                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/txt_profiel_bio"
@@ -133,12 +148,12 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txt_profiel_genero"
+                android:id="@+id/txt_profiel_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_margin="5dp"
-                android:text="Genero: @null"
+                android:text="Tipo: @null"
                 android:textColor="@color/blanco_otro"
                 android:textSize="15sp" />
 
@@ -153,19 +168,17 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCerrarSesion"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="100dp"
-            android:background="@drawable/degradado_boton"
-            android:layerType="hardware"
-            android:text="Cerrar Sesión"
-            android:textColor="@color/white"
-            android:textSize="10dp"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:text="Mis Eventos"
+            android:textColor="@color/naranja"
+            android:textSize="24sp"
             android:textStyle="bold"
-            app:backgroundTint="@null" />
+            android:layout_marginLeft="14dp"/>
+
     </LinearLayout>
+
 
 </LinearLayout>
