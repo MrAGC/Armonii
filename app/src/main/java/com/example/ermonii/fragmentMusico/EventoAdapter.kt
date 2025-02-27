@@ -12,22 +12,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ermonii.clases.Evento
 import com.example.ermonii.R
 
-class EventoAdapter(private val eventList: List<Evento>) : RecyclerView.Adapter<EventoAdapter.EventoViewHolder>() {
+class EventoAdapter(private val eventList: List<Evento>) :
+    RecyclerView.Adapter<EventoAdapter.EventoViewHolder>() {
 
     // Crear las vistas que se van a usar para mostrar los datos
     class EventoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.eventName)
         val descriptionTextView: TextView = itemView.findViewById(R.id.eventDescription)
-        val imageView: ImageView = itemView.findViewById(R.id.eventImage)  // Imagen del evento (debe ser la del Local)
+        val imageView: ImageView =
+            itemView.findViewById(R.id.eventImage)  // Imagen del evento (debe ser la del Local)
     }
 
-    // Este método infla el layout para cada item
+    // Este metodo infla el layout para cada item
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventoViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_evento, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_evento, parent, false)
         return EventoViewHolder(itemView)
     }
 
-    // Este método asigna los valores de cada Evento a las vistas
+    // Este metodo asigna los valores de cada Evento a las vistas
     override fun onBindViewHolder(holder: EventoViewHolder, position: Int) {
         val currentEvento = eventList[position]
         holder.nameTextView.text = currentEvento.name
@@ -42,7 +45,7 @@ class EventoAdapter(private val eventList: List<Evento>) : RecyclerView.Adapter<
         }
     }
 
-    // Método para mostrar el diálogo con la imagen y la descripción del evento
+    // Metodo para mostrar el diálogo con la imagen y la descripción del evento
     private fun mostrarDialogoImagen(context: Context, evento: Evento) {
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.dialog_imagen_descripcion)
