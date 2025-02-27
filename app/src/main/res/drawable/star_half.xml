@@ -1,19 +1,18 @@
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Capa base: estrella vacía -->
-    <item>
-        <bitmap
-            android:src="@drawable/star_black"
-            android:gravity="center"/>
-    </item>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
 
-    <!-- Capa superior: mitad izquierda rellena -->
-    <item>
-        <clip
-            android:clipOrientation="horizontal"
-            android:gravity="left">
-            <bitmap
-                android:src="@drawable/star_fill"
-                android:gravity="center"/>
-        </clip>
-    </item>
-</layer-list>
+    <!-- Mitad izquierda amarilla -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M12,2 L14.81,8.63 L22,9.24 L16.54,13.97 L18.18,21 L12,17.27 L5.82,21 L7.46,13.97 L2,9.24 L9.19,8.63 Z"
+        android:trimPathEnd="0.5"/>
+
+    <!-- Mitad derecha negra -->
+    <path
+        android:fillColor="#FFD700"
+        android:pathData="M12,2 L14.81,8.63 L22,9.24 L16.54,13.97 L18.18,21 L12,17.27 L5.82,21 L7.46,13.97 L2,9.24 L9.19,8.63 Z"
+        android:trimPathStart="0.5"/>
+</vector>

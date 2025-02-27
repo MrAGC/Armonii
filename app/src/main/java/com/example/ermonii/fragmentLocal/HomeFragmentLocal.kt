@@ -33,7 +33,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1643673600000),
                 true,
                 emptyList(),
-                4.7f,
+                3.5f,  // Valoración actualizada
                 "Santana",
                 "",  // Nuevo campo apodo
                 28,
@@ -55,7 +55,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1646092800000),
                 false,
                 emptyList(),
-                4.9f,
+                4.74f,  // Valoración actualizada
                 "Villalba",
                 "Lauris",  // Apodo
                 24,
@@ -77,7 +77,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1648771200000),
                 true,
                 emptyList(),
-                4.5f,
+                2.97f,  // Valoración actualizada
                 "Pérez",
                 "",  // Apodo
                 30,
@@ -99,7 +99,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1651363200000),
                 false,
                 emptyList(),
-                4.8f,
+                3.21f,  // Valoración actualizada
                 "Sánchez",
                 "Anita",  // Apodo
                 27,
@@ -121,7 +121,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1654041600000),
                 true,
                 emptyList(),
-                4.6f,
+                1.45f,  // Valoración actualizada
                 "Ramírez",
                 "Dieguito",  // Apodo
                 35,
@@ -143,7 +143,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1656633600000),
                 false,
                 emptyList(),
-                4.9f,
+                1.68f,  // Valoración actualizada
                 "López",
                 "Sofi",  // Apodo
                 22,
@@ -165,7 +165,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1659312000000),
                 true,
                 emptyList(),
-                4.4f,
+                1.92f,  // Valoración actualizada
                 "González",
                 "Richie",  // Apodo
                 29,
@@ -187,7 +187,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1661990400000),
                 false,
                 emptyList(),
-                4.9f,
+                2.16f,  // Valoración actualizada
                 "Martínez",
                 "Vale",  // Apodo
                 26,
@@ -209,7 +209,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1664582400000),
                 true,
                 emptyList(),
-                4.6f,
+                2.39f,  // Valoración actualizada
                 "Torres",
                 "Fer",  // Apodo
                 32,
@@ -231,7 +231,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1667260800000),
                 false,
                 emptyList(),
-                4.8f,
+                2.63f,  // Valoración actualizada
                 "Cruz",
                 "Mari",  // Apodo
                 25,
@@ -253,7 +253,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1669843200000),
                 true,
                 emptyList(),
-                4.6f,
+                2.87f,  // Valoración actualizada
                 "Hernández",
                 "Cris",  // Apodo
                 31,
@@ -275,7 +275,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1672521600000),
                 false,
                 emptyList(),
-                4.9f,
+                3.11f,  // Valoración actualizada
                 "González",
                 "Bella",  // Apodo
                 28,
@@ -297,7 +297,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1675200000000),
                 true,
                 emptyList(),
-                4.7f,
+                3.34f,  // Valoración actualizada
                 "Méndez",
                 "Alvi",  // Apodo
                 33,
@@ -319,7 +319,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1677782400000),
                 false,
                 emptyList(),
-                4.8f,
+                3.58f,  // Valoración actualizada
                 "Torres",
                 "Cami",  // Apodo
                 26,
@@ -341,7 +341,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1680364800000),
                 true,
                 emptyList(),
-                4.5f,
+                3.82f,  // Valoración actualizada
                 "Cáceres",
                 "Emi",  // Apodo
                 34,
@@ -363,7 +363,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1683043200000),
                 false,
                 emptyList(),
-                4.9f,
+                4.05f,  // Valoración actualizada
                 "Salazar",
                 "Luce",  // Apodo
                 24,
@@ -385,7 +385,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1685721600000),
                 true,
                 emptyList(),
-                4.4f,
+                4.29f,  // Valoración actualizada
                 "Jiménez",
                 "Santi",  // Apodo
                 29,
@@ -407,7 +407,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1688400000000),
                 false,
                 emptyList(),
-                4.8f,
+                4.53f,  // Valoración actualizada
                 "Vega",
                 "Marti",  // Apodo
                 30,
@@ -429,7 +429,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1691088000000),
                 true,
                 emptyList(),
-                4.6f,
+                4.76f,  // Valoración actualizada
                 "Pérez",
                 "Gabo",  // Apodo
                 35,
@@ -451,7 +451,7 @@ class HomeFragmentLocal : Fragment() {
                 Date(1693766400000),
                 false,
                 emptyList(),
-                4.9f,
+                5.0f,  // Valoración actualizada
                 "Montalvo",
                 "Vale",  // Apodo
                 23,
@@ -462,8 +462,8 @@ class HomeFragmentLocal : Fragment() {
                 "La Experimental",
                 R.drawable.profile_icon
                   )
-
                                 )
+
 
         // Configurar el RecyclerView
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMusicos)

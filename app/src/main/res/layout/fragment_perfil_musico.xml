@@ -62,27 +62,27 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/star_fill_img" />
+                android:src="@drawable/star_fill" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/star_fill_img" />
+                android:src="@drawable/star_fill" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/star_fill_img" />
+                android:src="@drawable/star_fill" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/star_black_img" />
+                android:src="@drawable/star_black" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/star_black_img" />
+                android:src="@drawable/star_black" />
 
         </LinearLayout>
 

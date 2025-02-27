@@ -24,6 +24,11 @@ class MusicoAdapter(private val musicos: List<Musico>) :
         val tvGenero: TextView = itemView.findViewById(R.id.txtGeneroMusical)
         val tvBiografia: TextView = itemView.findViewById(R.id.txtBiografia)
         val imgMusico: ImageView = itemView.findViewById(R.id.imgMusico)
+        val imgVal1: ImageView = itemView.findViewById(R.id.imgVal1)
+        val imgVal2: ImageView = itemView.findViewById(R.id.imgVal2)
+        val imgVal3: ImageView = itemView.findViewById(R.id.imgVal3)
+        val imgVal4: ImageView = itemView.findViewById(R.id.imgVal4)
+        val imgVal5: ImageView = itemView.findViewById(R.id.imgVal5)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicoViewHolder {
@@ -35,7 +40,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
     override fun onBindViewHolder(holder: MusicoViewHolder, position: Int) {
         val musico = musicos[position]
 
-        holder.tvNombre.text = musico.name + " " + musico.apellidos
+        holder.tvNombre.text = "${musico.name} ${musico.apellidos}"
         if (musico.apodo.isEmpty()) {
             holder.tvApodo.visibility = View.GONE
         } else {
@@ -46,14 +51,36 @@ class MusicoAdapter(private val musicos: List<Musico>) :
         holder.tvEstado.text = if (musico.estado) "Activo" else "Inactivo"
         holder.tvEstado.setTextColor(
             ContextCompat.getColor(
-                holder.itemView.context, if (musico.estado) R.color.green else R.color.red
+                holder.itemView.context,
+                if (musico.estado) R.color.green else R.color.red
                                   )
                                     )
         holder.tvGenero.text = musico.generoMusical.joinToString(" ")
-        holder.tvBiografia.text = "Biografía: " + musico.biografia
+        holder.tvBiografia.text = "Biografía: ${musico.biografia}"
         holder.imgMusico.setImageResource(musico.image)
 
-        // Set click listener to show dialog
+        // Configuración de las estrellas (valoración) en el item
+        val valoracion = musico.valoracion
+        val estrellasCompletas = valoracion.toInt()  // Parte entera de la valoración
+        val tieneMedia = (valoracion - estrellasCompletas) >= 0.5f
+        val estrellas = listOf(
+            holder.imgVal1,
+            holder.imgVal2,
+            holder.imgVal3,
+            holder.imgVal4,
+            holder.imgVal5
+                              )
+        estrellas.forEachIndexed { index, imageView ->
+            imageView.setImageResource(
+                when {
+                    index < estrellasCompletas -> R.drawable.star_fill_img
+                    index == estrellasCompletas && tieneMedia -> R.drawable.star_half
+                    else -> R.drawable.star_black_img
+                }
+                                      )
+        }
+
+        // Listener para mostrar el dialog con los detalles del músico
         holder.itemView.setOnClickListener {
             showMusicoDialog(holder.itemView.context, musico)
         }
@@ -95,34 +122,32 @@ class MusicoAdapter(private val musicos: List<Musico>) :
         txtEstadoCompleto.text = if (musico.estado) "Activo" else "Inactivo"
         txtEstadoCompleto.setTextColor(
             ContextCompat.getColor(
-                context, if (musico.estado) R.color.green else R.color.red
+                context,
+                if (musico.estado) R.color.green else R.color.red
                                   )
                                       )
-        txtGeneroMusicalCompleto.text = "Género Musical: ${musico.generoMusical.joinToString(", ")}"
+        txtGeneroMusicalCompleto.text =
+            "Género Musical: ${musico.generoMusical.joinToString(", ")}"
 
-// Configuración de las estrellas
+        // Configuración de las estrellas en el dialog (similar a onBindViewHolder)
         val valoracion = musico.valoracion
-        val estrellasCompletas = valoracion.toInt()  // Parte entera de la valoración
-        val tieneMedia = (valoracion - estrellasCompletas) >= 0.5f  // Verifica media estrella
-
+        val estrellasCompletas = valoracion.toInt()
+        val tieneMedia = (valoracion - estrellasCompletas) >= 0.5f
         val estrellas = listOf(imgVal1, imgVal2, imgVal3, imgVal4, imgVal5)
-
         estrellas.forEachIndexed { index, imageView ->
             imageView.setImageResource(
                 when {
-                    index < estrellasCompletas -> R.drawable.star_fill
+                    index < estrellasCompletas -> R.drawable.star_fill_img
                     index == estrellasCompletas && tieneMedia -> R.drawable.star_half
-                    else -> R.drawable.star_black
+                    else -> R.drawable.star_black_img
                 }
                                       )
         }
 
-
-        // Show the dialog
+        // Muestra el dialog
         val dialog = builder.create()
         dialog.show()
     }
-
 
     override fun getItemCount(): Int = musicos.size
 }
