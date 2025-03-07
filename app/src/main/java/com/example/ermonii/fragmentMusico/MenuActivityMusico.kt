@@ -19,6 +19,7 @@ class MenuActivityMusico : AppCompatActivity() {
 
         // Inicializar ViewPager2
         viewPager = findViewById(R.id.viewPagerMusico)
+        viewPager.offscreenPageLimit = 4
         viewPager.adapter = ViewPagerAdapterMusico(this)
 
         // Inicializar BottomNavigationView

@@ -228,17 +228,17 @@ class MapaFragmentMusico : Fragment(), LocationListener {
 
     override fun onResume() {
         super.onResume()
-        mapView.onResume() // Reiniciar el MapView cuando el fragmento se vuelve a mostrar
+        //mapView.onResume() // Reiniciar el MapView cuando el fragmento se vuelve a mostrar
     }
 
     override fun onPause() {
         super.onPause()
-        mapView.onPause() // Pausar el MapView cuando el fragmento se oculta
+        //mapView.onPause() // Pausar el MapView cuando el fragmento se oculta
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mapView.onDetach() // Liberar recursos del MapView cuando el fragmento se destruye
+        //mapView.onDetach() // Liberar recursos del MapView cuando el fragmento se destruye
     }
 
     private fun initializeLocationUpdates() {
