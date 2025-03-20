@@ -1,18 +1,21 @@
 package com.example.ermonii.clases
 
+import com.google.gson.annotations.SerializedName
+import com.google.type.DateTime
 import java.io.Serializable
 import java.util.Date
 
 abstract class Usuario(
-    val id: Int,
-    val name: String,
-    val correo: String,
+    @SerializedName("id") val id: Int,
+    @SerializedName("nombre") val nombre: String,
+    @SerializedName("correo")val correo: String,
     val contrasenya: String,
-    val telefono: Long,
-    val latitud: Float,
-    val longitud: Float,
-    val fechaRegistro: Date,
+    @SerializedName("telefono")val telefono: String? = null,
+    val latitud: Double,
+    val longitud: Double,
+    @SerializedName("fechaRegistro") @Transient val fechaRegistro: Date,
     val estado: Boolean,
-    val chat: List<Chat>,
-    val valoracion: Float
+    val chat: List<Chat>? = null,
+    @SerializedName("valoracion")val valoracion: Double? = null,
+    @SerializedName("tipo")val tipo: String
                       ) : Serializable

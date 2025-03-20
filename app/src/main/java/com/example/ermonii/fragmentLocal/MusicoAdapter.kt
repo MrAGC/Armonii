@@ -40,7 +40,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
     override fun onBindViewHolder(holder: MusicoViewHolder, position: Int) {
         val musico = musicos[position]
 
-        holder.tvNombre.text = "${musico.name} ${musico.apellidos}"
+        holder.tvNombre.text = "${musico.nombre} ${musico.apellidos}"
         if (musico.apodo.isEmpty()) {
             holder.tvApodo.visibility = View.GONE
         } else {
@@ -61,8 +61,6 @@ class MusicoAdapter(private val musicos: List<Musico>) :
 
         // Configuración de las estrellas (valoración) en el item
         val valoracion = musico.valoracion
-        val estrellasCompletas = valoracion.toInt()  // Parte entera de la valoración
-        val tieneMedia = (valoracion - estrellasCompletas) >= 0.5f
         val estrellas = listOf(
             holder.imgVal1,
             holder.imgVal2,
@@ -70,14 +68,23 @@ class MusicoAdapter(private val musicos: List<Musico>) :
             holder.imgVal4,
             holder.imgVal5
                               )
-        estrellas.forEachIndexed { index, imageView ->
-            imageView.setImageResource(
-                when {
-                    index < estrellasCompletas -> R.drawable.star_fill_img
-                    index == estrellasCompletas && tieneMedia -> R.drawable.star_half
-                    else -> R.drawable.star_black_img
-                }
-                                      )
+
+        if (valoracion == null) {
+            // Mostrar 5 estrellas completas si no hay valoraciones
+            estrellas.forEach { it.setImageResource(R.drawable.star_fill_img) }
+        } else {
+            val estrellasCompletas = valoracion.toInt()
+            val tieneMedia = (valoracion - estrellasCompletas) >= 0.5f
+
+            estrellas.forEachIndexed { index, imageView ->
+                imageView.setImageResource(
+                    when {
+                        index < estrellasCompletas -> R.drawable.star_fill_img
+                        index == estrellasCompletas && tieneMedia -> R.drawable.star_half
+                        else -> R.drawable.star_black_img
+                    }
+                                          )
+            }
         }
 
         // Listener para mostrar el dialog con los detalles del músico
@@ -109,7 +116,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
 
         // Set the details in the dialog
         imgMusicoCompleto.setImageResource(musico.image)
-        txtNombreCompleto.text = "${musico.name} ${musico.apellidos}"
+        txtNombreCompleto.text = "${musico.nombre} ${musico.apellidos}"
         if (musico.apodo.isNotEmpty()) {
             txtApodoCompleto.text = musico.apodo
             txtApodoCompleto.visibility = View.VISIBLE
@@ -131,17 +138,24 @@ class MusicoAdapter(private val musicos: List<Musico>) :
 
         // Configuración de las estrellas en el dialog (similar a onBindViewHolder)
         val valoracion = musico.valoracion
-        val estrellasCompletas = valoracion.toInt()
-        val tieneMedia = (valoracion - estrellasCompletas) >= 0.5f
         val estrellas = listOf(imgVal1, imgVal2, imgVal3, imgVal4, imgVal5)
-        estrellas.forEachIndexed { index, imageView ->
-            imageView.setImageResource(
-                when {
-                    index < estrellasCompletas -> R.drawable.star_fill_img
-                    index == estrellasCompletas && tieneMedia -> R.drawable.star_half
-                    else -> R.drawable.star_black_img
-                }
-                                      )
+
+        if (valoracion == null) {
+            // Mostrar 5 estrellas completas si no hay valoraciones
+            estrellas.forEach { it.setImageResource(R.drawable.star_fill_img) }
+        } else {
+            val estrellasCompletas = valoracion.toInt()
+            val tieneMedia = (valoracion - estrellasCompletas) >= 0.5f
+
+            estrellas.forEachIndexed { index, imageView ->
+                imageView.setImageResource(
+                    when {
+                        index < estrellasCompletas -> R.drawable.star_fill_img
+                        index == estrellasCompletas && tieneMedia -> R.drawable.star_half
+                        else -> R.drawable.star_black_img
+                    }
+                                          )
+            }
         }
 
         // Muestra el dialog

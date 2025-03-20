@@ -8,6 +8,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 import android.media.MediaPlayer
+import android.util.Log
+import com.example.ermonii.clases.Local
+import com.example.ermonii.clases.Musico
+import com.example.ermonii.clases.RetrofitClient
+import com.example.ermonii.clases.Usuario
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private var textViewAutomatico: TextView? = null
@@ -20,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         textViewAutomatico = findViewById(R.id.TextViewAutomatico);
         if (!seleccionado) {

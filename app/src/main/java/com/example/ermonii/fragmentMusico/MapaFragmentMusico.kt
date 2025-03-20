@@ -29,20 +29,20 @@ class MapaFragmentMusico : Fragment(), LocationListener {
     var markanadida = false
     var ubicado = false
     private var ubicacionMarker: Marker? = null
-
+/*
     val localesList = listOf(
         Local(
             id = 1,
             name = "Parque Central",
             correo = "parque@email.com",
             contrasenya = "parque123",
-            telefono = 123456789,
-            latitud = 19.4326f,
-            longitud = -99.1332f,
+            telefono = "1234567899",
+            latitud = 19.4326,
+            longitud = -99.1332,
             fechaRegistro = Date(),
             estado = true,
             chat = listOf(),
-            valoracion = 4.0f,
+            valoracion = 4.0,
             description = "Un hermoso parque en el centro de la ciudad.",
             image = R.drawable.parque_central,
             PZCAT_LATITUDE = 19.4326,
@@ -54,13 +54,13 @@ class MapaFragmentMusico : Fragment(), LocationListener {
             name = "Museo de Arte",
             correo = "museo@email.com",
             contrasenya = "museo123",
-            telefono = 234567890,
-            latitud = 19.4269f,
-            longitud = -99.1710f,
+            telefono = "1234567899",
+            latitud = 19.4269,
+            longitud = -99.1710,
             fechaRegistro = Date(),
             estado = true,
             chat = listOf(),
-            valoracion = 5.0f,
+            valoracion = 5.0,
             description = "Museo que alberga obras de arte contemporáneo.",
             image = R.drawable.museo_de_arte,
             PZCAT_LATITUDE = 19.4269,
@@ -72,13 +72,13 @@ class MapaFragmentMusico : Fragment(), LocationListener {
             name = "Ikea",
             correo = "ikea@email.com",
             contrasenya = "ikea123",
-            telefono = 345678901,
-            latitud = 37.461999831458925f,
-            longitud = -122.13925518445407f,
+            telefono = "1234567899",
+            latitud = 37.461999831458925,
+            longitud = -122.13925518445407,
             fechaRegistro = Date(),
             estado = true,
             chat = listOf(),
-            valoracion = 3.0f,
+            valoracion = 3.0,
             description = "Compra tus muebles",
             image = R.drawable.ikea,
             PZCAT_LATITUDE = 37.461999831458925,
@@ -90,13 +90,13 @@ class MapaFragmentMusico : Fragment(), LocationListener {
             name = "Ikea2",
             correo = "ikea2@email.com",
             contrasenya = "ikea2123",
-            telefono = 456789012,
-            latitud = 37.42199682546436f,
-            longitud = -122.08087202787353f,
+            telefono = "1234567899",
+            latitud = 37.42199682546436,
+            longitud = -122.08087202787353,
             fechaRegistro = Date(),
             estado = true,
             chat = listOf(),
-            valoracion = 2.0f,
+            valoracion = 2.0,
             description = "Compra tus muebles2",
             image = R.drawable.ikea,
             PZCAT_LATITUDE = 37.42199682546436,
@@ -108,20 +108,20 @@ class MapaFragmentMusico : Fragment(), LocationListener {
             name = "Plaça Cataluña",
             correo = "plaza@email.com",
             contrasenya = "plaza123",
-            telefono = 567890123,
-            latitud = 41.38702493692096f,
-            longitud = 2.1700450818313377f,
+            telefono = "1234567899",
+            latitud = 41.38702493692096,
+            longitud = 2.1700450818313377,
             fechaRegistro = Date(),
             estado = true,
             chat = listOf(),
-            valoracion = 5.0f,
+            valoracion = 5.0,
             description = "Plaza central con árboles y esculturas, rodeada de tiendas y cafeterías, que se usa para eventos especiales.",
             image = R.drawable.plaza_catalunya,
             PZCAT_LATITUDE = 41.38702493692096,
             PZCAT_LONGITUDE = 2.1700450818313377,
             rating = 5
              )
-                            )
+                            )*/
 
     companion object {
         private const val DEFAULT_ZOOM = 17.0
@@ -280,10 +280,10 @@ class MapaFragmentMusico : Fragment(), LocationListener {
     }
 
     private fun ponerMarcasLocales(lat: Double, lon: Double) {
-        for (local in localesList) {
+        /*for (local in localesList) {
             val marker = Marker(mapView)
             marker.position = GeoPoint(local.PZCAT_LATITUDE, local.PZCAT_LONGITUDE)
-            marker.title = local.name
+            marker.title = local.nombre
             marker.snippet = local.description
             marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.location_mark)
             marker.infoWindow = CustomInfoWindow(mapView)
@@ -291,7 +291,7 @@ class MapaFragmentMusico : Fragment(), LocationListener {
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             mapView.overlays.add(marker)
         }
-        mapView.invalidate()
+        mapView.invalidate()*/
     }
 
     override fun onLocationChanged(location: Location) {

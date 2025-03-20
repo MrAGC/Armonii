@@ -1,5 +1,6 @@
 package com.example.ermonii.clases
 
+import com.google.type.DateTime
 import java.util.Date
 
 class Musico(
@@ -7,13 +8,13 @@ class Musico(
     name: String,
     correo: String,
     contrasenya: String,
-    telefono: Long,
-    latitud: Float,
-    longitud: Float,
+    telefono: String,
+    latitud: Double,
+    longitud: Double,
     fechaRegistro: Date,
     estado: Boolean,
     chat: List<Chat>,
-    valoracion: Float,
+    valoracion: Double,
     val apellidos: String,
     val apodo: String,
     val edad: Int,
@@ -22,4 +23,4 @@ class Musico(
     val generoMusical: List<String>,
     val historialEventos: List<Evento>,
     val image: Int
-    ) : Usuario(id, name, correo, contrasenya, telefono, latitud, longitud, fechaRegistro, estado, chat, valoracion)
+    ) : Usuario(id, name, correo, contrasenya, telefono, latitud, longitud, fechaRegistro, estado, chat, valoracion, "Musico")

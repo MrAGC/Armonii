@@ -27,7 +27,7 @@ class LocalAdapterMusico(private val localList: List<Local>) : RecyclerView.Adap
     // Este método asigna los valores de cada Local a las vistas
     override fun onBindViewHolder(holder: LocalViewHolder, position: Int) {
         val currentLocal = localList[position]
-        holder.nameTextView.text = currentLocal.name
+        holder.nameTextView.text = currentLocal.nombre
         holder.descriptionTextView.text = currentLocal.description
         holder.imageView.setImageResource(currentLocal.image)
     }

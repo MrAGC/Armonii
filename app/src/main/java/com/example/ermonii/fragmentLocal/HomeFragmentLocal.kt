@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ermonii.R
 import com.example.ermonii.clases.Musico
 import com.example.ermonii.fragmentMusico.EventoAdapter
+import com.google.type.DateTime
 import java.util.Date
 
 class HomeFragmentLocal : Fragment() {
@@ -20,6 +21,7 @@ class HomeFragmentLocal : Fragment() {
                              ): View? {
         val view = inflater.inflate(R.layout.fragment_home_local, container, false)
 
+        /*
         // Datos de ejemplo
         val musicosList = listOf(
             Musico(
@@ -27,13 +29,13 @@ class HomeFragmentLocal : Fragment() {
                 "Carlos",
                 "carlos@musica.com",
                 "claveSegura1",
-                600111222L,
-                40.4168f,
-                -3.7038f,
-                Date(1643673600000),
+                "600111222L",
+                40.4168,
+                -3.7038,
+                DateTime(1643673600000),
                 true,
                 emptyList(),
-                3.5f,  // Valoración actualizada
+                3.5,  // Valoración actualizada
                 "Santana",
                 "",  // Nuevo campo apodo
                 28,
@@ -48,13 +50,13 @@ class HomeFragmentLocal : Fragment() {
                 "Laura",
                 "laura@musica.com",
                 "securePass2",
-                644333444L,
-                41.3851f,
-                2.1734f,
+                "644333444L",
+                41.3851,
+                2.1734,
                 Date(1646092800000),
                 false,
                 emptyList(),
-                4.74f,  // Valoración actualizada
+                4.74,  // Valoración actualizada
                 "Villalba",
                 "Lauris",  // Apodo
                 24,
@@ -69,13 +71,13 @@ class HomeFragmentLocal : Fragment() {
                 "José",
                 "jose@musica.com",
                 "claveSegura3",
-                665544332L,
-                19.4326f,
-                -99.1332f,
+                "665544332L",
+                19.4326,
+                -99.1332,
                 Date(1648771200000),
                 true,
                 emptyList(),
-                2.97f,  // Valoración actualizada
+                2.97,  // Valoración actualizada
                 "Pérez",
                 "",  // Apodo
                 30,
@@ -90,13 +92,13 @@ class HomeFragmentLocal : Fragment() {
                 "Ana",
                 "ana@musica.com",
                 "claveSegura4",
-                555666777L,
-                34.0522f,
-                -118.2437f,
+                "555666777L",
+                34.0522,
+                -118.2437,
                 Date(1651363200000),
                 false,
                 emptyList(),
-                3.21f,  // Valoración actualizada
+                3.21,  // Valoración actualizada
                 "Sánchez",
                 "Anita",  // Apodo
                 27,
@@ -111,13 +113,13 @@ class HomeFragmentLocal : Fragment() {
                 "Diego",
                 "diego@musica.com",
                 "claveSegura5",
-                777888999L,
-                51.5074f,
-                -0.1278f,
+                "777888999L",
+                51.5074,
+                -0.1278,
                 Date(1654041600000),
                 true,
                 emptyList(),
-                1.45f,  // Valoración actualizada
+                1.45,  // Valoración actualizada
                 "Ramírez",
                 "Dieguito",  // Apodo
                 35,
@@ -132,13 +134,13 @@ class HomeFragmentLocal : Fragment() {
                 "Sofía",
                 "sofia@musica.com",
                 "claveSegura6",
-                999000111L,
-                48.8566f,
-                2.3522f,
+                "999000111L",
+                48.8566,
+                2.3522,
                 Date(1656633600000),
                 false,
                 emptyList(),
-                1.68f,  // Valoración actualizada
+                1.68,  // Valoración actualizada
                 "López",
                 "Sofi",  // Apodo
                 22,
@@ -153,13 +155,13 @@ class HomeFragmentLocal : Fragment() {
                 "Ricardo",
                 "ricardo@musica.com",
                 "claveSegura7",
-                222333444L,
-                40.7306f,
-                -73.9352f,
+                "222333444L",
+                40.7306,
+                -73.9352,
                 Date(1659312000000),
                 true,
                 emptyList(),
-                1.92f,  // Valoración actualizada
+                1.92,  // Valoración actualizada
                 "González",
                 "Richie",  // Apodo
                 29,
@@ -174,13 +176,13 @@ class HomeFragmentLocal : Fragment() {
                 "Valentina",
                 "valentina@musica.com",
                 "claveSegura8",
-                888777666L,
-                34.0522f,
-                -118.2437f,
+                "888777666L",
+                34.0522,
+                -118.2437,
                 Date(1661990400000),
                 false,
                 emptyList(),
-                2.16f,  // Valoración actualizada
+                2.16,  // Valoración actualizada
                 "Martínez",
                 "Vale",  // Apodo
                 26,
@@ -195,13 +197,13 @@ class HomeFragmentLocal : Fragment() {
                 "Fernando",
                 "fernando@musica.com",
                 "claveSegura9",
-                444555666L,
-                37.7749f,
-                -122.4194f,
+                "444555666L",
+                37.7749,
+                -122.4194,
                 Date(1664582400000),
                 true,
                 emptyList(),
-                2.39f,  // Valoración actualizada
+                2.39,  // Valoración actualizada
                 "Torres",
                 "Fer",  // Apodo
                 32,
@@ -216,13 +218,13 @@ class HomeFragmentLocal : Fragment() {
                 "María",
                 "maria@musica.com",
                 "claveSegura10",
-                333222111L,
-                39.9042f,
-                116.4074f,
+                "333222111L",
+                39.9042,
+                116.4074,
                 Date(1667260800000),
                 false,
                 emptyList(),
-                2.63f,  // Valoración actualizada
+                2.63,  // Valoración actualizada
                 "Cruz",
                 "Mari",  // Apodo
                 25,
@@ -237,13 +239,13 @@ class HomeFragmentLocal : Fragment() {
                 "Cristian",
                 "cristian@musica.com",
                 "claveSegura11",
-                555888999,
-                34.0522f,
-                -118.2437f,
+                "555888999L",
+                34.0522,
+                -118.2437,
                 Date(1669843200000),
                 true,
                 emptyList(),
-                2.87f,  // Valoración actualizada
+                2.87,  // Valoración actualizada
                 "Hernández",
                 "Cris",  // Apodo
                 31,
@@ -258,13 +260,13 @@ class HomeFragmentLocal : Fragment() {
                 "Isabella",
                 "isabella@musica.com",
                 "claveSegura12",
-                444111222,
-                48.8566f,
-                2.3522f,
+                "444111222L",
+                48.8566,
+                2.3522,
                 Date(1672521600000),
                 false,
                 emptyList(),
-                3.11f,  // Valoración actualizada
+                3.11,  // Valoración actualizada
                 "González",
                 "Bella",  // Apodo
                 28,
@@ -279,13 +281,13 @@ class HomeFragmentLocal : Fragment() {
                 "Álvaro",
                 "alvaro@musica.com",
                 "claveSegura13",
-                222555333,
-                19.4326f,
-                -99.1332f,
+                "222555333L",
+                19.4326,
+                -99.1332,
                 Date(1675200000000),
                 true,
                 emptyList(),
-                3.34f,  // Valoración actualizada
+                3.34,  // Valoración actualizada
                 "Méndez",
                 "Alvi",  // Apodo
                 33,
@@ -300,13 +302,13 @@ class HomeFragmentLocal : Fragment() {
                 "Camila",
                 "camila@musica.com",
                 "claveSegura14",
-                777333444,
-                40.4168f,
-                -3.7038f,
+                "777333444L",
+                40.4168,
+                -3.7038,
                 Date(1677782400000),
                 false,
                 emptyList(),
-                3.58f,  // Valoración actualizada
+                3.58,  // Valoración actualizada
                 "Torres",
                 "Cami",  // Apodo
                 26,
@@ -321,13 +323,13 @@ class HomeFragmentLocal : Fragment() {
                 "Emilio",
                 "emilio@musica.com",
                 "claveSegura15",
-                888777666,
-                51.5074f,
-                -0.1278f,
+                "888777666L",
+                51.5074,
+                -0.1278,
                 Date(1680364800000),
                 true,
                 emptyList(),
-                3.82f,  // Valoración actualizada
+                3.82,  // Valoración actualizada
                 "Cáceres",
                 "Emi",  // Apodo
                 34,
@@ -342,13 +344,13 @@ class HomeFragmentLocal : Fragment() {
                 "Lucía",
                 "lucia@musica.com",
                 "claveSegura16",
-                666999444,
-                39.9042f,
-                116.4074f,
+                "666999444L",
+                39.9042,
+                116.4074,
                 Date(1683043200000),
                 false,
                 emptyList(),
-                4.05f,  // Valoración actualizada
+                4.05,  // Valoración actualizada
                 "Salazar",
                 "Luce",  // Apodo
                 24,
@@ -363,13 +365,13 @@ class HomeFragmentLocal : Fragment() {
                 "Santiago",
                 "santiago@musica.com",
                 "claveSegura17",
-                999000111,
-                34.0522f,
-                -118.2437f,
+                "999000111L",
+                34.0522,
+                -118.2437,
                 Date(1685721600000),
                 true,
                 emptyList(),
-                4.29f,  // Valoración actualizada
+                4.29,  // Valoración actualizada
                 "Jiménez",
                 "Santi",  // Apodo
                 29,
@@ -384,13 +386,13 @@ class HomeFragmentLocal : Fragment() {
                 "Marta",
                 "marta@musica.com",
                 "claveSegura18",
-                555444333,
-                40.4168f,
-                -3.7038f,
+                "555444333L",
+                40.4168,
+                -3.7038,
                 Date(1688400000000),
                 false,
                 emptyList(),
-                4.53f,  // Valoración actualizada
+                4.53,  // Valoración actualizada
                 "Vega",
                 "Marti",  // Apodo
                 30,
@@ -405,13 +407,13 @@ class HomeFragmentLocal : Fragment() {
                 "Gabriel",
                 "gabriel@musica.com",
                 "claveSegura19",
-                333222111,
-                34.0522f,
-                -118.2437f,
+                "333222111L",
+                34.0522,
+                -118.2437,
                 Date(1691088000000),
                 true,
                 emptyList(),
-                4.76f,  // Valoración actualizada
+                4.76,  // Valoración actualizada
                 "Pérez",
                 "Gabo",  // Apodo
                 35,
@@ -426,13 +428,13 @@ class HomeFragmentLocal : Fragment() {
                 "Valeria",
                 "valeria@musica.com",
                 "claveSegura20",
-                222111000,
-                51.5074f,
-                -0.1278f,
+                "222111000L",
+                51.5074,
+                -0.1278,
                 Date(1693766400000),
                 false,
                 emptyList(),
-                5.0f,  // Valoración actualizada
+                5.0,  // Valoración actualizada
                 "Montalvo",
                 "Vale",  // Apodo
                 23,
@@ -451,7 +453,7 @@ class HomeFragmentLocal : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
-
+*/
         return view
     }
 }

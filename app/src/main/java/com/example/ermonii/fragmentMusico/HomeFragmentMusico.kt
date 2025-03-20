@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ermonii.clases.Evento
 import com.example.ermonii.clases.Local
 import com.example.ermonii.R
-import java.util.Date
+import java.time.LocalDateTime
 
 class HomeFragmentMusico : Fragment() {
 
@@ -23,179 +23,189 @@ class HomeFragmentMusico : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home_musico, container, false)
 
 
-        val localList = listOf(
+       /* val localList = listOf(
             Local(
                 1,
                 "Restaurante A",
                 "restaurantea@example.com",
                 "password123",
-                1234567890,
-                40.7128f,
-                -74.0060f,
-                Date(),
+                "1234567890",
+                40.7128,
+                -74.0060,
+                LocalDateTime.now(),  // Asigna la fecha y hora actuales
                 true,
                 emptyList(),
-                4.5f,
+                4.5,
                 "Comida italiana deliciosa",
                 R.drawable.profile_icon,
                 40.7128,
                 -74.0060,
                 5
-                 ), Local(
+                 ),
+            Local(
                 2,
                 "Restaurante B",
                 "restauranteb@example.com",
                 "password123",
-                1234567891,
-                40.7128f,
-                -74.0060f,
-                Date(),
+                "1234567899",
+                40.7128,
+                -74.0060,
+                LocalDateTime.now(),
                 true,
                 emptyList(),
-                4.2f,
+                4.2,
                 "Comida mexicana auténtica",
                 R.drawable.profile_icon,
                 40.7128,
                 -74.0060,
                 4
-                         ), Local(
+                 ),
+            Local(
                 3,
                 "Café Central",
                 "cafecentral@example.com",
                 "password123",
-                1234567892,
-                34.0522f,
-                -118.2437f,
-                Date(),
+                "1234567899",
+                34.0522,
+                -118.2437,
+                LocalDateTime.now(),
                 true,
                 emptyList(),
-                4.7f,
+                4.7,
                 "Café y postres caseros",
                 R.drawable.profile_icon,
                 34.0522,
                 -118.2437,
                 5
-                                 ), Local(
+                 ),
+            Local(
                 4,
                 "Pizzería Napoli",
                 "pizzerianapoli@example.com",
                 "password123",
-                1234567893,
-                41.9028f,
-                12.4964f,
-                Date(),
+                "1234567899",
+                41.9028,
+                12.4964,
+                LocalDateTime.now(),
                 true,
                 emptyList(),
-                4.9f,
+                4.9,
                 "Pizza al estilo de Nápoles",
                 R.drawable.profile_icon,
                 41.9028,
                 12.4964,
                 5
-                                         ), Local(
+                 ),
+            Local(
                 5,
                 "Taco Bell",
                 "tacobell@example.com",
                 "password123",
-                1234567894,
-                36.1627f,
-                -86.7816f,
-                Date(),
+                "1234567899",
+                36.1627,
+                -86.7816,
+                LocalDateTime.now(),
                 true,
                 emptyList(),
-                3.8f,
+                3.8,
                 "Tacos y burritos rápidos",
                 R.drawable.profile_icon,
                 36.1627,
                 -86.7816,
                 3
-                                                 ), Local(
+                 ),
+            Local(
                 6,
                 "La Taquería",
                 "lataqueria@example.com",
                 "password123",
-                1234567895,
-                19.4326f,
-                -99.1332f,
-                Date(),
+                "1234567899",
+                19.4326,
+                -99.1332,
+                LocalDateTime.now(),
                 true,
                 emptyList(),
-                5.0f,
+                5.0,
                 "Tacos auténticos mexicanos",
                 R.drawable.profile_icon,
                 19.4326,
                 -99.1332,
                 5
-                                                         ), Local(
+                 ),
+            Local(
                 7,
                 "Restaurante Sushi King",
                 "sushiking@example.com",
                 "password123",
-                1234567896,
-                35.6762f,
-                139.6503f,
-                Date(),
+                "1234567899",
+                35.6762,
+                139.6503,
+                LocalDateTime.now(),
                 true,
                 emptyList(),
-                4.6f,
+                4.6,
                 "Sushi fresco y delicioso",
                 R.drawable.profile_icon,
                 35.6762,
                 139.6503,
                 4
-                                                                 ), Local(
+                 ),
+            Local(
                 8,
                 "Burguer House",
                 "burguerhouse@example.com",
                 "password123",
-                1234567897,
-                48.8566f,
-                2.3522f,
-                Date(),
+                "1234567899",
+                48.8566,
+                2.3522,
+                LocalDateTime.now(),
                 true,
                 emptyList(),
-                4.4f,
+                4.4,
                 "Hamburguesas gourmet",
                 R.drawable.profile_icon,
                 48.8566,
                 2.3522,
                 4
-                                                                         ), Local(
+                 ),
+            Local(
                 9,
                 "Café de París",
                 "cafedeparis@example.com",
                 "password123",
-                1234567898,
-                48.8566f,
-                2.3522f,
-                Date(),
+                "1234567899",
+                48.8566,
+                2.3522,
+                LocalDateTime.now(),
                 true,
                 emptyList(),
-                5.0f,
+                5.0,
                 "Café y pasteles franceses",
                 R.drawable.profile_icon,
                 48.8566,
                 2.3522,
                 5
-                                                                                 ), Local(
+                 ),
+            Local(
                 10,
                 "Panadería El Horno",
                 "panaderiaelhorn@example.com",
                 "password123",
-                1234567899,
-                40.7306f,
-                -73.9352f,
-                Date(),
+                "1234567899",
+                40.7306,
+                -73.9352,
+                LocalDateTime.now(),
                 true,
                 emptyList(),
-                4.3f,
+                4.3,
                 "Pan recién horneado",
                 R.drawable.profile_icon,
                 40.7306,
                 -73.9352,
                 4
-                                                                                         )
+                 )
                               )
+
 
         val eventList = listOf(
             Evento(
@@ -301,7 +311,7 @@ class HomeFragmentMusico : Fragment() {
         recyclerView.adapter =
             EventoAdapter(eventList) // Pasamos la lista de objetos Local al adaptador
 
-
+*/
         return view
     }
 }
