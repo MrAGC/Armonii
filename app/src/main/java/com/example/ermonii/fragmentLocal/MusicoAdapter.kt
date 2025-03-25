@@ -40,7 +40,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
     override fun onBindViewHolder(holder: MusicoViewHolder, position: Int) {
         val musico = musicos[position]
 
-        holder.tvNombre.text = "${musico.nombre} ${musico.apellidos}"
+        holder.tvNombre.text = "${musico.nombre} ${musico.apellido}"
         if (musico.apodo.isEmpty()) {
             holder.tvApodo.visibility = View.GONE
         } else {
@@ -55,7 +55,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
                 if (musico.estado) R.color.green else R.color.red
                                   )
                                     )
-        holder.tvGenero.text = musico.generoMusical.joinToString(" ")
+        holder.tvGenero.text = musico.generoMusical
         holder.tvBiografia.text = "Biografía: ${musico.biografia}"
         holder.imgMusico.setImageResource(musico.image)
 
@@ -116,7 +116,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
 
         // Set the details in the dialog
         imgMusicoCompleto.setImageResource(musico.image)
-        txtNombreCompleto.text = "${musico.nombre} ${musico.apellidos}"
+        txtNombreCompleto.text = "${musico.nombre} ${musico.apellido}"
         if (musico.apodo.isNotEmpty()) {
             txtApodoCompleto.text = musico.apodo
             txtApodoCompleto.visibility = View.VISIBLE
@@ -125,7 +125,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
         }
         txtBiografiaCompleta.text = musico.biografia
         txtEdadCompleta.text = "Edad: ${musico.edad}"
-        txtGeneroCompleto.text = "Género: ${musico.generoMusical.joinToString(", ")}"
+        txtGeneroCompleto.text = "Género: ${musico.generoMusical}"
         txtEstadoCompleto.text = if (musico.estado) "Activo" else "Inactivo"
         txtEstadoCompleto.setTextColor(
             ContextCompat.getColor(
@@ -134,7 +134,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
                                   )
                                       )
         txtGeneroMusicalCompleto.text =
-            "Género Musical: ${musico.generoMusical.joinToString(", ")}"
+            "Género Musical: ${musico.generoMusical}"
 
         // Configuración de las estrellas en el dialog (similar a onBindViewHolder)
         val valoracion = musico.valoracion

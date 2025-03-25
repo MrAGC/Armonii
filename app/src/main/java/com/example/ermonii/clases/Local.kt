@@ -11,7 +11,7 @@ class Local(
     telefono: String?,
     latitud: Double,
     longitud: Double,
-    fechaRegistro: Date?,
+    fechaRegistro: String,
     estado: Boolean,
     chat: List<Int>?,
     valoracion: Double?,

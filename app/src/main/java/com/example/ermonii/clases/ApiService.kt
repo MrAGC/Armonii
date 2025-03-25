@@ -13,4 +13,13 @@ interface ApiService {
 
     @GET("api/Evento")
     fun getEventos(): Call<List<Evento>>
+
+    @GET("api/Musico")
+    fun getMusicos(): Call<List<Musico>>
+
+    @GET("/api/Musico/{id}")
+    fun getMusicoById(@Path("id") id: Int): Call<Musico>
+
+    @GET("Usuario/{id}")
+    fun getUsuarioById(@Path("id") id: Int): Call<Usuario>
 }
