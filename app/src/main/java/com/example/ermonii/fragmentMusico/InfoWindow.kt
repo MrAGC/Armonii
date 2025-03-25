@@ -28,7 +28,7 @@ class CustomInfoWindow(mapView: MapView) : InfoWindow(R.layout.custom_info_windo
 
         // Cargar la imagen desde los recursos locales
         if (local != null) {
-            imageView.setImageResource(local.image) // Cargar desde recursos locales
+            /*imageView.setImageResource(local.image) // Cargar desde recursos locales
 
             // Mostrar la puntuación en estrellas
             ratingStarsLayout.removeAllViews() // Limpiar las estrellas anteriores
@@ -40,7 +40,7 @@ class CustomInfoWindow(mapView: MapView) : InfoWindow(R.layout.custom_info_windo
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
                 ratingStarsLayout.addView(starImageView)
-            }
+            }*/
         } else {
             imageView.setImageResource(R.drawable.logodurum) // Imagen por defecto
         }

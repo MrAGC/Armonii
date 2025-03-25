@@ -7,4 +7,10 @@ import retrofit2.http.Path
 interface ApiService {
     @GET("api/Usuario")
     fun getUsuarios(): Call<List<Usuario>>
+
+    @GET("api/Local")
+    fun getLocales(): Call<List<Local>>
+
+    @GET("api/Evento")
+    fun getEventos(): Call<List<Evento>>
 }

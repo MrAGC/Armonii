@@ -1,14 +1,15 @@
 package com.example.ermonii.clases
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class Evento (
     val id: Int,
-    val name: String,
-    val date: String,
-    val description: String,
-    val local: Local,
-    val music: Musico?,
+    val nombre: String,
+    val fecha: String,
+    val descripcion: String,
+    @SerializedName("idLocal") val local: Int,
+    val music: Int?,
     val estado: Boolean,
-    val duration: Int
+    val duracion: Int
              ) : Serializable

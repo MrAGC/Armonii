@@ -28,8 +28,8 @@ class LocalAdapterMusico(private val localList: List<Local>) : RecyclerView.Adap
     override fun onBindViewHolder(holder: LocalViewHolder, position: Int) {
         val currentLocal = localList[position]
         holder.nameTextView.text = currentLocal.nombre
-        holder.descriptionTextView.text = currentLocal.description
-        holder.imageView.setImageResource(currentLocal.image)
+        //holder.descriptionTextView.text = currentLocal.description
+        holder.imageView.setImageResource(currentLocal.image ?: R.drawable.logodurum)
     }
 
     // Retorna el tamaño de la lista

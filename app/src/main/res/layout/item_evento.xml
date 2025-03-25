@@ -6,7 +6,9 @@
     android:orientation="horizontal"
     android:layout_marginHorizontal="8dp"
     android:layout_marginVertical="4dp"
-    android:background="@drawable/background_item_evento">
+    android:background="@color/black">
+    <!--android:background="@drawable/background_item_evento"-->
+
 
     <!-- Información del evento -->
     <LinearLayout
