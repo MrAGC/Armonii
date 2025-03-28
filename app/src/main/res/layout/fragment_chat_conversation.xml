@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <!-- Barra superior (volver + nombre) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#1A1A1A"
+        android:gravity="center_vertical"
+        android:padding="12dp">
+
+        <Button
+            android:id="@+id/btnVolver"
+            android:layout_width="100sp"
+            android:layout_height="60dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:text="Volver"
+            android:gravity="center"
+            android:background="@drawable/degradado_boton"
+            app:backgroundTint="@null"/>
+
+        <TextView
+            android:id="@+id/txtNombreContacto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Nombre del contacto"
+            android:textColor="@color/blanco_otro"
+            android:textSize="18sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <!-- Mensajes -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMensajes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Input para enviar mensajes -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <EditText
+            android:id="@+id/etMensaje"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:minHeight="48dp"
+            android:paddingVertical="12dp"
+            android:hint="Escribe un mensaje..."
+            android:textColor="@color/naranja_letras"/>
+
+        <Button
+            android:id="@+id/btnEnviar"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:text="Enviar"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:background="@drawable/degradado_boton"
+            app:backgroundTint="@null"/>
+
+    </LinearLayout>
+
+</LinearLayout>

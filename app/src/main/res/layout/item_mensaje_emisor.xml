@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="end"
+    android:padding="8dp"
+    android:background="@color/negro_fondo">
+
+    <TextView
+        android:id="@+id/mensajeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="200dp"
+        android:padding="12dp"
+        android:text="Mensaje enviado"
+        android:background="@drawable/bubble_sent"
+        android:textColor="@color/negro_fondo"/>
+
+    <TextView
+        android:id="@+id/fechaEnvioTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10:30 AM"
+        android:textSize="10sp"/>
+
+</LinearLayout>

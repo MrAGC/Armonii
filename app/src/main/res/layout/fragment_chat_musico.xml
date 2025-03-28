@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/negro_fondo"
     tools:context=".fragmentMusico.ChatFragmentMusico">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="@color/blanco_otro"
-        android:layout_gravity="center"
-        android:text="ChatFragment" />
+    <ViewSwitcher
+        android:id="@+id/viewSwitcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Pantalla 1: Lista de chats -->
+        <include
+            android:id="@+id/layoutListaChats"
+            layout="@layout/fragment_chats_list" />
+
+        <!-- Pantalla 2: Conversación -->
+        <include
+            android:id="@+id/layoutConversacion"
+            layout="@layout/fragment_chat_conversation" />
+
+    </ViewSwitcher>
 
 </FrameLayout>
