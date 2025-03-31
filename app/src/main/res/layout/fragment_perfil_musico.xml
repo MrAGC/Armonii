@@ -68,6 +68,7 @@
             android:src="@drawable/profile_icon" />
 
         <TextView
+            android:id="@+id/txtNombreCompleto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -119,7 +120,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_profiel_artistico"
+                android:id="@+id/txtNombreArtistico"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -129,7 +130,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txt_profiel_bio"
+                android:id="@+id/txtBiografia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -139,7 +140,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txt_profiel_correo"
+                android:id="@+id/txtCorreo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -149,7 +150,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txt_profiel_telefono"
+                android:id="@+id/txtTelefono"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -159,7 +160,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txt_profiel_genero"
+                android:id="@+id/txtGenero"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -169,7 +170,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txt_profiel_fecharegistro"
+                android:id="@+id/txtFechaRegistro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
