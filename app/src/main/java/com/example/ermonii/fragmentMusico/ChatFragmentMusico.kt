@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ermonii.R
 import com.example.ermonii.SocketManager
 import com.example.ermonii.clases.Mensaje
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -104,12 +106,37 @@ class ChatFragmentMusico : Fragment() {
     }
 
     private fun cargarChatsIniciales(userId: String) {
-        val chatsIniciales = listOf(
-            crearMensaje("local_1", userId, "Hola, ¿estás disponible?", "local"),
-            crearMensaje("local_2", userId, "Necesitamos un músico", "local")
-                                   )
-        adapterChats.submitList(chatsIniciales)
+        // Simulación de respuesta de la API con datos de la tabla Mensaje
+        val jsonSimulado = """
+        [
+            {
+                "id": 1,
+                "idUsuarioLocal": "local_1",
+                "idUsuarioMusico": "$userId",
+                "fechaEnvio": "10:30",
+                "mensaje": "Hola, ¿estás disponible?",
+                "emisor": "local"
+            },
+            {
+                "id": 2,
+                "idUsuarioLocal": "local_2",
+                "idUsuarioMusico": "$userId",
+                "fechaEnvio": "10:31",
+                "mensaje": "Necesitamos un músico",
+                "emisor": "local"
+            }
+        ]
+    """.trimIndent()
+
+        // Parseamos el JSON a una lista de Mensaje usando Gson
+        val gson = Gson()
+        val type = object : TypeToken<List<Mensaje>>() {}.type
+        val mensajesList: List<Mensaje> = gson.fromJson(jsonSimulado, type)
+
+        // Actualizamos el adaptador con la lista de mensajes
+        adapterChats.submitList(mensajesList)
     }
+
 
     private fun setupUIListeners(view: View) {
         val btnEnviar = view.findViewById<Button>(R.id.btnEnviar)
@@ -154,12 +181,37 @@ class ChatFragmentMusico : Fragment() {
     }
 
     private fun cargarHistorialMensajes(contactoId: String) {
-        val historial = listOf(
-            crearMensaje(contactoId, "musico_123", "Hola, ¿en qué puedo ayudarte?", "local"),
-            crearMensaje(contactoId, "musico_123", "Estoy disponible", "musico")
-                              )
+        // Simulación de respuesta de la API con datos de la tabla Mensaje para el historial
+        val jsonSimulado = """
+        [
+            {
+                "id": 10,
+                "idUsuarioLocal": "$contactoId",
+                "idUsuarioMusico": "musico_123",
+                "fechaEnvio": "10:35",
+                "mensaje": "Hola, ¿en qué puedo ayudarte?",
+                "emisor": "local"
+            },
+            {
+                "id": 11,
+                "idUsuarioLocal": "$contactoId",
+                "idUsuarioMusico": "musico_123",
+                "fechaEnvio": "10:36",
+                "mensaje": "Estoy disponible",
+                "emisor": "musico"
+            }
+        ]
+    """.trimIndent()
+
+        // Parseamos el JSON a una lista de Mensaje usando Gson
+        val gson = Gson()
+        val type = object : TypeToken<List<Mensaje>>() {}.type
+        val historial: List<Mensaje> = gson.fromJson(jsonSimulado, type)
+
+        // Actualizamos el adaptador con la lista del historial
         adapterMensajes.submitList(historial)
     }
+
 
     private fun obtenerUserId(): String {
         return "musico_123"

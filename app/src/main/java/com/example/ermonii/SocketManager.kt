@@ -18,66 +18,87 @@ class SocketManager(
     private var isConnected = false
 
     init {
-        conectar()
+        connectToServer()
     }
 
-    private fun conectar() {
+    private fun connectToServer() {
         executor.execute {
             try {
-                socket = Socket("10.0.2.2", 12345).apply {
-                    soTimeout = 5000 // Timeout de 5 segundos
-                }
+                // Conexión sin timeout para evitar desconexiones innecesarias
+                socket = Socket("10.0.2.2", 12345)
                 output = PrintWriter(socket!!.getOutputStream(), true)
                 input = BufferedReader(InputStreamReader(socket!!.getInputStream()))
 
-                // Enviar solo el ID de usuario al conectarse
+                // Registrar usuario en el servidor
                 output!!.println(userId)
                 isConnected = true
-                escucharMensajes()
-
+                Log.d("SocketManager", "Conexión exitosa")
+                startMessageListener()
             } catch (e: Exception) {
                 Log.e("SocketManager", "Error de conexión: ${e.message}")
-                reiniciarConexion()
+                reconnect()
             }
         }
     }
 
-    private fun escucharMensajes() {
+
+    private fun startMessageListener() {
         executor.execute {
             while (isConnected) {
                 try {
-                    val mensaje = input?.readLine() ?: break
-                    Log.d("SocketManager", "Mensaje recibido: $mensaje")
+                    input?.readLine()?.let { rawMessage ->
+                        Log.d("SocketManager", "Mensaje crudo: $rawMessage")
 
-                    // Formato esperado: "remitente|contenido"
-                    if (mensaje.contains("|")) {
-                        val partes = mensaje.split("|", limit = 2)
-                        val remitente = partes[0]
-                        val contenido = partes[1]
-                        onMessageReceived(remitente, contenido)
-                    } else if (mensaje.startsWith("ERROR")) {
-                        Log.e("SocketManager", "Error del servidor: $mensaje")
+                        when {
+                            rawMessage.startsWith("MESSAGE|") -> {
+                                val parts = rawMessage.split("|", limit = 3)
+                                if (parts.size == 3) {
+                                    val remitente = parts[1]
+                                    val contenido = parts[2]
+                                    onMessageReceived(remitente, contenido)
+                                } else {
+                                    Log.e("SocketManager", "Formato MESSAGE inválido: $rawMessage")
+                                }
+                            }
+                            rawMessage.startsWith("ACK|") -> {
+                                Log.d("SocketManager", "Mensaje confirmado: ${rawMessage.substring(4)}")
+                            }
+                            rawMessage.startsWith("ERROR|") -> {
+                                Log.e("SocketManager", "Error del servidor: ${rawMessage.substring(6)}")
+                            }
+                            else -> {
+                                Log.w("SocketManager", "Formato de mensaje desconocido: $rawMessage")
+                            }
+                        }
                     }
                 } catch (e: Exception) {
-                    Log.e("SocketManager", "Error recibiendo mensaje: ${e.message}")
-                    reiniciarConexion()
+                    Log.e("SocketManager", "Error recibiendo mensajes: ${e.message}")
+                    reconnect()
                 }
             }
         }
     }
 
-    fun sendMessage(destinatario: String, mensaje: String) {
+    fun sendMessage(destinatario: String, contenido: String) {
         if (isConnected) {
             executor.execute {
                 try {
-                    // Formato correcto: "destinatario|mensaje"
-                    val mensajeCompleto = "$destinatario|$mensaje"
-                    output?.println(mensajeCompleto)
-                    Log.d("SocketManager", "Mensaje enviado: $mensajeCompleto")
+                    // Formato: "destinatario|contenido" (igual que el cliente de prueba)
+                    val mensaje = "$destinatario|$contenido"
+                    output?.println(mensaje)
+                    Log.d("SocketManager", "Mensaje enviado: $mensaje")
                 } catch (e: Exception) {
                     Log.e("SocketManager", "Error enviando mensaje: ${e.message}")
                 }
             }
+        }
+    }
+
+    private fun reconnect() {
+        desconectar()
+        executor.execute {
+            Thread.sleep(5000)
+            connectToServer()
         }
     }
 
@@ -90,17 +111,8 @@ class SocketManager(
                 socket?.close()
                 Log.d("SocketManager", "Desconexión exitosa")
             } catch (e: Exception) {
-                Log.e("SocketManager", "Error desconectando: ${e.message}")
+                Log.e("SocketManager", "Error en desconexión: ${e.message}")
             }
-        }
-    }
-
-    private fun reiniciarConexion() {
-        desconectar()
-        // Reconexión automática después de 3 segundos
-        executor.execute {
-            Thread.sleep(3000)
-            conectar()
         }
     }
 }
