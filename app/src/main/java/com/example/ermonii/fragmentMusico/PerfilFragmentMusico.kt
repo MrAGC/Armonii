@@ -92,7 +92,7 @@ class PerfilFragmentMusico : Fragment() {
         view.findViewById<TextView>(R.id.txtBiografia).text = "Biografía: ${musico.biografia}"
         view.findViewById<TextView>(R.id.txtCorreo).text = "Correo: ${musico.correo}"
         view.findViewById<TextView>(R.id.txtTelefono).text = "Teléfono: ${musico.telefono}"
-        view.findViewById<TextView>(R.id.txtGenero).text = "Género: ${musico.generoMusical}"
+        view.findViewById<TextView>(R.id.txtGenero).text = "Género: ${musico.genero}"
         view.findViewById<TextView>(R.id.txtFechaRegistro).text = "Fecha de registro: ${musico.fechaRegistro}"
     }
 
@@ -140,7 +140,7 @@ class PerfilFragmentMusico : Fragment() {
         edtCorreo.setText(musico.correo)
         edtTelefono.setText(musico.telefono)
         edtBiografia.setText(musico.biografia)
-        txtGenerosMusicales.text = musico.generoMusical
+        txtGenerosMusicales.text = musico.generoMusical.toString().replace("[", "").replace("]", "").replace(", ", " - ")
 
         // Crea el AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)

@@ -23,7 +23,7 @@ class EventoAdapter(private var eventList: List<Evento>, private var localList: 
     class EventoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.eventName)
         val descriptionTextView: TextView = itemView.findViewById(R.id.eventDescription)
-        val dateTextView: TextView = itemView.findViewById(R.id.eventDate) // Añadido
+        val dateTextView: TextView = itemView.findViewById(R.id.eventDate)
         val imageView: ImageView = itemView.findViewById(R.id.eventImage)
     }
 

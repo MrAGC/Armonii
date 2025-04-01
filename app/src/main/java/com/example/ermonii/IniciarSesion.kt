@@ -9,6 +9,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.ermonii.clases.Local
+import com.example.ermonii.clases.Musico
 import com.example.ermonii.clases.RetrofitClient
 import com.example.ermonii.clases.Usuario
 import com.example.ermonii.fragmentLocal.MenuActivityLocal
@@ -18,6 +20,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class IniciarSesion : AppCompatActivity() {
+    private lateinit var musico: Musico
+    private lateinit var local: Local
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

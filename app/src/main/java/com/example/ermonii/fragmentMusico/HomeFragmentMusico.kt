@@ -60,7 +60,8 @@ class HomeFragmentMusico : Fragment() {
                             chat = usuario.chat,
                             valoracion = usuario.valoracion,
                             image = 0,
-                            rating = 0
+                            rating = 0,
+                            idUsuario = usuario.id
                              )
                     }
 
@@ -79,6 +80,8 @@ class HomeFragmentMusico : Fragment() {
                 Valoración: ${local.valoracion}
                 Image: ${local.image}
                 Rating: ${local.rating}
+                idUsuario: ${local.idUsuario}
+
                 """.trimIndent())
                     }
                 } else {

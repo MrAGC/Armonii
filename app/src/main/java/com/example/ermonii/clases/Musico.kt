@@ -1,5 +1,7 @@
 package com.example.ermonii.clases
 
+import com.google.gson.annotations.SerializedName
+
 class Musico(
     id: Int,
     nombre: String,
@@ -17,7 +19,7 @@ class Musico(
     var edad: Int,
     var biografia: String,
     var genero: String,
-    var generoMusical: String,
+    @SerializedName("generosMusicales") var generoMusical: List<String>,
     var historialEventos: List<Int>,
     var image: Int,
     var idUsuario: Int

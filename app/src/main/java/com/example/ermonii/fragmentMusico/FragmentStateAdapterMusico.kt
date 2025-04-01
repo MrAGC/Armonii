@@ -7,8 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class ViewPagerAdapterMusico(
-    fragmentActivity: FragmentActivity, private val usuarioID: Int
-                            ) :
+    fragmentActivity: FragmentActivity, private val usuarioID: Int) :
     FragmentStateAdapter(fragmentActivity) {
 
     // Metodo para crear cada fragmento con usuario cuando sea necesario

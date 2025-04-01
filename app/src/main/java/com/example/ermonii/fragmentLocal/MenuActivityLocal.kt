@@ -17,9 +17,13 @@ class MenuActivityLocal : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_local)
 
+
+        // Obtenemos el usuario que ha iniciado sesión
+        val usuarioId = intent.getIntExtra("usuarioId", -1)
+
         // Inicializar ViewPager2
         viewPager = findViewById(R.id.viewPagerLocal)
-        viewPager.adapter = ViewPagerAdapterLocal(this)
+        viewPager.adapter = ViewPagerAdapterLocal(this, usuarioId)
 
         // Inicializar BottomNavigationView
         navigation = findViewById(R.id.navMenu)

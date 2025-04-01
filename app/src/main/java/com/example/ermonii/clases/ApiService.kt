@@ -20,6 +20,9 @@ interface ApiService {
     @GET("/api/Musico/{id}")
     fun getMusicoById(@Path("id") id: Int): Call<Musico>
 
+    @GET("/api/Local/{id}")
+    fun getLocalById(@Path("id") id: Int): Call<Local>
+
     @GET("Usuario/{id}")
     fun getUsuarioById(@Path("id") id: Int): Call<Usuario>
 }

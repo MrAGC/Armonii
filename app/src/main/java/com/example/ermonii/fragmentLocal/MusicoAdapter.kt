@@ -55,7 +55,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
                 if (musico.estado) R.color.green else R.color.red
                                   )
                                     )
-        holder.tvGenero.text = musico.generoMusical
+        holder.tvGenero.text = musico.generoMusical.toString()
         holder.tvBiografia.text = "Biografía: ${musico.biografia}"
         holder.imgMusico.setImageResource(musico.image)
 

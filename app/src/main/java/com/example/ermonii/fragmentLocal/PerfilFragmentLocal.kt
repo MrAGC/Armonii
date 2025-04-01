@@ -5,18 +5,29 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.ermonii.IniciarSesion
 import com.example.ermonii.R
+import com.example.ermonii.clases.Local
+import com.example.ermonii.clases.Musico
+import com.example.ermonii.clases.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class PerfilFragmentLocal : Fragment() {
+class PerfilFragmentLocal(usuarioId: Int) : Fragment() {
     private lateinit var btnCerrarSesion: Button
     private lateinit var btn_editarPerfil: Button
+    private var usuarioId: Int = -1
+    private lateinit var local: Local
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -42,6 +53,8 @@ class PerfilFragmentLocal : Fragment() {
         return view
     }
 
+
+
     @SuppressLint("MissingInflatedId")
     private fun showEditDialog(context: Context) {
         // Infla el diseño del diálogo
@@ -64,5 +77,40 @@ class PerfilFragmentLocal : Fragment() {
 
         // Muestra el diálogo
         dialog.show()
+    }
+
+
+    private fun actualizarUI(view: View) {
+        val txtNombreLocal = view.findViewById<TextView>(R.id.txtNombreLocal)
+
+        txtNombreLocal.text = local.nombre
+    }
+
+    // Obtiene los datos del usuario que ha iniciado sesión desde la API
+    private fun obtenerDatosLocal(view: View) {
+        RetrofitClient.instance.getLocales().enqueue(object : Callback<List<Local>> {
+            override fun onResponse(call: Call<List<Local>>, response: Response<List<Local>>) {
+                if (response.isSuccessful) {
+                    val listaLocal = response.body()
+
+                    // Buscar el músico cuyo idUsuario coincida con usuarioId
+                    val localEncontrado = listaLocal?.find { it.idUsuario == usuarioId }
+
+                    if (localEncontrado != null) {
+                        local = localEncontrado
+                        actualizarUI(view)
+                    } else {
+                        Log.e("PerfilFragmentMusico", "No se encontró músico para usuarioId: $usuarioId")
+                        Toast.makeText(requireContext(), "No se encontró el músico", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Log.e("PerfilFragmentMusico", "Error en la respuesta de la API")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Local>>, t: Throwable) {
+                Log.e("PerfilFragmentMusico", "Error de conexión: ${t.message}")
+            }
+        })
     }
 }
