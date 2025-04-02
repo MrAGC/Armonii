@@ -9,10 +9,10 @@ interface ApiService {
     fun getUsuarios(): Call<List<Usuario>>
 
     @GET("api/Local")
-    fun getLocales(): Call<List<Local>>
+    suspend fun getLocales(): List<Local>
 
     @GET("api/Evento")
-    fun getEventos(): Call<List<Evento>>
+    suspend fun getEventos(): List<Evento>
 
     @GET("api/Musico")
     fun getMusicos(): Call<List<Musico>>

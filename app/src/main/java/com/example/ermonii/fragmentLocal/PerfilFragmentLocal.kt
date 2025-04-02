@@ -86,31 +86,23 @@ class PerfilFragmentLocal(usuarioId: Int) : Fragment() {
         txtNombreLocal.text = local.nombre
     }
 
-    // Obtiene los datos del usuario que ha iniciado sesión desde la API
-    private fun obtenerDatosLocal(view: View) {
-        RetrofitClient.instance.getLocales().enqueue(object : Callback<List<Local>> {
-            override fun onResponse(call: Call<List<Local>>, response: Response<List<Local>>) {
-                if (response.isSuccessful) {
-                    val listaLocal = response.body()
+    private suspend fun obtenerDatosLocal(view: View) {
+        try {
+            val listaLocal = RetrofitClient.instance.getLocales() // ✅ Ahora directamente devuelve la lista
 
-                    // Buscar el músico cuyo idUsuario coincida con usuarioId
-                    val localEncontrado = listaLocal?.find { it.idUsuario == usuarioId }
+            // Buscar el local cuyo idUsuario coincida con usuarioId
+            val localEncontrado = listaLocal.find { it.idUsuario == usuarioId }
 
-                    if (localEncontrado != null) {
-                        local = localEncontrado
-                        actualizarUI(view)
-                    } else {
-                        Log.e("PerfilFragmentMusico", "No se encontró músico para usuarioId: $usuarioId")
-                        Toast.makeText(requireContext(), "No se encontró el músico", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Log.e("PerfilFragmentMusico", "Error en la respuesta de la API")
-                }
+            if (localEncontrado != null) {
+                local = localEncontrado
+                actualizarUI(view) // ✅ Se actualiza la UI con el nuevo local
+            } else {
+                Log.e("PerfilFragmentMusico", "No se encontró local para usuarioId: $usuarioId")
+                Toast.makeText(requireContext(), "No se encontró el local", Toast.LENGTH_SHORT).show()
             }
-
-            override fun onFailure(call: Call<List<Local>>, t: Throwable) {
-                Log.e("PerfilFragmentMusico", "Error de conexión: ${t.message}")
-            }
-        })
+        } catch (e: Exception) {
+            Log.e("PerfilFragmentMusico", "Error al obtener los datos del local", e)
+        }
     }
+
 }
