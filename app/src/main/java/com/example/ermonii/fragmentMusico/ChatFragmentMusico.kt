@@ -23,6 +23,7 @@ import java.util.Date
 import java.util.Locale
 
 class ChatFragmentMusico : Fragment() {
+    private var usuarioId: Int = -1
     private lateinit var socketManager: SocketManager
     private lateinit var adapterChats: ChatsAdapter
     private lateinit var adapterMensajes: MensajesAdapter
@@ -32,8 +33,7 @@ class ChatFragmentMusico : Fragment() {
     private lateinit var recyclerViewMensajes: RecyclerView
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
                              ): View {
         return inflater.inflate(R.layout.fragment_chat_musico, container, false)
@@ -41,28 +41,46 @@ class ChatFragmentMusico : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val userId = obtenerUserId()
+        obtenerIDUsuarioIniciado()  // Aquí se obtiene el ID correctamente
+        val userId = usuarioId.toString()
         setupSocketManager(userId)
         setupRecyclerViews(view)
-        setupUIListeners(view)
+        setupUIListeners(view, userId)
         cargarChatsIniciales(userId)
     }
 
+    // En tu ChatFragmentMusico
     private fun setupSocketManager(userId: String) {
-        socketManager = SocketManager(userId) { sender, message ->
+        socketManager = SocketManager(userId) { remitente, contenido ->
             activity?.runOnUiThread {
-                manejarNuevoMensaje(userId, sender, message)
+                if (remitente == "SERVER") {
+                    // Mostrar como Toast o Snackbar
+                    Toast.makeText(requireContext(), contenido, Toast.LENGTH_LONG).show()
+                } else {
+                    // Manejo normal de mensajes
+                    manejarNuevoMensaje(userId, remitente, contenido)
+                }
             }
         }
     }
 
-    private fun manejarNuevoMensaje(userId: String, sender: String, message: String) {
-        actualizarListaChats(sender, message, userId)
-        if (sender == currentChatId) {
-            val newMessage = crearMensaje(sender, userId, message, "local")
-            adapterMensajes.addMessage(newMessage)
-            scrollToBottom()
+    private fun manejarNuevoMensaje(userId: String, remitente: String, contenido: String) {
+        val esMio = (remitente == userId) // Determinar si es mensaje propio
+
+        val mensaje = Mensaje(
+            id = System.currentTimeMillis().toInt(), // Generar ID único
+            idUsuarioLocal = if (esMio) currentChatId ?: "" else remitente, // Usar currentChatId si es del músico
+            idUsuarioMusico = userId,
+            mensaje = contenido,
+            fechaEnvio = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()),
+            emisor = if (esMio) "musico" else "local"
+                             )
+
+
+        // Añadir al adapter y actualizar UI
+        activity?.runOnUiThread {
+            adapterMensajes.addMessage(mensaje)
+            recyclerViewMensajes.smoothScrollToPosition(adapterMensajes.itemCount - 1)
         }
     }
 
@@ -91,7 +109,7 @@ class ChatFragmentMusico : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = ChatsAdapter { chat ->
                 currentChatId = chat.idUsuarioLocal
-                mostrarConversacion(chat.idUsuarioLocal)
+                mostrarConversacion("2")
             }.also { adapterChats = it }
         }
 
@@ -101,7 +119,7 @@ class ChatFragmentMusico : Fragment() {
             layoutManager = LinearLayoutManager(requireContext()).apply {
                 stackFromEnd = true // Key para scroll automático
             }
-            adapter = MensajesAdapter().also { adapterMensajes = it }
+            adapter = MensajesAdapter(usuarioId.toString()).also { adapterMensajes = it }
         }
     }
 
@@ -111,7 +129,7 @@ class ChatFragmentMusico : Fragment() {
         [
             {
                 "id": 1,
-                "idUsuarioLocal": "local_1",
+                "idUsuarioLocal": "6",
                 "idUsuarioMusico": "$userId",
                 "fechaEnvio": "10:30",
                 "mensaje": "Hola, ¿estás disponible?",
@@ -119,7 +137,7 @@ class ChatFragmentMusico : Fragment() {
             },
             {
                 "id": 2,
-                "idUsuarioLocal": "local_2",
+                "idUsuarioLocal": "7",
                 "idUsuarioMusico": "$userId",
                 "fechaEnvio": "10:31",
                 "mensaje": "Necesitamos un músico",
@@ -138,12 +156,12 @@ class ChatFragmentMusico : Fragment() {
     }
 
 
-    private fun setupUIListeners(view: View) {
+    private fun setupUIListeners(view: View, userId: String) {
         val btnEnviar = view.findViewById<Button>(R.id.btnEnviar)
         val etMensaje = view.findViewById<EditText>(R.id.etMensaje)
 
         btnEnviar.setOnClickListener {
-            enviarMensaje(etMensaje)
+            enviarMensaje(etMensaje, userId.toString())
         }
 
         view.findViewById<Button>(R.id.btnVolver).setOnClickListener {
@@ -152,19 +170,23 @@ class ChatFragmentMusico : Fragment() {
         }
     }
 
-    private fun enviarMensaje(etMensaje: EditText) {
+    private fun enviarMensaje(etMensaje: EditText, userId: String) {
         val mensajeTexto = etMensaje.text.toString().trim()
         if (mensajeTexto.isEmpty() || currentChatId == null) {
             Toast.makeText(requireContext(), "Escribe un mensaje", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val newMessage = crearMensaje(currentChatId!!, "musico_123", mensajeTexto, "musico")
+        // Mostrar un aviso con el id del destinatario y el mensaje
+        Toast.makeText(requireContext(), "Enviando a $currentChatId: $mensajeTexto", Toast.LENGTH_LONG).show()
+
+        val newMessage = crearMensaje(currentChatId!!, userId, mensajeTexto, "musico")
         adapterMensajes.addMessage(newMessage)
         scrollToBottom()
         socketManager.sendMessage(currentChatId!!, mensajeTexto)
         etMensaje.text.clear()
     }
+
 
     private fun scrollToBottom() {
         recyclerViewMensajes.post {
@@ -187,7 +209,7 @@ class ChatFragmentMusico : Fragment() {
             {
                 "id": 10,
                 "idUsuarioLocal": "$contactoId",
-                "idUsuarioMusico": "musico_123",
+                "idUsuarioMusico": "1",
                 "fechaEnvio": "10:35",
                 "mensaje": "Hola, ¿en qué puedo ayudarte?",
                 "emisor": "local"
@@ -195,7 +217,7 @@ class ChatFragmentMusico : Fragment() {
             {
                 "id": 11,
                 "idUsuarioLocal": "$contactoId",
-                "idUsuarioMusico": "musico_123",
+                "idUsuarioMusico": "2",
                 "fechaEnvio": "10:36",
                 "mensaje": "Estoy disponible",
                 "emisor": "musico"
@@ -213,8 +235,19 @@ class ChatFragmentMusico : Fragment() {
     }
 
 
-    private fun obtenerUserId(): String {
-        return "musico_123"
+    companion object {
+        fun newInstance(usuarioId: Int): ChatFragmentMusico {
+            val fragment = ChatFragmentMusico()
+            val bundle = Bundle().apply {
+                putInt("usuario", usuarioId)
+            }
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
+    private fun obtenerIDUsuarioIniciado() {
+        usuarioId = requireArguments().getInt("usuario", -1)
     }
 
     override fun onDestroy() {

@@ -1,6 +1,7 @@
 package com.example.ermonii
 
 import android.util.Log
+import com.example.ermonii.fragmentMusico.ChatFragmentMusico
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.PrintWriter
@@ -29,7 +30,6 @@ class SocketManager(
                 output = PrintWriter(socket!!.getOutputStream(), true)
                 input = BufferedReader(InputStreamReader(socket!!.getInputStream()))
 
-                // Registrar usuario en el servidor
                 output!!.println(userId)
                 isConnected = true
                 Log.d("SocketManager", "Conexión exitosa")
@@ -53,10 +53,14 @@ class SocketManager(
                             rawMessage.startsWith("MESSAGE|") -> {
                                 val parts = rawMessage.split("|", limit = 3)
                                 if (parts.size == 3) {
+                                    val tipo = parts[0] // "MESSAGE"
                                     val remitente = parts[1]
                                     val contenido = parts[2]
+
+                                    // Notificar al Fragment
                                     onMessageReceived(remitente, contenido)
-                                } else {
+                                }
+                                else {
                                     Log.e("SocketManager", "Formato MESSAGE inválido: $rawMessage")
                                 }
                             }

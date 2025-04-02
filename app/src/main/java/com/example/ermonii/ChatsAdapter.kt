@@ -1,5 +1,6 @@
 package com.example.ermonii.fragmentMusico
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,21 +21,34 @@ class ChatsAdapter(
         private val fechaEnvioTextView: TextView = itemView.findViewById(R.id.fechaEnvioTextView)
 
         fun bind(mensaje: Mensaje) {
-            txtContactName.text = mensaje.idUsuarioLocal
-            mensajeTextView.text = mensaje.mensaje
-            fechaEnvioTextView.text = mensaje.fechaEnvio
-            itemView.setOnClickListener { onChatClick(mensaje) }
+            try {
+                txtContactName.text = mensaje.idUsuarioMusico ?: "Desconocido"
+                mensajeTextView.text = mensaje.mensaje ?: ""
+                fechaEnvioTextView.text = mensaje.fechaEnvio ?: ""
+                itemView.setOnClickListener { onChatClick(mensaje) }
+            } catch (e: Exception) {
+                Log.e("ChatsAdapter", "Error binding: ${e.message}")
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_chat, parent, false)
-        return ChatViewHolder(itemView)
+        return try {
+            val itemView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_chat, parent, false)
+            ChatViewHolder(itemView)
+        } catch (e: Exception) {
+            Log.e("ChatsAdapter", "Error creando ViewHolder: ${e.message}")
+            throw e
+        }
     }
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        try {
+            holder.bind(getItem(position))
+        } catch (e: Exception) {
+            Log.e("ChatsAdapter", "Error en onBindViewHolder: ${e.message}")
+        }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Mensaje>() {

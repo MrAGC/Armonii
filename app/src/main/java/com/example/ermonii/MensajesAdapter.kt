@@ -1,5 +1,6 @@
 package com.example.ermonii.fragmentMusico
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ermonii.R
 import com.example.ermonii.clases.Mensaje
 
-class MensajesAdapter () : ListAdapter<Mensaje, MensajesAdapter.MensajeViewHolder>(DiffCallback()) {
+class MensajesAdapter(
+    private val currentUserId: String // Nuevo parámetro: ID del usuario actual
+                     ) : ListAdapter<Mensaje, MensajesAdapter.MensajeViewHolder>(DiffCallback()) {
 
     companion object {
-        private const val TIPO_EMISOR = 0
-        private const val TIPO_RECEPTOR = 1
+        private const val TIPO_EMISOR = 0  // Mensajes enviados por MÍ (derecha)
+        private const val TIPO_RECEPTOR = 1 // Mensajes recibidos (izquierda)
     }
 
     inner class MensajeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -22,31 +25,60 @@ class MensajesAdapter () : ListAdapter<Mensaje, MensajesAdapter.MensajeViewHolde
         private val fechaEnvioTextView: TextView = itemView.findViewById(R.id.fechaEnvioTextView)
 
         fun bind(mensaje: Mensaje) {
-            mensajeTextView.text = mensaje.mensaje
-            fechaEnvioTextView.text = mensaje.fechaEnvio
+            try {
+                mensajeTextView.text = mensaje.mensaje ?: ""
+                fechaEnvioTextView.text = mensaje.fechaEnvio ?: ""
+            } catch (e: Exception) {
+                Log.e("MensajesAdapter", "Error binding: ${e.message}")
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MensajeViewHolder {
-        val layout = when (viewType) {
-            TIPO_EMISOR -> R.layout.item_mensaje_emisor
-            else -> R.layout.item_mensaje_receptor
+        return try {
+            val layout = when (viewType) {
+                TIPO_EMISOR -> R.layout.item_mensaje_emisor
+                else -> R.layout.item_mensaje_receptor
+            }
+            val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
+            MensajeViewHolder(view)
+        } catch (e: Exception) {
+            Log.e("MensajesAdapter", "Error creando ViewHolder: ${e.message}")
+            throw e
         }
-        val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
-        return MensajeViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MensajeViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        try {
+            holder.bind(getItem(position))
+        } catch (e: Exception) {
+            Log.e("MensajesAdapter", "Error en onBindViewHolder: ${e.message}")
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (getItem(position).emisor == "musico") TIPO_EMISOR else TIPO_RECEPTOR
+        return try {
+            val mensaje = getItem(position)
+            // Determinar si el mensaje fue enviado por el usuario actual
+            val esMio = when (mensaje.emisor) {
+                "musico" -> mensaje.idUsuarioMusico == currentUserId
+                "local" -> mensaje.idUsuarioLocal == currentUserId
+                else -> false
+            }
+            if (esMio) TIPO_EMISOR else TIPO_RECEPTOR
+        } catch (e: Exception) {
+            Log.e("MensajesAdapter", "Error en getItemViewType: ${e.message}")
+            TIPO_RECEPTOR
+        }
     }
 
     fun addMessage(newMessage: Mensaje) {
-        val newList = currentList.toMutableList().apply { add(newMessage) }
-        submitList(newList)
+        try {
+            val newList = currentList.toMutableList().apply { add(newMessage) }
+            submitList(newList)
+        } catch (e: Exception) {
+            Log.e("MensajesAdapter", "Error añadiendo mensaje: ${e.message}")
+        }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Mensaje>() {
@@ -58,6 +90,4 @@ class MensajesAdapter () : ListAdapter<Mensaje, MensajesAdapter.MensajeViewHolde
             return oldItem == newItem
         }
     }
-
-
 }
