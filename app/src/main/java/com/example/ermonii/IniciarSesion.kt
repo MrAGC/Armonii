@@ -109,6 +109,8 @@ class IniciarSesion : AppCompatActivity() {
                 })
             } else {
                 // Si el correo o la contraseña están vacíos
+                edtCorreo.setBackgroundResource(R.drawable.redondear_edittext_error)
+                edtContrasena.setBackgroundResource(R.drawable.redondear_edittext_error)
                 Toast.makeText(
                     this@IniciarSesion,
                     "Por favor, ingrese correo y contraseña",

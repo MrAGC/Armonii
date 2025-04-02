@@ -85,19 +85,46 @@
 
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnContinuarType"
-            android:layout_width="250dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/degradado_boton"
-            android:fontFamily="@font/oswald"
-            android:layerType="hardware"
-            android:text="Continuar"
-            android:textColor="@color/white"
-            android:textSize="19sp"
-            android:textStyle="bold"
-            app:backgroundTint="@null" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVolverType"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/degradado_boton_cancelar"
+                android:fontFamily="@font/oswald"
+                android:layerType="hardware"
+                android:text="Volver"
+                android:textColor="@color/white"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnContinuarType"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/degradado_boton"
+                android:fontFamily="@font/oswald"
+                android:layerType="hardware"
+                android:text="Continuar"
+                android:textColor="@color/white"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -146,7 +173,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
                 android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
@@ -222,7 +249,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
                 android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
@@ -298,7 +325,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
                 android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
@@ -373,7 +400,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
                 android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
@@ -449,7 +476,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
                 android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
@@ -524,7 +551,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
                 android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
@@ -597,7 +624,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
                 android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
@@ -710,7 +737,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
                 android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
@@ -784,7 +811,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
                 android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
