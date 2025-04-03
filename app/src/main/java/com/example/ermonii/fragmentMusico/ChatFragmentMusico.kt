@@ -41,7 +41,7 @@ class ChatFragmentMusico : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        obtenerIDUsuarioIniciado()  // Aquí se obtiene el ID correctamente
+        obtenerIDUsuarioIniciado()
         val userId = usuarioId.toString()
         setupSocketManager(userId)
         setupRecyclerViews(view)
@@ -49,15 +49,12 @@ class ChatFragmentMusico : Fragment() {
         cargarChatsIniciales(userId)
     }
 
-    // En tu ChatFragmentMusico
     private fun setupSocketManager(userId: String) {
         socketManager = SocketManager(userId) { remitente, contenido ->
             activity?.runOnUiThread {
                 if (remitente == "SERVER") {
-                    // Mostrar como Toast o Snackbar
                     Toast.makeText(requireContext(), contenido, Toast.LENGTH_LONG).show()
                 } else {
-                    // Manejo normal de mensajes
                     manejarNuevoMensaje(userId, remitente, contenido)
                 }
             }
@@ -65,103 +62,88 @@ class ChatFragmentMusico : Fragment() {
     }
 
     private fun manejarNuevoMensaje(userId: String, remitente: String, contenido: String) {
-        val esMio = (remitente == userId) // Determinar si es mensaje propio
+        val esMio = (remitente == userId)
+        val chatIdActual = if (esMio) currentChatId ?: "" else remitente
 
-        val mensaje = Mensaje(
-            id = System.currentTimeMillis().toInt(), // Generar ID único
-            idUsuarioLocal = if (esMio) currentChatId ?: "" else remitente, // Usar currentChatId si es del músico
-            idUsuarioMusico = userId,
-            mensaje = contenido,
-            fechaEnvio = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()),
-            emisor = if (esMio) "musico" else "local"
-                             )
+        // Solo agregar si es el chat activo
+        if (chatIdActual == currentChatId) {
+            val mensaje = Mensaje(
+                id = System.currentTimeMillis().toInt(),
+                idUsuarioLocal = chatIdActual, // Invertido respecto al Local
+                idUsuarioMusico = userId,
+                mensaje = contenido,
+                fechaEnvio = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()),
+                emisor = if (esMio) "musico" else "local"
+                                 )
 
-
-        // Añadir al adapter y actualizar UI
-        activity?.runOnUiThread {
-            adapterMensajes.addMessage(mensaje)
-            recyclerViewMensajes.smoothScrollToPosition(adapterMensajes.itemCount - 1)
+            activity?.runOnUiThread {
+                adapterMensajes.addMessage(mensaje)
+                recyclerViewMensajes.smoothScrollToPosition(adapterMensajes.itemCount - 1)
+            }
         }
+
+        actualizarListaChatsMusico(remitente, contenido)
     }
 
-    private fun actualizarListaChats(sender: String, message: String, userId: String) {
-        val nuevosChats = adapterChats.currentList.toMutableList().apply {
-            removeAll { it.idUsuarioLocal == sender }
-            add(0, crearMensaje(sender, userId, message, "local"))
+    private fun actualizarListaChatsMusico(remitente: String, ultimoMensaje: String) {
+        val nuevosChats = adapterChats.currentList.toMutableList().map {
+            if (it.idUsuarioLocal == remitente) { // Buscar por ID de local
+                it.copy(
+                    mensaje = ultimoMensaje,
+                    fechaEnvio = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
+                       )
+            } else {
+                it
+            }
         }
         adapterChats.submitList(nuevosChats)
     }
 
-    private fun crearMensaje(sender: String, userId: String, message: String, emisor: String): Mensaje {
-        return Mensaje(
-            id = System.currentTimeMillis().toInt(),
-            idUsuarioLocal = sender,
-            idUsuarioMusico = userId,
-            fechaEnvio = dateFormat.format(Date()),
-            mensaje = message,
-            emisor = emisor
-                      )
-    }
-
     private fun setupRecyclerViews(view: View) {
-        // Configurar RecyclerView de chats
         view.findViewById<RecyclerView>(R.id.recyclerViewChats).apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = ChatsAdapter { chat ->
+            adapter = ChatsAdapter(esMusico = true) { chat -> // Pasar true para músico
                 currentChatId = chat.idUsuarioLocal
-                mostrarConversacion("2")
+                mostrarConversacion(chat.idUsuarioLocal)
             }.also { adapterChats = it }
         }
 
-        // Configurar RecyclerView de mensajes
         recyclerViewMensajes = view.findViewById(R.id.recyclerViewMensajes)
         recyclerViewMensajes.apply {
             layoutManager = LinearLayoutManager(requireContext()).apply {
-                stackFromEnd = true // Key para scroll automático
+                stackFromEnd = true
             }
             adapter = MensajesAdapter(usuarioId.toString()).also { adapterMensajes = it }
         }
     }
 
     private fun cargarChatsIniciales(userId: String) {
-        // Simulación de respuesta de la API con datos de la tabla Mensaje
+        // Chats recientes con diferentes locales
         val jsonSimulado = """
-        [
-            {
-                "id": 1,
-                "idUsuarioLocal": "6",
-                "idUsuarioMusico": "$userId",
-                "fechaEnvio": "10:30",
-                "mensaje": "Hola, ¿estás disponible?",
-                "emisor": "local"
-            },
-            {
-                "id": 2,
-                "idUsuarioLocal": "7",
-                "idUsuarioMusico": "$userId",
-                "fechaEnvio": "10:31",
-                "mensaje": "Necesitamos un músico",
-                "emisor": "local"
-            }
-        ]
+    [
+        {
+            "id": 1,
+            "idUsuarioLocal": "6", // ID del local
+            "idUsuarioMusico": "$userId", // 1
+            "fechaEnvio": "10:15",
+            "mensaje": "Confirmado el ensayo",
+            "emisor": "musico"
+        }
+    ]
     """.trimIndent()
 
-        // Parseamos el JSON a una lista de Mensaje usando Gson
         val gson = Gson()
         val type = object : TypeToken<List<Mensaje>>() {}.type
         val mensajesList: List<Mensaje> = gson.fromJson(jsonSimulado, type)
-
-        // Actualizamos el adaptador con la lista de mensajes
         adapterChats.submitList(mensajesList)
     }
-
 
     private fun setupUIListeners(view: View, userId: String) {
         val btnEnviar = view.findViewById<Button>(R.id.btnEnviar)
         val etMensaje = view.findViewById<EditText>(R.id.etMensaje)
 
         btnEnviar.setOnClickListener {
-            enviarMensaje(etMensaje, userId.toString())
+            enviarMensaje(etMensaje, userId)
         }
 
         view.findViewById<Button>(R.id.btnVolver).setOnClickListener {
@@ -177,20 +159,23 @@ class ChatFragmentMusico : Fragment() {
             return
         }
 
-        // Mostrar un aviso con el id del destinatario y el mensaje
-        Toast.makeText(requireContext(), "Enviando a $currentChatId: $mensajeTexto", Toast.LENGTH_LONG).show()
+        val newMessage = Mensaje(
+            id = System.currentTimeMillis().toInt(),
+            idUsuarioLocal = currentChatId!!,
+            idUsuarioMusico = userId,
+            mensaje = mensajeTexto,
+            fechaEnvio = dateFormat.format(Date()),
+            emisor = "musico"
+                                )
 
-        val newMessage = crearMensaje(currentChatId!!, userId, mensajeTexto, "musico")
         adapterMensajes.addMessage(newMessage)
         scrollToBottom()
         socketManager.sendMessage(currentChatId!!, mensajeTexto)
         etMensaje.text.clear()
     }
 
-
     private fun scrollToBottom() {
         recyclerViewMensajes.post {
-            // Scroll suave al final
             recyclerViewMensajes.smoothScrollToPosition(adapterMensajes.itemCount - 1)
         }
     }
@@ -202,37 +187,43 @@ class ChatFragmentMusico : Fragment() {
         scrollToBottom()
     }
 
-    private fun cargarHistorialMensajes(contactoId: String) {
-        // Simulación de respuesta de la API con datos de la tabla Mensaje para el historial
-        val jsonSimulado = """
+    private fun cargarHistorialMensajes(localId: String) {
+        // Conversaciones específicas para cada local
+        val jsonConversacion = when (localId) {
+            "6" -> """ // ID del local
         [
             {
-                "id": 10,
-                "idUsuarioLocal": "$contactoId",
-                "idUsuarioMusico": "1",
-                "fechaEnvio": "10:35",
-                "mensaje": "Hola, ¿en qué puedo ayudarte?",
+                "id": 3001,
+                "idUsuarioLocal": "6",
+                "idUsuarioMusico": "$usuarioId", // 1
+                "fechaEnvio": "09:00",
+                "mensaje": "Buenos días, ¿ensayamos hoy?",
                 "emisor": "local"
             },
             {
-                "id": 11,
-                "idUsuarioLocal": "$contactoId",
-                "idUsuarioMusico": "2",
-                "fechaEnvio": "10:36",
-                "mensaje": "Estoy disponible",
+                "id": 3002,
+                "idUsuarioLocal": "6",
+                "idUsuarioMusico": "$usuarioId", // 1
+                "fechaEnvio": "09:15",
+                "mensaje": "Sí, a las 18:00 en el estudio",
                 "emisor": "musico"
             }
         ]
-    """.trimIndent()
+        """
+            else -> "[]"
+        }
 
-        // Parseamos el JSON a una lista de Mensaje usando Gson
         val gson = Gson()
         val type = object : TypeToken<List<Mensaje>>() {}.type
-        val historial: List<Mensaje> = gson.fromJson(jsonSimulado, type)
+        val historial: List<Mensaje> = gson.fromJson(jsonConversacion, type)
 
-        // Actualizamos el adaptador con la lista del historial
-        adapterMensajes.submitList(historial)
+        val mensajesFiltrados = historial.sortedBy {
+            SimpleDateFormat("HH:mm").parse(it.fechaEnvio)
+        }
+
+        adapterMensajes.submitList(mensajesFiltrados)
     }
+
 
 
     companion object {

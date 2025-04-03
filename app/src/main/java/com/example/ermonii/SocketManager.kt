@@ -47,31 +47,25 @@ class SocketManager(
             while (isConnected) {
                 try {
                     input?.readLine()?.let { rawMessage ->
-                        Log.d("SocketManager", "Mensaje crudo: $rawMessage")
+                        Log.d("SocketManager", "Mensaje recibido: $rawMessage")
 
                         when {
                             rawMessage.startsWith("MESSAGE|") -> {
+                                Log.d("SocketManager", "Mensaje válido: $rawMessage")
                                 val parts = rawMessage.split("|", limit = 3)
                                 if (parts.size == 3) {
                                     val tipo = parts[0] // "MESSAGE"
                                     val remitente = parts[1]
                                     val contenido = parts[2]
 
-                                    // Notificar al Fragment
                                     onMessageReceived(remitente, contenido)
                                 }
                                 else {
                                     Log.e("SocketManager", "Formato MESSAGE inválido: $rawMessage")
                                 }
                             }
-                            rawMessage.startsWith("ACK|") -> {
-                                Log.d("SocketManager", "Mensaje confirmado: ${rawMessage.substring(4)}")
-                            }
-                            rawMessage.startsWith("ERROR|") -> {
-                                Log.e("SocketManager", "Error del servidor: ${rawMessage.substring(6)}")
-                            }
                             else -> {
-                                Log.w("SocketManager", "Formato de mensaje desconocido: $rawMessage")
+                                Log.e("SocketManager", "Tipo de mensaje desconocido: $rawMessage")
                             }
                         }
                     }
@@ -87,7 +81,7 @@ class SocketManager(
         if (isConnected) {
             executor.execute {
                 try {
-                    // Formato: "destinatario|contenido" (igual que el cliente de prueba)
+                    // Formato: "destinatario|contenido"
                     val mensaje = "$destinatario|$contenido"
                     output?.println(mensaje)
                     Log.d("SocketManager", "Mensaje enviado: $mensaje")

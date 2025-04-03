@@ -12,6 +12,7 @@ import com.example.ermonii.R
 import com.example.ermonii.clases.Mensaje
 
 class ChatsAdapter(
+    private val esMusico: Boolean, // true = Fragmento de Músico | false = Fragmento de Local
     private val onChatClick: (Mensaje) -> Unit
                   ) : ListAdapter<Mensaje, ChatsAdapter.ChatViewHolder>(DiffCallback()) {
 
@@ -22,7 +23,8 @@ class ChatsAdapter(
 
         fun bind(mensaje: Mensaje) {
             try {
-                txtContactName.text = mensaje.idUsuarioMusico ?: "Desconocido"
+                // Mostrar ID del contacto opuesto según el tipo de usuario
+                txtContactName.text = if (esMusico) mensaje.idUsuarioLocal else mensaje.idUsuarioMusico
                 mensajeTextView.text = mensaje.mensaje ?: ""
                 fechaEnvioTextView.text = mensaje.fechaEnvio ?: ""
                 itemView.setOnClickListener { onChatClick(mensaje) }

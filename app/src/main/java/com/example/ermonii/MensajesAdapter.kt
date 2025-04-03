@@ -12,12 +12,12 @@ import com.example.ermonii.R
 import com.example.ermonii.clases.Mensaje
 
 class MensajesAdapter(
-    private val currentUserId: String // Nuevo parámetro: ID del usuario actual
+    private val currentUserId: String
                      ) : ListAdapter<Mensaje, MensajesAdapter.MensajeViewHolder>(DiffCallback()) {
 
     companion object {
-        private const val TIPO_EMISOR = 0  // Mensajes enviados por MÍ (derecha)
-        private const val TIPO_RECEPTOR = 1 // Mensajes recibidos (izquierda)
+        private const val TIPO_EMISOR = 0
+        private const val TIPO_RECEPTOR = 1
     }
 
     inner class MensajeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -59,7 +59,6 @@ class MensajesAdapter(
     override fun getItemViewType(position: Int): Int {
         return try {
             val mensaje = getItem(position)
-            // Determinar si el mensaje fue enviado por el usuario actual
             val esMio = when (mensaje.emisor) {
                 "musico" -> mensaje.idUsuarioMusico == currentUserId
                 "local" -> mensaje.idUsuarioLocal == currentUserId
