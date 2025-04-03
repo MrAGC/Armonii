@@ -601,16 +601,20 @@
             android:textSize="36dp"
             android:textStyle="bold" />
 
-        <Spinner
+        <TextView
             android:id="@+id/SpnGenero"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/redondear_edittext"
-            android:inputType="textEmailAddress"
+            android:fontFamily="@font/oswald"
+            android:gravity="left"
+            android:padding="10dp"
             android:paddingStart="15dp"
-            android:textColorHint="#555555"
-            tools:ignore="RtlSymmetry" />
+            android:text="Selecciona tu género"
+            android:textSize="16sp"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -701,6 +705,15 @@
             android:textColorHint="#555555"
             tools:ignore="RtlSymmetry" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/oswald"
+            android:text="La contraseña debe tener un mínimo de 8 carácteres."
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="16sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -787,17 +800,20 @@
             android:textSize="36dp"
             android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/SpnTipoLocal"
+
+        <TextView
+            android:id="@+id/txtTipoLocal"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/redondear_edittext"
             android:fontFamily="@font/oswald"
-            android:inputType="textEmailAddress"
             android:paddingStart="15dp"
-            android:textColorHint="#555555"
-            tools:ignore="RtlSymmetry" />
+            android:text="Seleccionar tu tipo de local"
+            android:gravity="center"
+            android:textSize="16sp"
+            tools:ignore="HardcodedText" />
+
 
         <LinearLayout
             android:layout_width="match_parent"

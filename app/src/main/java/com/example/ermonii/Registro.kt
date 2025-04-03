@@ -4,8 +4,10 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -21,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.Calendar
 
 class Registro : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)
@@ -80,43 +82,42 @@ class Registro : AppCompatActivity() {
         val edtTelefono = findViewById<EditText>(R.id.edtTelefono)
         val edtContrasena = findViewById<EditText>(R.id.edtContrasena)
         val edtContrasenaConf = findViewById<EditText>(R.id.edtContrasenaConf)
+        val txtTerminosCondiciones = findViewById<TextView>(R.id.txtTerminosCondiciones)
 
 
+        // Configuramos el TextView del genero desplegable en pantalla
+        val SpnGenero = findViewById<TextView>(R.id.SpnGenero)
+        val opcionesGenero = arrayOf("Masculino", "Femenino", "Otro")
 
+        SpnGenero.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Selecciona tu género")
+            builder.setItems(opcionesGenero) { _, which ->
+                SpnGenero.text = opcionesGenero[which]
+            }
+            builder.show()
+        }
 
-
-        // Configuramos el spinner del genero
-        val SpnGenero = findViewById<Spinner>(R.id.SpnGenero)
-        val opcionesGenero = arrayOf("Seleccionar tu genero", "Masculino", "Femenino", "Otro")
-        val adapterGenero = ArrayAdapter(this, android.R.layout.simple_spinner_item, opcionesGenero)
-        adapterGenero.setDropDownViewResource(android.R.layout.simple_spinner_item)
-        SpnGenero.adapter = adapterGenero
 
         // Configuramos el spinner del tipo de local
-        val SpnTipoLocal = findViewById<Spinner>(R.id.SpnTipoLocal)
+        val txtTipoLocal = findViewById<TextView>(R.id.txtTipoLocal) // Cambia Spinner por TextView
         val opcionesTipoLocal = arrayOf(
-            "Seleccionar tu tipo de local",
-            "Restaurante",
-            "Bar",
-            "Cafetería",
-            "Discoteca",
-            "Librería",
-            "Tienda de ropa",
-            "Supermercado",
-            "Tienda de electrónica",
-            "Floristería",
-            "Salón de belleza",
-            "Gimnasio",
-            "Hotel",
-            "Centro de eventos",
-            "Otro"
+            "Restaurante", "Bar", "Cafetería", "Discoteca", "Librería",
+            "Tienda de ropa", "Supermercado", "Tienda de electrónica",
+            "Floristería", "Salón de belleza", "Gimnasio", "Hotel",
+            "Centro de eventos", "Otro"
                                        )
 
-        // Inicializamos el adapter
-        val adapterTipoLocal =
-            ArrayAdapter(this, android.R.layout.simple_spinner_item, opcionesTipoLocal)
-        adapterTipoLocal.setDropDownViewResource(android.R.layout.simple_spinner_item)
-        SpnTipoLocal.adapter = adapterTipoLocal
+        // Al hacer clic, muestra un AlertDialog con las opciones
+        txtTipoLocal.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Selecciona tu tipo de local")
+            builder.setItems(opcionesTipoLocal) { _, which ->
+                txtTipoLocal.text = opcionesTipoLocal[which]
+            }
+            builder.show()
+        }
+
 
         // Escogemos músico o local
         imgMusico.setOnClickListener {
@@ -150,8 +151,14 @@ class Registro : AppCompatActivity() {
         }
 
         // Función para configurar el botón de volver en las vistas
-        fun setBackButtonListener(button: Button, fromView: View, toView: View, editText: EditText?) {
-            button.setOnClickListener { animateTransition(fromView, toView)
+        fun setBackButtonListener(
+            button: Button,
+            fromView: View,
+            toView: View,
+            editText: EditText?
+                                 ) {
+            button.setOnClickListener {
+                animateTransition(fromView, toView)
                 editText?.setBackgroundResource(R.drawable.redondear_edittext)
             }
         }
@@ -175,16 +182,14 @@ class Registro : AppCompatActivity() {
         btnType.setOnClickListener {
             if (!seleccionado) {
                 Toast.makeText(
-                    this,
-                    "Selecciona una opción por favor",
-                    Toast.LENGTH_SHORT
+                    this, "Selecciona una opción por favor", Toast.LENGTH_SHORT
                               ).show()
             } else {
                 animateTransition(LLType, LLNombre)
-                if (musico) {
+                if (musico) { // Musico
                     btnNombre.setOnClickListener {
                         if (edtNombre.text.isEmpty()) {
-                            Toast.makeText(this, "Inserta un nombre",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Inserta un nombre", Toast.LENGTH_SHORT).show()
                             edtNombre.setBackgroundResource(R.drawable.redondear_edittext_error)
                         } else {
                             edtNombre.setBackgroundResource(R.drawable.redondear_edittext)
@@ -195,7 +200,7 @@ class Registro : AppCompatActivity() {
                     btnApellido.setOnClickListener { animateTransition(LLApellido, LLCorreo) }
                     btnCorreo.setOnClickListener {
                         if (edtCorreo.text.isEmpty()) {
-                            Toast.makeText(this, "Inserta un correo",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Inserta un correo", Toast.LENGTH_SHORT).show()
                             edtCorreo.setBackgroundResource(R.drawable.redondear_edittext_error)
                         } else {
                             edtCorreo.setBackgroundResource(R.drawable.redondear_edittext)
@@ -204,7 +209,11 @@ class Registro : AppCompatActivity() {
                     }
                     btnEdad.setOnClickListener {
                         if (edtEdad.text.isEmpty()) {
-                            Toast.makeText(this, "Inserta una fecha de nacimiento",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                "Inserta una fecha de nacimiento",
+                                Toast.LENGTH_SHORT
+                                          ).show()
                             edtEdad.setBackgroundResource(R.drawable.redondear_edittext_error)
                         } else {
                             edtEdad.setBackgroundResource(R.drawable.redondear_edittext)
@@ -212,48 +221,148 @@ class Registro : AppCompatActivity() {
                         }
                     }
                     btnTelefono.setOnClickListener { animateTransition(LLTelefono, LLGenero) }
-                    btnGenero.setOnClickListener { animateTransition(LLGenero, LLContrasena) }
-                    btnContrasena.setOnClickListener { } // Implementar Home Fragment
-                } else {
-                    btnNombre.setOnClickListener { animateTransition(LLNombre, LLCorreo) }
-                    btnCorreo.setOnClickListener { animateTransition(LLCorreo, LLTelefono) }
-                    btnTelefono.setOnClickListener { animateTransition(LLTelefono, LLTipoLocal) }
-                    btnTipoLocal.setOnClickListener { animateTransition(LLTipoLocal, LLContrasena) }
-                    btnContrasena.setOnClickListener { } // Implementar Home Fragment
+                    btnGenero.setOnClickListener {
+                        if (SpnGenero.text.toString() == "Selecciona tu género") {
+                            Toast.makeText(this, "Inserta una opción", Toast.LENGTH_SHORT).show()
+                            SpnGenero.setBackgroundResource(R.drawable.redondear_edittext_error)
+                        } else {
+                            SpnGenero.setBackgroundResource(R.drawable.redondear_edittext)
+                            animateTransition(LLGenero, LLContrasena)
+                        }
+                    }
+                    btnContrasena.setOnClickListener {
+                        if (edtContrasena.text.toString() == edtContrasenaConf.text.toString()) {
+                            if (edtContrasena.text.length < 8) {
+                                edtContrasena.setBackgroundResource(R.drawable.redondear_edittext_error)
+                                edtContrasenaConf.setBackgroundResource(R.drawable.redondear_edittext_error)
+                                Toast.makeText(
+                                    this,
+                                    "La longitud de la contraseña es demasiado corta.",
+                                    Toast.LENGTH_SHORT
+                                              ).show()
+                            } else {
+                                if (!rbAceptarTerminos.isChecked) {
+                                    edtContrasena.setBackgroundResource(R.drawable.redondear_edittext)
+                                    edtContrasenaConf.setBackgroundResource(R.drawable.redondear_edittext)
+                                    Toast.makeText(
+                                        this,
+                                        "Debes aceptar los términos y condiciones",
+                                        Toast.LENGTH_SHORT
+                                                  ).show()
+                                    txtTerminosCondiciones.setTextColor(Color.RED)
+                                } else {
+                                    // Implementar registro MUSICO
+                                }
+                            }
+                        } else {
+                            edtContrasena.setBackgroundResource(R.drawable.redondear_edittext_error)
+                            edtContrasenaConf.setBackgroundResource(R.drawable.redondear_edittext_error)
+                            Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+
+                } else { // Local
+                    btnNombre.setOnClickListener {
+                        btnNombre.setOnClickListener {
+                            if (edtNombre.text.isEmpty()) {
+                                Toast.makeText(this, "Inserta un nombre", Toast.LENGTH_SHORT).show()
+                                edtNombre.setBackgroundResource(R.drawable.redondear_edittext_error)
+                            } else {
+                                edtNombre.setBackgroundResource(R.drawable.redondear_edittext)
+                                animateTransition(LLNombre, LLCorreo)
+                            }
+                        }
+                        btnCorreo.setOnClickListener {
+                            if (edtCorreo.text.isEmpty()) {
+                                Toast.makeText(this, "Inserta un correo", Toast.LENGTH_SHORT).show()
+                                edtCorreo.setBackgroundResource(R.drawable.redondear_edittext_error)
+                            } else {
+                                edtCorreo.setBackgroundResource(R.drawable.redondear_edittext)
+                            animateTransition(LLCorreo, LLTelefono)
+                            }
+                        }
+                        btnTelefono.setOnClickListener {
+                            animateTransition(
+                                LLTelefono,
+                                LLTipoLocal
+                                             )
+                        }
+                        btnTipoLocal.setOnClickListener {
+                            if (txtTipoLocal.text.toString() == "Selecciona tu tipo de local") {
+                                Toast.makeText(this, "Inserta una opción", Toast.LENGTH_SHORT).show()
+                                txtTipoLocal.setBackgroundResource(R.drawable.redondear_edittext_error)
+                            } else {
+                                txtTipoLocal.setBackgroundResource(R.drawable.redondear_edittext)
+                                animateTransition(LLTipoLocal,LLContrasena)
+                            }
+                        }
+                        btnContrasena.setOnClickListener {
+                            if (edtContrasena.text.toString() == edtContrasenaConf.text.toString()) {
+                                if (edtContrasena.text.length < 8) {
+                                    edtContrasena.setBackgroundResource(R.drawable.redondear_edittext_error)
+                                    edtContrasenaConf.setBackgroundResource(R.drawable.redondear_edittext_error)
+                                    Toast.makeText(
+                                        this,
+                                        "La longitud de la contraseña es demasiado corta.",
+                                        Toast.LENGTH_SHORT
+                                                  ).show()
+                                } else {
+                                    if (!rbAceptarTerminos.isChecked) {
+                                        edtContrasena.setBackgroundResource(R.drawable.redondear_edittext)
+                                        edtContrasenaConf.setBackgroundResource(R.drawable.redondear_edittext)
+                                        Toast.makeText(
+                                            this,
+                                            "Debes aceptar los términos y condiciones",
+                                            Toast.LENGTH_SHORT
+                                                      ).show()
+                                        txtTerminosCondiciones.setTextColor(Color.RED)
+                                    } else {
+                                        // Implementar registro LOCAL
+                                    }
+                                }
+                            } else {
+                                edtContrasena.setBackgroundResource(R.drawable.redondear_edittext_error)
+                                edtContrasenaConf.setBackgroundResource(R.drawable.redondear_edittext_error)
+                                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+                    }
                 }
             }
-        }
 
-        // Configuración de los botones de volver
-        setBackButtonListener(btnNombreVolver, LLNombre, LLType, edtNombre)
-        setBackButtonListener(btnApodoVolver, LLApodo, LLNombre, edtApodo)
-        setBackButtonListener(btnApellidoVolver, LLApellido, LLApodo, edtApellido)
-        btnCorreoVolver.setOnClickListener {
-            if (musico) {
-                animateTransition(LLCorreo, LLApellido)
-            } else {
-                animateTransition(LLCorreo, LLNombre)
+            // Configuración de los botones de volver
+            setBackButtonListener(btnNombreVolver, LLNombre, LLType, edtNombre)
+            setBackButtonListener(btnApodoVolver, LLApodo, LLNombre, edtApodo)
+            setBackButtonListener(btnApellidoVolver, LLApellido, LLApodo, edtApellido)
+            btnCorreoVolver.setOnClickListener {
+                if (musico) {
+                    animateTransition(LLCorreo, LLApellido)
+                } else {
+                    animateTransition(LLCorreo, LLNombre)
+                }
+                edtCorreo.setBackgroundResource(R.drawable.redondear_edittext)
             }
-            edtCorreo.setBackgroundResource(R.drawable.redondear_edittext)
-        }
-        setBackButtonListener(btnEdadVolver, LLEdad, LLCorreo, edtEdad)
-        setBackButtonListener(btnTelefonoVolver, LLTelefono, LLEdad, edtTelefono)
-        setBackButtonListener(btnGeneroVolver, LLGenero, LLTelefono, null)
-        btnContrasenaVolver.setOnClickListener {
-            if (musico) {
-                animateTransition(LLContrasena, LLGenero)
-            } else {
-                animateTransition(LLContrasena, LLTipoLocal)
+            setBackButtonListener(btnEdadVolver, LLEdad, LLCorreo, edtEdad)
+            setBackButtonListener(btnTelefonoVolver, LLTelefono, LLEdad, edtTelefono)
+            setBackButtonListener(btnGeneroVolver, LLGenero, LLTelefono, null)
+            btnContrasenaVolver.setOnClickListener {
+                if (musico) {
+                    animateTransition(LLContrasena, LLGenero)
+                } else {
+                    animateTransition(LLContrasena, LLTipoLocal)
 
+                }
             }
-        }
-        setBackButtonListener(btnTipoLocalVolver, LLTipoLocal, LLTelefono, null)
+            setBackButtonListener(btnTipoLocalVolver, LLTipoLocal, LLTelefono, null)
 
-        // Configuración del botón volver a inicio de sesión
-        btnVolverType.setOnClickListener {
-            val intent = Intent(this, IniciarSesion::class.java)
-            startActivity(intent)
-            finish()
+            // Configuración del botón volver a inicio de sesión
+            btnVolverType.setOnClickListener {
+                val intent = Intent(this, IniciarSesion::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 }
