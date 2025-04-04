@@ -26,8 +26,11 @@ import com.example.ermonii.fragmentMusico.MenuActivityMusico
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.Console
+import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.logging.Handler
 
 class Registro : AppCompatActivity() {
     @SuppressLint("MissingInflatedId", "CutPasteId")
@@ -262,19 +265,21 @@ class Registro : AppCompatActivity() {
                                                         null.toString(), true, emptyList(), -1.0, edtApellido.text.toString(), edtApodo.text.toString(), calcularEdad(edtEdad.text.toString()), "Sin biografía", SpnGenero.text.toString(), emptyList(), emptyList(), null.toString(), 0)
                                     enviarMusico(musicoNuevo)
 
+                                    Thread.sleep(1000)
+
+
                                     // Llamamos API para recibir la ID del nuevo usuario
                                     RetrofitClient.instance.getMusicoByCorreo(musicoNuevo.correo).enqueue(object : Callback<Musico> {
                                         override fun onResponse(call: Call<Musico>, response: Response<Musico>) {
 
+                                            Log.d("API", "URL de la petición: ${call.request().url().toString()}")
                                             Log.d("API", "Código de respuesta: ${response.code()}")
 
                                             if (response.isSuccessful) {
                                                 val musicoAPI = response.body()
-                                                Log.d("API", "Cuerpo de la respuesta: $musicoAPI")
-
                                                 musicoAPI?.let {
-                                                    Log.d("API", "Nombre: ${it.nombre}, Género: ${it.genero}")
-                                                } ?: Log.e("API", "El cuerpo de la respuesta es null")
+                                                    Log.d("API", "Nombre: ${it.nombre}, Genero: ${it.genero}")
+                                                }
                                             } else {
                                                 Log.e("API", "Error en la respuesta: ${response.code()} - ${response.errorBody()?.string()}")
                                             }
@@ -305,6 +310,15 @@ class Registro : AppCompatActivity() {
                                             Log.e("API", "Error en la conexión", t)
                                         }
                                     })
+
+
+
+
+
+
+
+
+
                                 }
                             }
                         } else {

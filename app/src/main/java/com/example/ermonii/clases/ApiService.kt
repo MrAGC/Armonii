@@ -20,9 +20,8 @@ interface ApiService {
     @GET("api/Musico")
     fun getMusicos(): Call<List<Musico>>
 
-    @GET("api/Musico/")
+    @GET("api/Musico")
     fun getMusicoByCorreo(@Query("correo") correo: String): Call<Musico>
-
 
     @GET("/api/Local/{id}")
     fun getLocalById(@Path("id") id: Int): Call<Local>
