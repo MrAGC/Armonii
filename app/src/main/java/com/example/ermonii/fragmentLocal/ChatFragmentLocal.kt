@@ -52,15 +52,36 @@ class ChatFragmentLocal : Fragment() {
     }
 
     private fun setupSocketManager(userId: String) {
-        socketManager = SocketManager(userId) { remitente, contenido ->
-            activity?.runOnUiThread {
-                if (remitente == "SERVER") {
-                    Toast.makeText(requireContext(), contenido, Toast.LENGTH_LONG).show()
-                } else {
-                    manejarNuevoMensaje(userId, remitente, contenido)
+        socketManager = SocketManager(
+            userId = userId,
+            onMessageReceived = { remitente, contenido ->
+                activity?.runOnUiThread {
+                    when (remitente) {
+                        "SERVER" -> Toast.makeText(
+                            requireContext(),
+                            contenido,
+                            Toast.LENGTH_LONG
+                                                  ).show()
+
+                        else -> manejarNuevoMensaje(userId, remitente, contenido)
+                    }
+                }
+            },
+            onError = { error ->
+                activity?.runOnUiThread {
+                    Toast.makeText(
+                        requireContext(),
+                        "Error de conexión: $error",
+                        Toast.LENGTH_LONG
+                                  ).show()
+
+                    // Opcional: Intentar reconexión manual si el error es crítico
+                    if (error.contains("No conectado", ignoreCase = true)) {
+                        socketManager?.reconnect()
+                    }
                 }
             }
-        }
+                                     )
     }
 
     private fun manejarNuevoMensaje(userId: String, remitente: String, contenido: String) {
@@ -239,8 +260,16 @@ class ChatFragmentLocal : Fragment() {
         usuarioId = requireArguments().getInt("usuario", -1)
     }
 
+    override fun onDestroyView() {
+        // Buen lugar para limpiar recursos de UI
+        super.onDestroyView()
+    }
+
     override fun onDestroy() {
+        // Siempre desconectar cuando el Fragment se destruye permanentemente
+        if (!requireActivity().isChangingConfigurations) {
+            socketManager?.disconnect()
+        }
         super.onDestroy()
-        socketManager.desconectar()
     }
 }
