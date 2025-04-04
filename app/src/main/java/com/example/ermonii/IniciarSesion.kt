@@ -15,6 +15,7 @@ import com.example.ermonii.clases.RetrofitClient
 import com.example.ermonii.clases.Usuario
 import com.example.ermonii.fragmentLocal.MenuActivityLocal
 import com.example.ermonii.fragmentMusico.MenuActivityMusico
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,16 +43,26 @@ class IniciarSesion : AppCompatActivity() {
                 // Realizar la consulta a la base de datos para comprobar el correo y la contraseña
                 val call = RetrofitClient.instance.getUsuarios()
                 call.enqueue(object : Callback<List<Usuario>> {
-                    override fun onResponse(
-                        call: Call<List<Usuario>>,
-                        response: Response<List<Usuario>>
-                                           ) {
+                    override fun onResponse( call: Call<List<Usuario>>, response: Response<List<Usuario>>) {
+
+                        Log.e("IniciarSesion", "Código de respuesta: ${response.body()}")
+
+
+                        if (response.isSuccessful) {
+                            val gson = Gson()
+                            // Si la respuesta es exitosa, mostramos el cuerpo del JSON
+                            val jsonResponse = response.body()?.let { gson.toJson(it) } // Convierte la respuesta a un JSON String
+                            Log.d("IniciarSesion", "Cuerpo de respuesta: $jsonResponse")
+                        } else {
+                            Log.e("IniciarSesion", "Error en la respuesta: ${response.errorBody()?.string()}")
+                        }
+
                         if (response.isSuccessful) {
                             val usuarios = response.body()
                             val usuarioValido =
                                 usuarios?.find { it.correo == correo && it.contrasenya == contrasena }
 
-                            if (usuarioValido != null) {
+                            if (usuarioValido?.tipo != null) {
                                 when (usuarioValido.tipo) {
                                     "Musico" -> {
                                         val intent = Intent(

@@ -12,9 +12,9 @@ abstract class Usuario(
     @SerializedName("telefono")var telefono: String? = null,
     @SerializedName("latitud") var latitud: Double,
     @SerializedName("longitud")var longitud: Double,
-    @SerializedName("fechaRegistro") var fechaRegistro: String,
+    @SerializedName("fechaRegistro") var fechaRegistro: String?,
     @SerializedName("estado") var estado: Boolean,
     @SerializedName("chat") var chat: List<Int>? = null,
     @SerializedName("valoracion")var valoracion: Double? = null,
-    @SerializedName("tipo")var tipo: String
+    @SerializedName("tipo")var tipo: String?
                       ) : Serializable

@@ -10,17 +10,24 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RadioButton
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.util.Calendar
+import android.util.Log
+import com.example.ermonii.clases.Musico
+import com.example.ermonii.clases.RetrofitClient
+import com.example.ermonii.fragmentMusico.MenuActivityMusico
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class Registro : AppCompatActivity() {
     @SuppressLint("MissingInflatedId", "CutPasteId")
@@ -251,7 +258,53 @@ class Registro : AppCompatActivity() {
                                                   ).show()
                                     txtTerminosCondiciones.setTextColor(Color.RED)
                                 } else {
-                                    // Implementar registro MUSICO
+                                    val musicoNuevo = Musico(0, edtNombre.text.toString(), edtCorreo.text.toString(), edtContrasena.text.toString(), edtTelefono.text.toString(), 0.0, 0.0,
+                                                        null.toString(), true, emptyList(), -1.0, edtApellido.text.toString(), edtApodo.text.toString(), calcularEdad(edtEdad.text.toString()), "Sin biografía", SpnGenero.text.toString(), emptyList(), emptyList(), null.toString(), 0)
+                                    enviarMusico(musicoNuevo)
+
+                                    // Llamamos API para recibir la ID del nuevo usuario
+                                    RetrofitClient.instance.getMusicoByCorreo(musicoNuevo.correo).enqueue(object : Callback<Musico> {
+                                        override fun onResponse(call: Call<Musico>, response: Response<Musico>) {
+
+                                            Log.d("API", "Código de respuesta: ${response.code()}")
+
+                                            if (response.isSuccessful) {
+                                                val musicoAPI = response.body()
+                                                Log.d("API", "Cuerpo de la respuesta: $musicoAPI")
+
+                                                musicoAPI?.let {
+                                                    Log.d("API", "Nombre: ${it.nombre}, Género: ${it.genero}")
+                                                } ?: Log.e("API", "El cuerpo de la respuesta es null")
+                                            } else {
+                                                Log.e("API", "Error en la respuesta: ${response.code()} - ${response.errorBody()?.string()}")
+                                            }
+
+                                            if (response.isSuccessful) {
+                                                val musicoAPI = response.body()
+                                                musicoAPI?.let {
+                                                    Log.d("API", "Nombre: ${it.nombre}, Genero: ${it.genero}")
+
+                                                    val intent = Intent(
+                                                        this@Registro, MenuActivityMusico::class.java
+                                                                       )
+                                                    intent.putExtra(
+                                                        "usuarioId", musicoAPI.id
+                                                                   )
+                                                    startActivity(intent)
+                                                    finish()
+                                                    overridePendingTransition(
+                                                        R.anim.slide_in_right, R.anim.slide_out_left
+                                                                             )
+                                                }
+                                            } else {
+                                                Log.e("API", "Error: ${response.code()}")
+                                            }
+                                        }
+
+                                        override fun onFailure(call: Call<Musico>, t: Throwable) {
+                                            Log.e("API", "Error en la conexión", t)
+                                        }
+                                    })
                                 }
                             }
                         } else {
@@ -365,4 +418,57 @@ class Registro : AppCompatActivity() {
             }
         }
     }
+
+
+
+    fun enviarMusico(musico: Musico) {
+        val api = RetrofitClient.instance
+
+        api.postMusico(musico).enqueue(object : Callback<Boolean> {
+            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                if (response.isSuccessful) {
+                    Log.d("API_RESPONSE", "Músico registrado correctamente: ${response.body()}")
+                } else {
+                    Log.e("API_ERROR", "Error al registrar músico: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                Log.e("API_FAILURE", "Fallo en la conexión: ${t.message}")
+            }
+        })
+    }
+
+
+
+    fun calcularEdad(fechaNacimiento: String): Int {
+        val formato = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        formato.isLenient = false // Para evitar que acepte fechas inválidas
+
+        return try {
+            val fechaNac = formato.parse(fechaNacimiento) ?: return -1
+            val hoy = Calendar.getInstance()
+            val nacimiento = Calendar.getInstance().apply { time = fechaNac }
+
+            var edad = hoy.get(Calendar.YEAR) - nacimiento.get(Calendar.YEAR)
+
+            // Verifica si aún no ha cumplido años este año
+            if (hoy.get(Calendar.DAY_OF_YEAR) < nacimiento.get(Calendar.DAY_OF_YEAR)) {
+                edad--
+            }
+
+            edad
+        } catch (e: Exception) {
+            e.printStackTrace()
+            -1 // Retorna -1 en caso de error
+        }
+    }
+
+    // Ejemplo de uso:
+    fun main() {
+        val edad = calcularEdad("04-04-2000")
+        println("La edad es: $edad años")
+    }
+
+
 }

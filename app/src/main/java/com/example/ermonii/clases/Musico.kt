@@ -21,6 +21,6 @@ class Musico(
     var genero: String,
     @SerializedName("generosMusicales") var generoMusical: List<String>,
     var historialEventos: List<Int>,
-    var image: Int,
+    var image: String,
     var idUsuario: Int
     ) : Usuario(id, nombre, correo, contrasenya, telefono, latitud, longitud, fechaRegistro, estado, chat, valoracion, "Musico")

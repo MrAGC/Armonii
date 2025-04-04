@@ -57,7 +57,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
                                     )
         holder.tvGenero.text = musico.generoMusical.toString()
         holder.tvBiografia.text = "Biografía: ${musico.biografia}"
-        holder.imgMusico.setImageResource(musico.image)
+        //holder.imgMusico.setImageResource(musico.image)
 
         // Configuración de las estrellas (valoración) en el item
         val valoracion = musico.valoracion
@@ -115,7 +115,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
         val imgVal5: ImageView = dialogView.findViewById(R.id.imgVal5)
 
         // Set the details in the dialog
-        imgMusicoCompleto.setImageResource(musico.image)
+        //imgMusicoCompleto.setImageResource(musico.image)
         txtNombreCompleto.text = "${musico.nombre} ${musico.apellido}"
         if (musico.apodo.isNotEmpty()) {
             txtApodoCompleto.text = musico.apodo
