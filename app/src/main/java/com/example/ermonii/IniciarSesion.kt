@@ -21,7 +21,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.crypto.Cipher
-import javax.crypto.Cipher.SECRET_KEY
 import javax.crypto.spec.SecretKeySpec
 
 class IniciarSesion : AppCompatActivity() {
@@ -70,7 +69,7 @@ class IniciarSesion : AppCompatActivity() {
                         if (response.isSuccessful) {
                             val usuarios = response.body()
                             val usuarioValido =
-                                usuarios?.find { it.correo == correo && decryptAES(it.contrasenya) == contrasena }
+                                usuarios?.find { it.correo == correo && /*decryptAES(*/it.contrasenya/*)*/ == contrasena } // Comentado para poder programar
 
                             if (usuarioValido?.tipo != null) {
                                 when (usuarioValido.tipo) {

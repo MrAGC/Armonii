@@ -38,12 +38,14 @@
             android:textSize="20dp" />
 
         <EditText
+            android:id="@+id/edtNombre"
             android:layout_width="350dp"
             android:layout_height="50dp"
-            android:inputType="text"
             android:layout_marginBottom="12dp"
             android:background="@drawable/redondear_edittext"
             android:fontFamily="@font/oswald"
+            android:hint="Nombre del evento"
+            android:inputType="text"
             android:paddingLeft="15dp" />
 
         <TextView
@@ -57,33 +59,39 @@
             android:textSize="20dp" />
 
         <EditText
+            android:id="@+id/edtFecha"
             android:layout_width="350dp"
             android:layout_height="50dp"
-            android:inputType="date"
+            android:layout_gravity="center"
             android:layout_marginBottom="12dp"
             android:background="@drawable/redondear_edittext"
+            android:focusable="false"
             android:fontFamily="@font/oswald"
-            android:hint="DD/MM/AAAA"
-            android:paddingLeft="15dp" />
+            android:hint="Selecciona la fecha"
+            android:inputType="none"
+            android:paddingStart="15dp"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/oswald"
-            android:letterSpacing="0.05"
             android:inputType="time"
+            android:letterSpacing="0.05"
             android:paddingLeft="20dp"
             android:text="Hora"
             android:textColor="@color/white"
             android:textSize="20dp" />
 
         <EditText
+            android:id="@+id/edtHora"
             android:layout_width="350dp"
-            android:hint="HH:mm"
             android:layout_height="50dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/redondear_edittext"
+            android:focusable="false"
             android:fontFamily="@font/oswald"
+            android:hint="Selecciona la hora"
             android:paddingLeft="15dp" />
 
         <TextView
@@ -97,12 +105,14 @@
             android:textSize="20dp" />
 
         <EditText
+            android:id="@+id/edtDescripcion"
             android:layout_width="350dp"
-            android:layout_height="150dp"
-            android:inputType="text"
+            android:layout_height="80dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/redondear_edittext"
             android:fontFamily="@font/oswald"
+            android:hint="Descripción"
+            android:inputType="text"
             android:paddingLeft="15dp" />
 
         <TextView
@@ -115,17 +125,27 @@
             android:textColor="@color/white"
             android:textSize="20dp" />
 
-        <EditText
+        <NumberPicker
+            android:id="@+id/edtDuracion"
             android:layout_width="350dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/redondear_edittext"
             android:fontFamily="@font/oswald"
+            android:hint="Introduce los minutos"
             android:inputType="number"
-            android:paddingLeft="15dp" />
+            android:paddingLeft="15dp"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:id="@+id/imgEvento"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/app_icon" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/Btn_iniciar_sesion"
+            android:id="@+id/btnCrearEvento"
             android:layout_width="250dp"
             android:layout_height="60dp"
             android:background="@drawable/degradado_boton"

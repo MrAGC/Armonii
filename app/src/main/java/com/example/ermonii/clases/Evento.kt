@@ -9,7 +9,7 @@ class Evento (
     val fecha: String,
     val descripcion: String,
     @SerializedName("idLocal") val idLocal: Int,
-    @SerializedName("idMusico") val idMusico: Int,
+    @SerializedName("idMusico") val idMusico: Int?,
     val estado: Boolean,
     val duracion: Int
              ) : Serializable

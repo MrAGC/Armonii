@@ -319,11 +319,6 @@ class Registro : AppCompatActivity() {
                                             Log.e("API", "Error en la conexión", t)
                                         }
                                     })
-
-
-
-
-
                                 }
                             }
                         } else {

@@ -31,4 +31,7 @@ interface ApiService {
 
     @POST("api/Musico") // Ruta de tu API
     fun postMusico(@Body musico: Musico): Call<Boolean>
+
+    @POST("api/Evento")
+    fun postEvento(@Body evento: Evento): Call<Boolean>
 }
