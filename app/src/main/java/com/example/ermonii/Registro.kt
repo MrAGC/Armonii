@@ -31,8 +31,17 @@ import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.logging.Handler
+import javax.crypto.Cipher
+import javax.crypto.spec.SecretKeySpec
+import android.util.Base64
 
 class Registro : AppCompatActivity() {
+
+    companion object {
+        private const val AES = "AES"
+        private const val SECRET_KEY = "1234567890123456"
+    }
+
     @SuppressLint("MissingInflatedId", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -261,7 +270,7 @@ class Registro : AppCompatActivity() {
                                                   ).show()
                                     txtTerminosCondiciones.setTextColor(Color.RED)
                                 } else {
-                                    val musicoNuevo = Musico(0, edtNombre.text.toString(), edtCorreo.text.toString(), edtContrasena.text.toString(), edtTelefono.text.toString(), 0.0, 0.0,
+                                    val musicoNuevo = Musico(0, edtNombre.text.toString(), edtCorreo.text.toString(), encryptAES(edtContrasena.text.toString()), edtTelefono.text.toString(), 0.0, 0.0,
                                                         null.toString(), true, emptyList(), -1.0, edtApellido.text.toString(), edtApodo.text.toString(), calcularEdad(edtEdad.text.toString()), "Sin biografía", SpnGenero.text.toString(), emptyList(), emptyList(), null.toString(), 0)
                                     enviarMusico(musicoNuevo)
 
@@ -310,10 +319,6 @@ class Registro : AppCompatActivity() {
                                             Log.e("API", "Error en la conexión", t)
                                         }
                                     })
-
-
-
-
 
 
 
@@ -433,7 +438,13 @@ class Registro : AppCompatActivity() {
         }
     }
 
-
+    fun encryptAES(data: String): String {
+        val keySpec = SecretKeySpec(SECRET_KEY.toByteArray(), AES)
+        val cipher = Cipher.getInstance(AES)
+        cipher.init(Cipher.ENCRYPT_MODE, keySpec)
+        val encrypted = cipher.doFinal(data.toByteArray())
+        return Base64.encodeToString(encrypted, Base64.DEFAULT)
+    }
 
     fun enviarMusico(musico: Musico) {
         val api = RetrofitClient.instance
