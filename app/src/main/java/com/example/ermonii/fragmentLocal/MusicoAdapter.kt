@@ -55,7 +55,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
                 if (musico.estado) R.color.green else R.color.red
                                   )
                                     )
-        holder.tvGenero.text = musico.generoMusical.toString()
+        holder.tvGenero.text = musico.generoMusical.toString().replace("[", "").replace("]", "").replace(", ", " - ")
         holder.tvBiografia.text = "Biografía: ${musico.biografia}"
         //holder.imgMusico.setImageResource(musico.image)
 
@@ -69,7 +69,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
             holder.imgVal5
                               )
 
-        if (valoracion == null) {
+        if (valoracion == null || valoracion == -1.0) {
             // Mostrar 5 estrellas completas si no hay valoraciones
             estrellas.forEach { it.setImageResource(R.drawable.star_fill_img) }
         } else {
