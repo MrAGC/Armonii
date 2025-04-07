@@ -56,56 +56,137 @@ class ChatFragmentLocal : Fragment() {
             userId = userId,
             onMessageReceived = { remitente, contenido ->
                 activity?.runOnUiThread {
-                    when (remitente) {
-                        "SERVER" -> Toast.makeText(
-                            requireContext(),
-                            contenido,
-                            Toast.LENGTH_LONG
-                                                  ).show()
-
-                        else -> manejarNuevoMensaje(userId, remitente, contenido)
+                    when {
+                        contenido.startsWith("NUEVO_CHAT|") -> handleNewChat(contenido)
+                        else -> handleIncomingMessage(remitente, contenido)
                     }
                 }
             },
             onError = { error ->
                 activity?.runOnUiThread {
-                    Toast.makeText(
-                        requireContext(),
-                        "Error de conexión: $error",
-                        Toast.LENGTH_LONG
-                                  ).show()
-
-                    // Opcional: Intentar reconexión manual si el error es crítico
-                    if (error.contains("No conectado", ignoreCase = true)) {
-                        socketManager?.reconnect()
-                    }
+                    showErrorToast(error)
                 }
             }
                                      )
     }
 
+    private fun handleIncomingMessage(senderId: String, content: String) {
+        val currentChat = currentChatId ?: run {
+            createNewChat(senderId)
+            senderId
+        }
+
+        if (currentChat == senderId) {
+            addMessageToUI(senderId, content)
+        }
+        updateChatList(senderId, content)
+    }
+
+    private fun createNewChat(contactoId: String) {
+        currentChatId = contactoId
+        // Opcional: Notificar al servidor del nuevo chat
+        mostrarConversacion(contactoId)
+    }
+    private fun updateChatList(remitente: String, ultimoMensaje: String) {
+        val nuevosChats = adapterChats.currentList.toMutableList().map {
+            if (it.idUsuarioMusico == remitente || it.idUsuarioLocal == remitente) {
+                it.copy(
+                    mensaje = ultimoMensaje,
+                    fechaEnvio = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
+                       )
+            } else {
+                it
+            }
+        }
+        adapterChats.submitList(nuevosChats)
+    }
+
+    private fun handleNewChat(rawMessage: String) {
+        val partes = rawMessage.split("|")
+        if (partes.size >= 3) {
+            val idMusico = partes[1]
+            val mensajeInicial = partes[2]
+            actualizarListaChatsLocal(idMusico, mensajeInicial)
+        }
+    }
+
+    private fun addMessageToUI(senderId: String, content: String) {
+        val mensaje = Mensaje(
+            id = System.currentTimeMillis().toInt(),
+            idUsuarioLocal = if (senderId == usuarioId.toString()) usuarioId.toString() else senderId,
+            idUsuarioMusico = if (senderId == usuarioId.toString()) senderId else usuarioId.toString(),
+            mensaje = content,
+            fechaEnvio = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()),
+            emisor = if (senderId == usuarioId.toString()) "local" else "musico"
+                             )
+
+        adapterMensajes.addMessage(mensaje)
+        recyclerViewMensajes.smoothScrollToPosition(adapterMensajes.itemCount - 1)
+    }
+
+    private fun showErrorToast(error: String) {
+        Toast.makeText(
+            requireContext(),
+            "Error: ${error.take(50)}" + if (error.length > 50) "..." else "",
+            Toast.LENGTH_LONG
+                      ).show()
+    }
+
     private fun manejarNuevoMensaje(userId: String, remitente: String, contenido: String) {
         val esMio = (remitente == userId)
-        val chatIdActual = if (esMio) currentChatId ?: "" else remitente
+        val chatIdActual = currentChatId ?: run {
+            // Crear nuevo chat si no existe
+            currentChatId = remitente
+            mostrarConversacion(remitente)
+            remitente
+        }
 
-        // Solo agregar si es el chat activo
-        if (chatIdActual == currentChatId) {
-            val mensaje = Mensaje(
-                id = System.currentTimeMillis().toInt(),
-                idUsuarioLocal = userId,
-                idUsuarioMusico = chatIdActual,
-                mensaje = contenido,
-                fechaEnvio = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()),
-                emisor = if (esMio) "local" else "musico"
-                                 )
+        val mensaje = Mensaje(
+            id = System.currentTimeMillis().toInt(),
+            idUsuarioLocal = userId,
+            idUsuarioMusico = chatIdActual,
+            fechaEnvio = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()), // Posición 4
+            mensaje = contenido,  // Posición 5
+            emisor = if (esMio) "local" else "musico"
+                             )
 
-            activity?.runOnUiThread {
+        activity?.runOnUiThread {
+            // Actualizar siempre la lista de chats
+            actualizarListaChatsLocal(remitente, contenido)
+
+            // Solo añadir al chat activo
+            if (currentChatId == remitente) {
                 adapterMensajes.addMessage(mensaje)
                 recyclerViewMensajes.smoothScrollToPosition(adapterMensajes.itemCount - 1)
             }
         }
-
-        actualizarListaChatsLocal(remitente, contenido)
+    }
+    private fun handleServerMessage(contenido: String) {
+        when {
+            contenido.startsWith("NUEVO_CHAT|") -> {
+                val partes = contenido.split("|")
+                if (partes.size >= 3) {
+                    val idMusico = partes[1]
+                    val mensaje = partes[2]
+                    actualizarListaChatsLocal(idMusico, mensaje)
+                }
+            }
+            contenido.startsWith("ERROR|") -> {
+                Toast.makeText(
+                    requireContext(),
+                    contenido.removePrefix("ERROR|"),
+                    Toast.LENGTH_LONG
+                              ).show()
+            }
+            else -> {
+                // Mensajes genéricos del servidor
+                Toast.makeText(
+                    requireContext(),
+                    contenido,
+                    Toast.LENGTH_SHORT
+                              ).show()
+            }
+        }
     }
 
     private fun actualizarListaChatsLocal(remitente: String, ultimoMensaje: String) {
@@ -238,7 +319,7 @@ class ChatFragmentLocal : Fragment() {
             SimpleDateFormat("HH:mm").parse(it.fechaEnvio)
         }
 
-        adapterMensajes.submitList(mensajesFiltrados)
+        adapterMensajes.actualizarLista(mensajesFiltrados)
     }
 
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -23,37 +24,34 @@ class MensajesAdapter(
     inner class MensajeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val mensajeTextView: TextView = itemView.findViewById(R.id.mensajeTextView)
         private val fechaEnvioTextView: TextView = itemView.findViewById(R.id.fechaEnvioTextView)
+        private val estadoTextView: TextView? = itemView.findViewById(R.id.estadoTextView) // Nullable
 
         fun bind(mensaje: Mensaje) {
-            try {
-                mensajeTextView.text = mensaje.mensaje ?: ""
-                fechaEnvioTextView.text = mensaje.fechaEnvio ?: ""
-            } catch (e: Exception) {
-                Log.e("MensajesAdapter", "Error binding: ${e.message}")
+            mensajeTextView.text = mensaje.mensaje
+            fechaEnvioTextView.text = mensaje.fechaEnvio
+
+            estadoTextView?.let {
+                it.text = when (mensaje.estado) {
+                    "ERROR" -> "⚠️"
+                    "ENVIADO" -> "✓"
+                    else -> ""
+                }
+                it.visibility = if (mensaje.emisor == "local") View.VISIBLE else View.GONE
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MensajeViewHolder {
-        return try {
-            val layout = when (viewType) {
-                TIPO_EMISOR -> R.layout.item_mensaje_emisor
-                else -> R.layout.item_mensaje_receptor
-            }
-            val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
-            MensajeViewHolder(view)
-        } catch (e: Exception) {
-            Log.e("MensajesAdapter", "Error creando ViewHolder: ${e.message}")
-            throw e
+        val layout = when (viewType) {
+            TIPO_EMISOR -> R.layout.item_mensaje_emisor
+            else -> R.layout.item_mensaje_receptor
         }
+        val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
+        return MensajeViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MensajeViewHolder, position: Int) {
-        try {
-            holder.bind(getItem(position))
-        } catch (e: Exception) {
-            Log.e("MensajesAdapter", "Error en onBindViewHolder: ${e.message}")
-        }
+        holder.bind(getItem(position))
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -72,12 +70,22 @@ class MensajesAdapter(
     }
 
     fun addMessage(newMessage: Mensaje) {
-        try {
-            val newList = currentList.toMutableList().apply { add(newMessage) }
-            submitList(newList)
-        } catch (e: Exception) {
-            Log.e("MensajesAdapter", "Error añadiendo mensaje: ${e.message}")
+        val newList = currentList.toMutableList().apply {
+            add(newMessage)
+            sortBy { it.timestamp }
         }
+        submitList(newList)
+        notifyItemInserted(newList.size - 1)
+    }
+
+    fun updateMessages(newMessages: List<Mensaje>) {
+        val sorted = newMessages.sortedBy { it.timestamp }
+        submitList(sorted)
+        notifyDataSetChanged()
+    }
+
+    fun actualizarLista(nuevaLista: List<Mensaje>) {
+        submitList(nuevaLista.toMutableList())
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Mensaje>() {

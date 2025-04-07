@@ -2,12 +2,16 @@ package com.example.ermonii
 
 import android.util.Log
 import java.io.BufferedReader
+import java.io.IOException
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.io.PrintWriter
+import java.net.InetSocketAddress
 import java.net.Socket
 import java.nio.charset.StandardCharsets
+import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 
@@ -15,6 +19,7 @@ class SocketManager(
     private val userId: String,
     private val onMessageReceived: (String, String) -> Unit,
     private val onError: (String) -> Unit
+
                    ) {
     private var socket: Socket? = null
     private var output: PrintWriter? = null
@@ -24,22 +29,27 @@ class SocketManager(
     private val receiverExecutor = Executors.newSingleThreadExecutor()
     private val connectionExecutor = Executors.newSingleThreadExecutor()
 
-    private val isConnected = AtomicBoolean(false)
+    internal val isConnected = AtomicBoolean(false)
     private val reconnectDelay = AtomicLong(5000L)
+    private val messageQueue = ConcurrentLinkedQueue<Pair<String, String>>()
+    private val heartbeatExecutor = Executors.newSingleThreadScheduledExecutor()
+
 
     init {
         connectToServer()
+        startHeartbeat()
     }
 
     private fun connectToServer() {
         connectionExecutor.execute {
             try {
-                Log.d("SocketManager", "🔗 Connecting to server...")
                 resetConnection()
+                Log.d("SocketManager", "🔗 Connecting...")
 
-                Socket("10.0.2.2", 12345).apply {
-                    keepAlive = true
+                Socket().apply {
+                    connect(InetSocketAddress("10.0.2.2", 12345), 5000)
                     soTimeout = 15000
+                    keepAlive = true
                     socket = this
                 }
 
@@ -47,8 +57,7 @@ class SocketManager(
                     OutputStreamWriter(
                         socket!!.getOutputStream(),
                         StandardCharsets.UTF_8
-                                      ),
-                    true
+                                      ), true
                                     )
 
                 input = BufferedReader(
@@ -58,16 +67,11 @@ class SocketManager(
                                      )
                                       )
 
-                // Enviar ID de usuario inicial
-                output!!.apply {
-                    println(userId)
-                    flush()
-                }
-
+                sendRawMessage(userId)
                 isConnected.set(true)
-                reconnectDelay.set(5000L)
-                Log.d("SocketManager", "✅ Connection established")
+                processMessageQueue()
                 startMessageListener()
+                Log.d("SocketManager", "✅ Connected")
 
             } catch (e: Exception) {
                 handleNetworkError("Connection error: ${e.message}")
@@ -79,12 +83,13 @@ class SocketManager(
         receiverExecutor.execute {
             while (isConnected.get()) {
                 try {
-                    val message = input?.readLine() ?: throw Exception("Null message received")
+                    val message = input?.readLine() ?: throw IOException("Connection closed")
                     Log.d("SocketManager", "📥 Received: $message")
 
                     when {
                         message.startsWith("MENSAJE|") -> handleMessage(message)
                         message.startsWith("ERROR|") -> handleServerError(message)
+                        message == "PONG" -> handlePong()
                         else -> handleUnknownMessage(message)
                     }
                 } catch (e: Exception) {
@@ -92,6 +97,19 @@ class SocketManager(
                 }
             }
         }
+    }
+
+    private fun startHeartbeat() {
+        heartbeatExecutor.scheduleAtFixedRate({
+                                                  if (isConnected.get()) {
+                                                      sendRawMessage("PING")
+                                                      Log.d("SocketManager", "❤️ Sent heartbeat")
+                                                  }
+                                              }, 0, 15, TimeUnit.SECONDS)
+    }
+
+    private fun handlePong() {
+        Log.d("SocketManager", "❤️ Received PONG")
     }
 
     private fun handleMessage(rawMessage: String) {
@@ -122,19 +140,34 @@ class SocketManager(
     fun sendMessage(destinatario: String, contenido: String) {
         senderExecutor.execute {
             if (!isConnected.get()) {
-                onError("Not connected to server")
+                messageQueue.add(Pair(destinatario, contenido))
+                reconnect()
                 return@execute
             }
 
             try {
-                output?.apply {
-                    println("$destinatario|$contenido")
-                    flush()
-                }
+                sendRawMessage("MENSAJE|$destinatario|$contenido")
                 Log.d("SocketManager", "📤 Sent to $destinatario: $contenido")
             } catch (e: Exception) {
+                messageQueue.add(Pair(destinatario, contenido))
                 handleNetworkError("Send error: ${e.message}")
             }
+        }
+    }
+
+    private fun processMessageQueue() {
+        senderExecutor.execute {
+            while (isConnected.get() && messageQueue.isNotEmpty()) {
+                val (destinatario, contenido) = messageQueue.poll()
+                sendMessage(destinatario, contenido)
+            }
+        }
+    }
+
+    private fun sendRawMessage(message: String) {
+        output?.apply {
+            println(message)
+            flush()
         }
     }
 

@@ -6,5 +6,7 @@ data class Mensaje(
     val idUsuarioMusico: String,
     val fechaEnvio: String,
     val mensaje: String,
-    val emisor: String
+    val emisor: String,
+    val timestamp: Long = System.currentTimeMillis(),
+    val estado: String = "ENVIADO"
                   )

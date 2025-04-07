@@ -54,56 +54,71 @@ class ChatFragmentMusico : Fragment() {
             userId = userId,
             onMessageReceived = { remitente, contenido ->
                 activity?.runOnUiThread {
-                    when (remitente) {
-                        "SERVER" -> Toast.makeText(
-                            requireContext(),
-                            contenido,
-                            Toast.LENGTH_LONG
-                                                  ).show()
+                    if (isAdded && !isDetached) {
+                        Log.d("Chat", "Mensaje recibido de $remitente: $contenido")
 
-                        else -> manejarNuevoMensaje(userId, remitente, contenido)
+                        // Manejar mensajes del sistema
+                        if (remitente == "SERVER") {
+                            when {
+                                contenido.startsWith("NUEVO_CHAT|") -> {
+                                    val partes = contenido.split("|")
+                                    if (partes.size == 3) {
+                                        actualizarListaChatsMusico(partes[1], partes[2])
+                                    }
+                                }
+                                else -> Toast.makeText(
+                                    requireContext(),
+                                    contenido,
+                                    Toast.LENGTH_LONG
+                                                      ).show()
+                            }
+                        } else {
+                            manejarNuevoMensaje(userId, remitente, contenido)
+                        }
                     }
                 }
             },
             onError = { error ->
                 activity?.runOnUiThread {
-                    Toast.makeText(
-                        requireContext(),
-                        "Error de conexión: $error",
-                        Toast.LENGTH_LONG
-                                  ).show()
-
-                    // Opcional: Intentar reconexión manual si el error es crítico
-                    if (error.contains("No conectado", ignoreCase = true)) {
-                        socketManager?.reconnect()
+                    if (isAdded && !isDetached) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error: ${error.take(50)}...",
+                            Toast.LENGTH_SHORT
+                                      ).show()
                     }
                 }
             }
                                      )
     }
 
+
     private fun manejarNuevoMensaje(userId: String, remitente: String, contenido: String) {
         val esMio = (remitente == userId)
-        val chatIdActual = if (esMio) currentChatId ?: "" else remitente
+        val chatIdActual = currentChatId ?: run {
+            // Si no hay chat activo, crear uno nuevo
+            currentChatId = remitente
+            mostrarConversacion(remitente)
+            remitente
+        }
 
-        // Solo agregar si es el chat activo
-        if (chatIdActual == currentChatId) {
-            val mensaje = Mensaje(
-                id = System.currentTimeMillis().toInt(),
-                idUsuarioLocal = chatIdActual, // Invertido respecto al Local
-                idUsuarioMusico = userId,
-                mensaje = contenido,
-                fechaEnvio = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()),
-                emisor = if (esMio) "musico" else "local"
-                                 )
+        val mensaje = Mensaje(
+            id = System.currentTimeMillis().toInt(),
+            idUsuarioLocal = if (esMio) chatIdActual else remitente,
+            idUsuarioMusico = userId,
+            mensaje = contenido,
+            fechaEnvio = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()),
+            emisor = if (esMio) "musico" else "local"
+                             )
 
-            activity?.runOnUiThread {
+        // Actualizar UI de forma segura
+        activity?.runOnUiThread {
+            if (currentChatId == remitente) {
                 adapterMensajes.addMessage(mensaje)
                 recyclerViewMensajes.smoothScrollToPosition(adapterMensajes.itemCount - 1)
             }
+            actualizarListaChatsMusico(remitente, contenido)
         }
-
-        actualizarListaChatsMusico(remitente, contenido)
     }
 
     private fun actualizarListaChatsMusico(remitente: String, ultimoMensaje: String) {
@@ -242,7 +257,7 @@ class ChatFragmentMusico : Fragment() {
             SimpleDateFormat("HH:mm").parse(it.fechaEnvio)
         }
 
-        adapterMensajes.submitList(mensajesFiltrados)
+        adapterMensajes.actualizarLista(mensajesFiltrados)
     }
 
 
@@ -260,6 +275,21 @@ class ChatFragmentMusico : Fragment() {
 
     private fun obtenerIDUsuarioIniciado() {
         usuarioId = requireArguments().getInt("usuario", -1)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!socketManager.isConnected.get()) {
+            socketManager.reconnect()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Mantener conexión si está en segundo plano
+        if (activity?.isChangingConfigurations == false) {
+            socketManager.disconnect()
+        }
     }
 
     override fun onDestroyView() {
