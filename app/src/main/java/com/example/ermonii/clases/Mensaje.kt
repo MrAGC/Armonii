@@ -1,9 +1,12 @@
 package com.example.ermonii.clases
 
-import java.time.LocalDateTime
-
 data class Mensaje(
+    val id: Int,
+    val idUsuarioLocal: String,
+    val idUsuarioMusico: String,
+    val fechaEnvio: String,
     val mensaje: String,
-    val fechaEnvio: LocalDateTime,
-    val nombreUsuario: String
+    val emisor: String,
+    val timestamp: Long = System.currentTimeMillis(),
+    val estado: String = "ENVIADO"
                   )

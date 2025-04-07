@@ -2,6 +2,7 @@ package com.example.ermonii.fragmentLocal
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.ermonii.R
@@ -18,8 +19,17 @@ class MenuActivityLocal : AppCompatActivity() {
         setContentView(R.layout.activity_menu_local)
 
 
-        // Obtenemos el usuario que ha iniciado sesión
+
+        // Recibimos el UD del usuario que ha iniciado sesión
         val usuarioId = intent.getIntExtra("usuarioId", -1)
+
+
+        if (usuarioId == -1) {
+            Toast.makeText(this, "Error al recibir ID del usuario", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
 
         // Inicializar ViewPager2
         viewPager = findViewById(R.id.viewPagerLocal)

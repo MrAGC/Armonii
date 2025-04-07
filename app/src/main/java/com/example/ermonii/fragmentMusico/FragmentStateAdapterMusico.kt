@@ -7,19 +7,19 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class ViewPagerAdapterMusico(
-    fragmentActivity: FragmentActivity, private val usuarioID: Int) :
-    FragmentStateAdapter(fragmentActivity) {
+    fragmentActivity: FragmentActivity, private val usuarioID: Int
+                            ) : FragmentStateAdapter(fragmentActivity) {
 
-    // Metodo para crear cada fragmento con usuario cuando sea necesario
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> HomeFragmentMusico()
             1 -> MapaFragmentMusico()
-            2 -> ChatFragmentMusico()
+            2 -> ChatFragmentMusico.newInstance(usuarioID)  // Usamos newInstance aquí
             3 -> {
                 val perfilFragment = PerfilFragmentMusico()
-                val bundle = Bundle()
-                bundle.putSerializable("usuario", usuarioID) // Pasamos el usuario
+                val bundle = Bundle().apply {
+                    putSerializable("usuario", usuarioID) // Pasamos el usuario
+                }
                 perfilFragment.arguments = bundle
                 perfilFragment
             }
@@ -29,3 +29,4 @@ class ViewPagerAdapterMusico(
 
     override fun getItemCount(): Int = 4
 }
+
