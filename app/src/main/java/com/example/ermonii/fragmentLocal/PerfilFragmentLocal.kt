@@ -22,11 +22,27 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PerfilFragmentLocal(usuarioId: Int) : Fragment() {
+class PerfilFragmentLocal : Fragment() {
     private lateinit var btnCerrarSesion: Button
     private lateinit var btn_editarPerfil: Button
-    private var usuarioId: Int = -1
     private lateinit var local: Local
+
+    private var usuarioId: Int = -1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        usuarioId = arguments?.getInt("usuarioId") ?: -1
+    }
+
+    companion object {
+        fun newInstance(usuarioId: Int): CrearEventoFragmentLocal {
+            val fragment = CrearEventoFragmentLocal()
+            val args = Bundle()
+            args.putInt("usuarioId", usuarioId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
 
     override fun onCreateView(

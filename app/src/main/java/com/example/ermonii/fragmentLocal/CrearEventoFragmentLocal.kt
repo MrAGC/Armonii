@@ -3,8 +3,6 @@ package com.example.ermonii.fragmentLocal
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Intent
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,15 +16,31 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.ermonii.R
 import com.example.ermonii.clases.Evento
-import com.example.ermonii.clases.Musico
 import com.example.ermonii.clases.RetrofitClient
-import com.example.ermonii.fragmentMusico.MenuActivityMusico
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.Calendar
 
 class CrearEventoFragmentLocal : Fragment() {
+
+    private var usuarioId: Int = -1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        usuarioId = arguments?.getInt("usuarioId") ?: -1
+    }
+
+    companion object {
+        fun newInstance(usuarioId: Int): CrearEventoFragmentLocal {
+            val fragment = CrearEventoFragmentLocal()
+            val args = Bundle()
+            args.putInt("usuarioId", usuarioId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     @SuppressLint("MissingInflatedId", "DefaultLocale")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -38,15 +52,11 @@ class CrearEventoFragmentLocal : Fragment() {
         val edtFecha = view.findViewById<EditText>(R.id.edtFecha)
         val edtHora = view.findViewById<EditText>(R.id.edtHora)
         val edtDescripcion = view.findViewById<EditText>(R.id.edtDescripcion)
-        val edtDuracion = view.findViewById<NumberPicker>(R.id.edtDuracion)
+        val edtDuracion = view.findViewById<EditText>(R.id.edtDuracion)
         val imgEvento = view.findViewById<ImageView>(R.id.imgEvento)
         val btnCrearEvento = view.findViewById<Button>(R.id.btnCrearEvento)
 
-        // Configura el NumberPicker para que aumente/decremente de 5 en 5
-        edtDuracion.minValue = 5
-        edtDuracion.maxValue = 240  // Ajusta el valor máximo según tus necesidades
-        edtDuracion.value = 5  // Establece el valor inicial en 5
-        edtDuracion.setFormatter { value -> "$value minutos" }
+
 
         // Fecha
         val calendar = Calendar.getInstance()
@@ -84,7 +94,7 @@ class CrearEventoFragmentLocal : Fragment() {
             val fechaHoraFinal = fechaString + "T" + horaString + ":00"
 
             // HAY QUE CORREGIR EL ID DE LOCAL
-            val eventoNuevo = Evento(0, edtNombre.text.toString(),fechaHoraFinal,edtDescripcion.text.toString(),1, null, true, edtDuracion.value)
+            val eventoNuevo = Evento(0, edtNombre.text.toString(),fechaHoraFinal,edtDescripcion.text.toString(), 1, null, true, edtDuracion.text.toString().toInt())
 
             Log.d("API_EventoNuevo", """
                 ===== EVENTO =====
@@ -103,7 +113,15 @@ class CrearEventoFragmentLocal : Fragment() {
                         Toast.makeText(
                             requireContext(),"Creado correctamente!",
                             Toast.LENGTH_SHORT).show()
-                        Log.d("API_RESPONSE", "Evento registrado correctamente: ${response.body()}")
+
+                        // Reseteamos los campos
+                        edtNombre.setText("")
+                        edtFecha.setText("")
+                        edtHora.setText("")
+                        edtDescripcion.setText("")
+                        edtDuracion.setText("")
+
+                            Log.d("API_RESPONSE", "Evento registrado correctamente: ${response.body()}")
                     } else {
                         Log.e("API_ERROR", "Error al registrar el evento: ${response.errorBody()?.string()}")
                     }
@@ -122,4 +140,14 @@ class CrearEventoFragmentLocal : Fragment() {
         return view
     }
 
+    fun setNumberPickerTextSize(picker: NumberPicker, sizeInSp: Float) {
+        val count = picker.childCount
+        for (i in 0 until count) {
+            val child = picker.getChildAt(i)
+            if (child is EditText) {
+                child.textSize = sizeInSp
+                break
+            }
+        }
+    }
 }

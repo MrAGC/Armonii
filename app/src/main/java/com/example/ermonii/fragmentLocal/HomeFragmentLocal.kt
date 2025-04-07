@@ -20,6 +20,23 @@ class HomeFragmentLocal : Fragment() {
     private lateinit var adapter: MusicoAdapter
     private val listaMusicos = mutableListOf<Musico>()
 
+    private var usuarioId: Int = -1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        usuarioId = arguments?.getInt("usuarioId") ?: -1
+    }
+
+    companion object {
+        fun newInstance(usuarioId: Int): CrearEventoFragmentLocal {
+            val fragment = CrearEventoFragmentLocal()
+            val args = Bundle()
+            args.putInt("usuarioId", usuarioId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
                              ): View? {

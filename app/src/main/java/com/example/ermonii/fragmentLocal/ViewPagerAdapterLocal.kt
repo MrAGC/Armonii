@@ -7,16 +7,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 class ViewPagerAdapterLocal(fragmentActivity: FragmentActivity, private val usuarioId: Int) :
     FragmentStateAdapter(fragmentActivity) {
 
-    // Lista de fragmentos que se mostrarán en el ViewPager2
-    private val fragments = listOf(
-        HomeFragmentLocal(), CrearEventoFragmentLocal(), ChatFragmentLocal(), PerfilFragmentLocal(usuarioId)
-                                  )
-
-    override fun getItemCount(): Int {
-        return fragments.size
-    }
+    override fun getItemCount(): Int = 4
 
     override fun createFragment(position: Int): Fragment {
-        return fragments[position]
+        return when (position) {
+            0 -> HomeFragmentLocal.newInstance(usuarioId)
+            1 -> CrearEventoFragmentLocal.newInstance(usuarioId)
+            2 -> ChatFragmentLocal.newInstance(usuarioId)
+            3 -> PerfilFragmentLocal.newInstance(usuarioId)
+            else -> throw IndexOutOfBoundsException("Invalid position $position")
+        }
     }
 }

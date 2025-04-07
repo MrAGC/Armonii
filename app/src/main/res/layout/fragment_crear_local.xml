@@ -35,7 +35,7 @@
             android:paddingLeft="20dp"
             android:text="Nombre"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/edtNombre"
@@ -46,7 +46,8 @@
             android:fontFamily="@font/oswald"
             android:hint="Nombre del evento"
             android:inputType="text"
-            android:paddingLeft="15dp" />
+            android:paddingLeft="15dp"
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -56,7 +57,7 @@
             android:paddingLeft="20dp"
             android:text="Fecha"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/edtFecha"
@@ -70,6 +71,7 @@
             android:hint="Selecciona la fecha"
             android:inputType="none"
             android:paddingStart="15dp"
+            android:textSize="20sp"
             tools:ignore="RtlSymmetry" />
 
         <TextView
@@ -81,7 +83,7 @@
             android:paddingLeft="20dp"
             android:text="Hora"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/edtHora"
@@ -92,7 +94,8 @@
             android:focusable="false"
             android:fontFamily="@font/oswald"
             android:hint="Selecciona la hora"
-            android:paddingLeft="15dp" />
+            android:paddingLeft="15dp"
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -102,7 +105,7 @@
             android:paddingLeft="20dp"
             android:text="Descripción"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/edtDescripcion"
@@ -113,7 +116,8 @@
             android:fontFamily="@font/oswald"
             android:hint="Descripción"
             android:inputType="text"
-            android:paddingLeft="15dp" />
+            android:paddingLeft="15dp"
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -121,21 +125,21 @@
             android:fontFamily="@font/oswald"
             android:letterSpacing="0.05"
             android:paddingLeft="20dp"
-            android:text="Duracion"
+            android:text="Duracion (minutos)"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/edtDuracion"
             android:layout_width="350dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/redondear_edittext"
             android:fontFamily="@font/oswald"
-            android:hint="Introduce los minutos"
+            android:hint="Duración del evento"
             android:inputType="number"
             android:paddingLeft="15dp"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/imgEvento"
@@ -158,6 +162,4 @@
             app:backgroundTint="@null" />
 
     </LinearLayout>
-
-
 </FrameLayout>
