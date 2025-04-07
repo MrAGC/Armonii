@@ -14,16 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ermonii.clases.Evento
 import com.example.ermonii.R
 import com.example.ermonii.clases.Local
-import com.example.ermonii.fragmentMusico.HomeFragmentMusico.Companion.locales
 
 @Suppress("NAME_SHADOWING")
-class EventoAdapter(private var eventList: List<Evento>, private var localList: List<Local>) :
+class EventoAdapter(private var eventList: List<Evento>, private val localList: List<Local>) :
     RecyclerView.Adapter<EventoAdapter.EventoViewHolder>() {
 
     class EventoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.eventName)
         val descriptionTextView: TextView = itemView.findViewById(R.id.eventDescription)
-        val dateTextView: TextView = itemView.findViewById(R.id.eventDate) // Añadido
+        val dateTextView: TextView = itemView.findViewById(R.id.eventDate)
         val imageView: ImageView = itemView.findViewById(R.id.eventImage)
     }
 
@@ -38,8 +37,8 @@ class EventoAdapter(private var eventList: List<Evento>, private var localList: 
 
         // Datos básicos
         holder.nameTextView.text = currentEvento.nombre
-        holder.descriptionTextView.text = "Descripción: " + currentEvento.descripcion
-        holder.dateTextView.text = "Fecha: " + currentEvento.fecha // Usamos la fecha del evento
+        holder.descriptionTextView.text = currentEvento.descripcion
+        holder.dateTextView.text = currentEvento.fecha.replace("T", " Hora: ")
 
         // Imagen estática (ya que la API no envía imágenes)
         holder.imageView.setImageResource(R.drawable.logo_armonii) // Imagen por defecto
@@ -55,14 +54,15 @@ class EventoAdapter(private var eventList: List<Evento>, private var localList: 
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.dialog_imagen_descripcion)
 
-        val local = localList.find { it.id == evento.local }
+        val local = localList.find { it.id == evento.idLocal }
 
         Log.d("HOME_FRAGMENT_MUSICO", """
                 ===== EVENTO =====
                 ID: ${evento.id}
                 Nombre: ${evento.nombre}
-                Local: ${evento.local}
-                Musico: ${evento.music}
+                Local: ${evento.idLocal}
+                Musico: ${evento.idMusico}
+                Local: ${local?.nombre}
                 """.trimIndent())
 
         val imagenDialog = dialog.findViewById<ImageView>(R.id.dialog_imagen)
@@ -92,10 +92,4 @@ class EventoAdapter(private var eventList: List<Evento>, private var localList: 
     }
 
     override fun getItemCount() = eventList.size
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateList(newList: List<Evento>) {
-        eventList = newList
-        notifyDataSetChanged()
     }
-}

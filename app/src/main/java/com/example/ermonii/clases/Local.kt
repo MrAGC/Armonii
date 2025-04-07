@@ -16,5 +16,6 @@ class Local(
     chat: List<Int>?,
     valoracion: Double?,
     val image: Int?,
-    val rating: Int?
+    val rating: Int?,
+    var idUsuario: Int
            ) : Usuario(id, nombre, correo, contrasenya, telefono, latitud, longitud, fechaRegistro, estado, chat, valoracion, "Local"), Serializable

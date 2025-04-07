@@ -3,21 +3,36 @@ package com.example.ermonii
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.ermonii.clases.Local
+import com.example.ermonii.clases.Musico
 import com.example.ermonii.clases.RetrofitClient
 import com.example.ermonii.clases.Usuario
 import com.example.ermonii.fragmentLocal.MenuActivityLocal
 import com.example.ermonii.fragmentMusico.MenuActivityMusico
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.crypto.Cipher
+import javax.crypto.spec.SecretKeySpec
 
 class IniciarSesion : AppCompatActivity() {
+
+    companion object {
+        private const val AES = "AES"
+        private const val SECRET_KEY = "1234567890123456"
+    }
+
+    private lateinit var musico: Musico
+    private lateinit var local: Local
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +52,26 @@ class IniciarSesion : AppCompatActivity() {
                 // Realizar la consulta a la base de datos para comprobar el correo y la contraseña
                 val call = RetrofitClient.instance.getUsuarios()
                 call.enqueue(object : Callback<List<Usuario>> {
-                    override fun onResponse(
-                        call: Call<List<Usuario>>,
-                        response: Response<List<Usuario>>
-                                           ) {
+                    override fun onResponse( call: Call<List<Usuario>>, response: Response<List<Usuario>>) {
+
+                        Log.e("IniciarSesion", "Código de respuesta: ${response.body()}")
+
+
+                        if (response.isSuccessful) {
+                            val gson = Gson()
+                            // Si la respuesta es exitosa, mostramos el cuerpo del JSON
+                            val jsonResponse = response.body()?.let { gson.toJson(it) } // Convierte la respuesta a un JSON String
+                            Log.d("IniciarSesion", "Cuerpo de respuesta: $jsonResponse")
+                        } else {
+                            Log.e("IniciarSesion", "Error en la respuesta: ${response.errorBody()?.string()}")
+                        }
+
                         if (response.isSuccessful) {
                             val usuarios = response.body()
                             val usuarioValido =
-                                usuarios?.find { it.correo == correo && it.contrasenya == contrasena }
+                                usuarios?.find { it.correo == correo && /*decryptAES(*/it.contrasenya/*)*/ == contrasena } // Comentado para poder programar
 
-                            if (usuarioValido != null) {
+                            if (usuarioValido?.tipo != null) {
                                 when (usuarioValido.tipo) {
                                     "Musico" -> {
                                         val intent = Intent(
@@ -104,6 +129,8 @@ class IniciarSesion : AppCompatActivity() {
                 })
             } else {
                 // Si el correo o la contraseña están vacíos
+                edtCorreo.setBackgroundResource(R.drawable.redondear_edittext_error)
+                edtContrasena.setBackgroundResource(R.drawable.redondear_edittext_error)
                 Toast.makeText(
                     this@IniciarSesion,
                     "Por favor, ingrese correo y contraseña",
@@ -119,5 +146,14 @@ class IniciarSesion : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    fun decryptAES(encryptedData: String): String {
+        val keySpec = SecretKeySpec(SECRET_KEY.toByteArray(), AES)
+        val cipher = Cipher.getInstance(AES)
+        cipher.init(Cipher.DECRYPT_MODE, keySpec)
+        val decoded = Base64.decode(encryptedData, Base64.DEFAULT)
+        val decrypted = cipher.doFinal(decoded)
+        return String(decrypted)
     }
 }

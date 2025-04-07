@@ -19,6 +19,7 @@ class MenuActivityLocal : AppCompatActivity() {
         setContentView(R.layout.activity_menu_local)
 
 
+
         // Recibimos el UD del usuario que ha iniciado sesión
         val usuarioId = intent.getIntExtra("usuarioId", -1)
 
@@ -28,6 +29,7 @@ class MenuActivityLocal : AppCompatActivity() {
             finish()
             return
         }
+
 
         // Inicializar ViewPager2
         viewPager = findViewById(R.id.viewPagerLocal)

@@ -17,7 +17,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginBottom="30dp"
-        android:src="@drawable/logo_armonii" />
+        android:src="@drawable/app_icon" />
 
     <EditText
         android:id="@+id/edtCorreo"
@@ -27,6 +27,7 @@
         android:background="@drawable/redondear_edittext"
         android:drawableStart="@drawable/email_icon"
         android:drawablePadding="15dp"
+        android:fontFamily="@font/oswald"
         android:hint="  Correo"
         android:inputType="textEmailAddress"
         android:paddingStart="15dp"
@@ -40,6 +41,7 @@
         android:background="@drawable/redondear_edittext"
         android:drawableStart="@drawable/password_icon"
         android:drawablePadding="15dp"
+        android:fontFamily="@font/oswald"
         android:hint="  Contraseña"
         android:inputType="textPassword"
         android:paddingStart="15dp"
@@ -51,6 +53,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/degradado_boton"
+        android:fontFamily="@font/oswald"
         android:text="Iniciar"
         android:textColor="@color/white"
         android:textSize="19sp"
@@ -72,6 +75,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/oswald"
             android:text="¿No tienes cuenta?"
             android:textColor="@color/white" />
 
@@ -79,6 +83,7 @@
             android:id="@+id/txtRegistro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/oswald"
             android:text="  Registrate!"
             android:textColor="@color/naranja_letras"
             android:textStyle="bold" />

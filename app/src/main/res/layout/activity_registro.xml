@@ -20,6 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/oswald"
             android:padding="20dp"
             android:text="¿Quién eres?"
             android:textColor="@color/naranja"
@@ -49,6 +50,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/oswald"
                     android:padding="20dp"
                     android:text="Músico"
                     android:textColor="#FFFFFF" />
@@ -75,6 +77,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/oswald"
                     android:padding="20dp"
                     android:text="Local"
                     android:textColor="#FFFFFF" />
@@ -82,18 +85,46 @@
 
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnContinuarType"
-            android:layout_width="250dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/degradado_boton"
-            android:layerType="hardware"
-            android:text="Continuar"
-            android:textColor="@color/white"
-            android:textSize="19sp"
-            android:textStyle="bold"
-            app:backgroundTint="@null" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVolverType"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/degradado_boton_cancelar"
+                android:fontFamily="@font/oswald"
+                android:layerType="hardware"
+                android:text="Volver"
+                android:textColor="@color/white"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnContinuarType"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/degradado_boton"
+                android:fontFamily="@font/oswald"
+                android:layerType="hardware"
+                android:text="Continuar"
+                android:textColor="@color/white"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -110,6 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/oswald"
             android:paddingBottom="20dp"
             android:text="¿Cuál es tu nombre?"
             android:textColor="@color/naranja"
@@ -122,6 +154,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/redondear_edittext"
+            android:fontFamily="@font/oswald"
             android:hint="Nombre"
             android:inputType="textPersonName"
             android:paddingStart="15dp"
@@ -140,7 +173,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
@@ -159,6 +193,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
@@ -182,6 +217,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/oswald"
             android:paddingBottom="20dp"
             android:text="¿Cuál es tu apodo?"
             android:textColor="@color/naranja"
@@ -194,6 +230,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/redondear_edittext"
+            android:fontFamily="@font/oswald"
             android:hint="Apodo (opcional)"
             android:inputType="textPersonName"
             android:paddingStart="15dp"
@@ -212,7 +249,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
@@ -231,6 +269,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
@@ -254,6 +293,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/oswald"
             android:paddingBottom="20dp"
             android:text="¿Cuál es tu apellido?"
             android:textColor="@color/naranja"
@@ -266,6 +306,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/redondear_edittext"
+            android:fontFamily="@font/oswald"
             android:hint="Apellido (opcional)"
             android:inputType="textPersonName"
             android:paddingStart="15dp"
@@ -284,7 +325,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
@@ -303,6 +345,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
@@ -325,6 +368,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/oswald"
             android:paddingBottom="20dp"
             android:text="¿Cuál es tu correo?"
             android:textColor="@color/naranja"
@@ -337,6 +381,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/redondear_edittext"
+            android:fontFamily="@font/oswald"
             android:hint="Correo"
             android:inputType="textEmailAddress"
             android:paddingStart="15dp"
@@ -355,7 +400,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
@@ -374,6 +420,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
@@ -396,6 +443,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/oswald"
             android:paddingBottom="20dp"
             android:text="¿Cuando naciste?"
             android:textColor="@color/naranja"
@@ -409,6 +457,7 @@
             android:layout_gravity="center"
             android:background="@drawable/redondear_edittext"
             android:focusable="false"
+            android:fontFamily="@font/oswald"
             android:hint="Selecciona tu fecha de nacimiento"
             android:inputType="none"
             android:paddingStart="15dp"
@@ -427,7 +476,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
@@ -446,6 +496,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
@@ -468,6 +519,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/oswald"
             android:paddingBottom="20dp"
             android:text="¿Cuál es tu teléfono?"
             android:textColor="@color/naranja"
@@ -480,6 +532,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/redondear_edittext"
+            android:fontFamily="@font/oswald"
             android:hint="Teléfono (opcional)"
             android:inputType="phone"
             android:paddingStart="15dp"
@@ -498,7 +551,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
@@ -517,6 +571,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
@@ -539,22 +594,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/oswald"
             android:paddingBottom="20dp"
             android:text="¿Como te identificas?"
             android:textColor="@color/naranja"
             android:textSize="36dp"
             android:textStyle="bold" />
 
-        <Spinner
+        <TextView
             android:id="@+id/SpnGenero"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/redondear_edittext"
-            android:inputType="textEmailAddress"
+            android:fontFamily="@font/oswald"
+            android:gravity="left"
+            android:padding="10dp"
             android:paddingStart="15dp"
-            android:textColorHint="#555555"
-            tools:ignore="RtlSymmetry" />
+            android:text="Selecciona tu género"
+            android:textSize="16sp"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -568,7 +628,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
@@ -587,6 +648,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"
@@ -609,6 +671,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/oswald"
             android:paddingBottom="20dp"
             android:text="Contraseña"
             android:textColor="@color/naranja"
@@ -621,6 +684,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/redondear_edittext"
+            android:fontFamily="@font/oswald"
             android:hint="Contraseña"
             android:inputType="textPassword"
             android:paddingStart="15dp"
@@ -634,11 +698,21 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="@drawable/redondear_edittext"
+            android:fontFamily="@font/oswald"
             android:hint="Confirmar "
             android:inputType="textPassword"
             android:paddingStart="15dp"
             android:textColorHint="#555555"
             tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/oswald"
+            android:text="La contraseña debe tener un mínimo de 8 carácteres."
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -657,6 +731,7 @@
                 android:id="@+id/txtTerminosCondiciones"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/oswald"
                 android:text="Acepto los términos y condiciones."
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -675,7 +750,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
@@ -694,6 +770,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Registrarse"
                 android:textColor="@color/white"
@@ -716,22 +793,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/oswald"
             android:paddingBottom="20dp"
             android:text="Tipo de local"
             android:textColor="@color/naranja"
             android:textSize="36dp"
             android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/SpnTipoLocal"
+
+        <TextView
+            android:id="@+id/txtTipoLocal"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/redondear_edittext"
-            android:inputType="textEmailAddress"
+            android:fontFamily="@font/oswald"
             android:paddingStart="15dp"
-            android:textColorHint="#555555"
-            tools:ignore="RtlSymmetry" />
+            android:text="Seleccionar tu tipo de local"
+            android:gravity="center"
+            android:textSize="16sp"
+            tools:ignore="HardcodedText" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -745,7 +827,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/degradado_boton"
+                android:background="@drawable/degradado_boton_cancelar"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Volver"
                 android:textColor="@color/white"
@@ -764,6 +847,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/degradado_boton"
+                android:fontFamily="@font/oswald"
                 android:layerType="hardware"
                 android:text="Continuar"
                 android:textColor="@color/white"

@@ -55,9 +55,9 @@ class MusicoAdapter(private val musicos: List<Musico>) :
                 if (musico.estado) R.color.green else R.color.red
                                   )
                                     )
-        holder.tvGenero.text = musico.generoMusical
+        holder.tvGenero.text = musico.generoMusical.toString().replace("[", "").replace("]", "").replace(", ", " - ")
         holder.tvBiografia.text = "Biografía: ${musico.biografia}"
-        holder.imgMusico.setImageResource(musico.image)
+        //holder.imgMusico.setImageResource(musico.image)
 
         // Configuración de las estrellas (valoración) en el item
         val valoracion = musico.valoracion
@@ -69,7 +69,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
             holder.imgVal5
                               )
 
-        if (valoracion == null) {
+        if (valoracion == null || valoracion == -1.0) {
             // Mostrar 5 estrellas completas si no hay valoraciones
             estrellas.forEach { it.setImageResource(R.drawable.star_fill_img) }
         } else {
@@ -115,7 +115,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
         val imgVal5: ImageView = dialogView.findViewById(R.id.imgVal5)
 
         // Set the details in the dialog
-        imgMusicoCompleto.setImageResource(musico.image)
+        //imgMusicoCompleto.setImageResource(musico.image)
         txtNombreCompleto.text = "${musico.nombre} ${musico.apellido}"
         if (musico.apodo.isNotEmpty()) {
             txtApodoCompleto.text = musico.apodo
