@@ -69,7 +69,7 @@ class IniciarSesion : AppCompatActivity() {
                         if (response.isSuccessful) {
                             val usuarios = response.body()
                             val usuarioValido =
-                                usuarios?.find { it.correo == correo && /*decryptAES(*/it.contrasenya/*)*/ == contrasena } // Comentado para poder programar
+                                usuarios?.find { it.correo == correo && decryptAES(it.contrasenya) == contrasena }
 
                             if (usuarioValido?.tipo != null) {
                                 when (usuarioValido.tipo) {

@@ -35,8 +35,8 @@ class PerfilFragmentLocal : Fragment() {
     }
 
     companion object {
-        fun newInstance(usuarioId: Int): CrearEventoFragmentLocal {
-            val fragment = CrearEventoFragmentLocal()
+        fun newInstance(usuarioId: Int): PerfilFragmentLocal {
+            val fragment = PerfilFragmentLocal()
             val args = Bundle()
             args.putInt("usuarioId", usuarioId)
             fragment.arguments = args

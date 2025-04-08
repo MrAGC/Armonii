@@ -23,14 +23,20 @@ interface ApiService {
     @GET("api/Musico")
     fun getMusicoByCorreo(@Query("correo") correo: String): Call<Musico>
 
+    @GET("api/Local")
+    fun getLocalByCorreo(@Query("correo") correo: String): Call<Local>
+
     @GET("/api/Local/{id}")
     fun getLocalById(@Path("id") id: Int): Call<Local>
 
     @GET("Usuario/{id}")
     fun getUsuarioById(@Path("id") id: Int): Call<Usuario>
 
-    @POST("api/Musico") // Ruta de tu API
+    @POST("api/Musico")
     fun postMusico(@Body musico: Musico): Call<Boolean>
+
+    @POST("api/Local")
+    fun postLocal(@Body local: Local): Call<Boolean>
 
     @POST("api/Evento")
     fun postEvento(@Body evento: Evento): Call<Boolean>
