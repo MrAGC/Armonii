@@ -117,7 +117,7 @@ class SocketManager(
     private fun handleMessage(rawMessage: String) {
         try {
             val parts = rawMessage.split("|", limit = 3)
-            if (parts.size != 3) throw Exception("Invalid message format")
+            if (parts.size != 3) throw Exception("Invalid message format!")
 
             val remitente = parts[1]
             val contenido = parts[2]
