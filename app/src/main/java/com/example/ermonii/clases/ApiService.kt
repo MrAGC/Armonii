@@ -1,9 +1,11 @@
 package com.example.ermonii.clases
 
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -26,12 +28,6 @@ interface ApiService {
     @GET("api/Local")
     fun getLocalByCorreo(@Query("correo") correo: String): Call<Local>
 
-    @GET("/api/Local/{id}")
-    fun getLocalById(@Path("id") id: Int): Call<Local>
-
-    @GET("Usuario/{id}")
-    fun getUsuarioById(@Path("id") id: Int): Call<Usuario>
-
     @POST("api/Musico")
     fun postMusico(@Body musico: Musico): Call<Boolean>
 
@@ -40,4 +36,9 @@ interface ApiService {
 
     @POST("api/Evento")
     fun postEvento(@Body evento: Evento): Call<Boolean>
+
+    @PUT("Musico/{id}")
+    suspend fun actualizarMusico(
+        @Path("id") id: Int,
+        @Body musico: DataTransferObjectUsuario): Response<Unit>
 }
