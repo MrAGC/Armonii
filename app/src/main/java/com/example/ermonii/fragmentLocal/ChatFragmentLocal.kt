@@ -12,6 +12,7 @@ import android.widget.Toast
 import android.widget.ViewSwitcher
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ermonii.R
 import com.example.ermonii.SocketManager
@@ -147,7 +148,8 @@ class ChatFragmentLocal : Fragment() {
             idUsuarioMusico = chatIdActual,
             fechaEnvio = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()), // Posición 4
             mensaje = contenido,  // Posición 5
-            emisor = if (esMio) "local" else "musico"
+            emisor = if (esMio) "local" else "musico",
+            estado = "ENVIADO"
                              )
 
         activity?.runOnUiThread {
@@ -273,10 +275,10 @@ class ChatFragmentLocal : Fragment() {
                                 )
 
         adapterMensajes.addMessage(newMessage)
-        recyclerViewMensajes.smoothScrollToPosition(adapterMensajes.itemCount - 1)
         socketManager.sendMessage(currentChatId!!, mensajeTexto)
         Log.d("EnvioLocal", "Enviando a ${currentChatId}: $mensajeTexto")
         etMensaje.text.clear()
+        scrollToBottom()
     }
 
     private fun mostrarConversacion(musicoId: String) {
@@ -324,7 +326,39 @@ class ChatFragmentLocal : Fragment() {
 
 
 
+    // En ChatFragmentLocal.kt
+    private fun scrollToBottom() {
+        recyclerViewMensajes.post {
+            val layoutManager = recyclerViewMensajes.layoutManager as? LinearLayoutManager ?: return@post
+            val adapter = recyclerViewMensajes.adapter ?: return@post
+            val itemCount = adapter.itemCount
 
+            if (itemCount == 0) return@post
+
+            // Scroll suave con posición exacta
+            val smoothScroller = object : LinearSmoothScroller(requireContext()) {
+                override fun getVerticalSnapPreference(): Int = SNAP_TO_END
+
+                override fun calculateDtToFit(
+                    viewStart: Int,
+                    viewEnd: Int,
+                    boxStart: Int,
+                    boxEnd: Int,
+                    snapPreference: Int
+                                             ): Int = boxEnd - viewEnd
+            }
+
+            smoothScroller.targetPosition = itemCount - 1
+            layoutManager.startSmoothScroll(smoothScroller)
+
+            // Scroll inmediato como respaldo
+            recyclerViewMensajes.postDelayed({
+                                                 recyclerViewMensajes.scrollToPosition(itemCount - 1)
+                                             }, 100)
+        }
+    }
+
+// Eliminar todo lo relacionado con el FAB en el layout XML y en el código
 
     companion object {
         fun newInstance(usuarioId: Int): ChatFragmentLocal {

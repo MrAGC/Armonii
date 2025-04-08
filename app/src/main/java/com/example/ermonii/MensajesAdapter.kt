@@ -30,13 +30,19 @@ class MensajesAdapter(
             mensajeTextView.text = mensaje.mensaje
             fechaEnvioTextView.text = mensaje.fechaEnvio
 
+            val esMio = when (mensaje.emisor) {
+                "musico" -> mensaje.idUsuarioMusico == currentUserId
+                "local" -> mensaje.idUsuarioLocal == currentUserId
+                else -> false
+            }
+
             estadoTextView?.let {
                 it.text = when (mensaje.estado) {
                     "ERROR" -> "⚠️"
                     "ENVIADO" -> "✓"
                     else -> ""
                 }
-                it.visibility = if (mensaje.emisor == "local") View.VISIBLE else View.GONE
+                it.visibility = if (esMio) View.VISIBLE else View.GONE
             }
         }
     }

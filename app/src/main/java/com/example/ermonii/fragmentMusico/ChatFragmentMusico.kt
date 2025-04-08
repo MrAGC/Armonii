@@ -12,6 +12,7 @@ import android.widget.Toast
 import android.widget.ViewSwitcher
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ermonii.R
 import com.example.ermonii.SocketManager
@@ -201,18 +202,45 @@ class ChatFragmentMusico : Fragment() {
             idUsuarioMusico = userId,
             mensaje = mensajeTexto,
             fechaEnvio = dateFormat.format(Date()),
-            emisor = "musico"
+            emisor = "musico",
+            estado = "ENVIADO"
                                 )
 
         adapterMensajes.addMessage(newMessage)
-        scrollToBottom()
         socketManager.sendMessage(currentChatId!!, mensajeTexto)
         etMensaje.text.clear()
+        scrollToBottom()
     }
 
+    // En ChatFragmentLocal.kt
     private fun scrollToBottom() {
         recyclerViewMensajes.post {
-            recyclerViewMensajes.smoothScrollToPosition(adapterMensajes.itemCount - 1)
+            val layoutManager = recyclerViewMensajes.layoutManager as? LinearLayoutManager ?: return@post
+            val adapter = recyclerViewMensajes.adapter ?: return@post
+            val itemCount = adapter.itemCount
+
+            if (itemCount == 0) return@post
+
+            // Scroll suave con posición exacta
+            val smoothScroller = object : LinearSmoothScroller(requireContext()) {
+                override fun getVerticalSnapPreference(): Int = SNAP_TO_END
+
+                override fun calculateDtToFit(
+                    viewStart: Int,
+                    viewEnd: Int,
+                    boxStart: Int,
+                    boxEnd: Int,
+                    snapPreference: Int
+                                             ): Int = boxEnd - viewEnd
+            }
+
+            smoothScroller.targetPosition = itemCount - 1
+            layoutManager.startSmoothScroll(smoothScroller)
+
+            // Scroll inmediato como respaldo
+            recyclerViewMensajes.postDelayed({
+                                                 recyclerViewMensajes.scrollToPosition(itemCount - 1)
+                                             }, 100)
         }
     }
 
