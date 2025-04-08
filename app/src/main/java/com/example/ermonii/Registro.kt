@@ -34,6 +34,8 @@ import java.util.logging.Handler
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 import android.util.Base64
+import com.example.ermonii.clases.Local
+import com.example.ermonii.fragmentLocal.MenuActivityLocal
 
 class Registro : AppCompatActivity() {
 
@@ -330,7 +332,6 @@ class Registro : AppCompatActivity() {
                     }
 
                 } else { // Local
-                    btnNombre.setOnClickListener {
                         btnNombre.setOnClickListener {
                             if (edtNombre.text.isEmpty()) {
                                 Toast.makeText(this, "Inserta un nombre", Toast.LENGTH_SHORT).show()
@@ -385,7 +386,56 @@ class Registro : AppCompatActivity() {
                                                       ).show()
                                         txtTerminosCondiciones.setTextColor(Color.RED)
                                     } else {
-                                        // Implementar registro LOCAL
+
+                                        val localNuevo = Local(0, edtNombre.text.toString(), edtCorreo.text.toString(), encryptAES(edtContrasena.text.toString()), edtTelefono.text.toString(), 0.0, 0.0,
+                                                                 null.toString(), true, emptyList(), -1.0, txtTipoLocal.text.toString(),"Sin dirección","Sin descripción.",null, 0)
+
+                                        enviarLocal(localNuevo)
+
+                                        Thread.sleep(1000)
+
+                                        // Llamamos API para recibir la ID del nuevo usuario
+                                        RetrofitClient.instance.getLocalByCorreo(localNuevo.correo).enqueue(object : Callback<Local> {
+                                            override fun onResponse(call: Call<Local>, response: Response<Local>) {
+
+                                                Log.d("API", "URL de la petición: ${call.request().url().toString()}")
+                                                Log.d("API", "Código de respuesta: ${response.code()}")
+
+                                                if (response.isSuccessful) {
+                                                    val localAPI = response.body()
+                                                    localAPI?.let {
+                                                        Log.d("API", "Nombre: ${it.nombre}, Correo: ${it.correo}")
+                                                    }
+                                                } else {
+                                                    Log.e("API", "Error en la respuesta: ${response.code()} - ${response.errorBody()?.string()}")
+                                                }
+
+                                                if (response.isSuccessful) {
+                                                    val localAPI = response.body()
+                                                    localAPI?.let {
+                                                        Log.d("API", "Nombre: ${it.nombre}, Correo: ${it.correo}")
+
+                                                        val intent = Intent(
+                                                            this@Registro, MenuActivityLocal::class.java
+                                                                           )
+                                                        intent.putExtra(
+                                                            "usuarioId", localAPI.id
+                                                                       )
+                                                        startActivity(intent)
+                                                        finish()
+                                                        overridePendingTransition(
+                                                            R.anim.slide_in_right, R.anim.slide_out_left
+                                                                                 )
+                                                    }
+                                                } else {
+                                                    Log.e("API", "Error: ${response.code()}")
+                                                }
+                                            }
+
+                                            override fun onFailure(call: Call<Local>, t: Throwable) {
+                                                Log.e("API", "Error en la conexión", t)
+                                            }
+                                        })
                                     }
                                 }
                             } else {
@@ -395,7 +445,7 @@ class Registro : AppCompatActivity() {
                                     .show()
                             }
                         }
-                    }
+
                 }
             }
 
@@ -412,7 +462,13 @@ class Registro : AppCompatActivity() {
                 edtCorreo.setBackgroundResource(R.drawable.redondear_edittext)
             }
             setBackButtonListener(btnEdadVolver, LLEdad, LLCorreo, edtEdad)
-            setBackButtonListener(btnTelefonoVolver, LLTelefono, LLEdad, edtTelefono)
+            btnTelefonoVolver.setOnClickListener{
+                if (musico) {
+                    animateTransition(LLTelefono, LLEdad)
+                } else {
+                    animateTransition(LLTelefono, LLCorreo)
+                }
+            }
             setBackButtonListener(btnGeneroVolver, LLGenero, LLTelefono, null)
             btnContrasenaVolver.setOnClickListener {
                 if (musico) {
@@ -450,6 +506,24 @@ class Registro : AppCompatActivity() {
                     Log.d("API_RESPONSE", "Músico registrado correctamente: ${response.body()}")
                 } else {
                     Log.e("API_ERROR", "Error al registrar músico: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                Log.e("API_FAILURE", "Fallo en la conexión: ${t.message}")
+            }
+        })
+    }
+
+    fun enviarLocal(local: Local) {
+        val api = RetrofitClient.instance
+
+        api.postLocal(local).enqueue(object : Callback<Boolean> {
+            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                if (response.isSuccessful) {
+                    Log.d("API_RESPONSE", "Local registrado correctamente: ${response.body()}")
+                } else {
+                    Log.e("API_ERROR", "Error al registrar Loca: ${response.errorBody()?.string()}")
                 }
             }
 

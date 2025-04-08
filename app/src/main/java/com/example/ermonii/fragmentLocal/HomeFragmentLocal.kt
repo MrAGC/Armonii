@@ -28,8 +28,8 @@ class HomeFragmentLocal : Fragment() {
     }
 
     companion object {
-        fun newInstance(usuarioId: Int): CrearEventoFragmentLocal {
-            val fragment = CrearEventoFragmentLocal()
+        fun newInstance(usuarioId: Int): HomeFragmentLocal {
+            val fragment = HomeFragmentLocal()
             val args = Bundle()
             args.putInt("usuarioId", usuarioId)
             fragment.arguments = args

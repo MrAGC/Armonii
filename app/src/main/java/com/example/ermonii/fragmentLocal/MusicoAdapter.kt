@@ -125,7 +125,7 @@ class MusicoAdapter(private val musicos: List<Musico>) :
         }
         txtBiografiaCompleta.text = musico.biografia
         txtEdadCompleta.text = "Edad: ${musico.edad}"
-        txtGeneroCompleto.text = "Género: ${musico.generoMusical}"
+        txtGeneroCompleto.text = "Género: ${musico.genero}"
         txtEstadoCompleto.text = if (musico.estado) "Activo" else "Inactivo"
         txtEstadoCompleto.setTextColor(
             ContextCompat.getColor(
