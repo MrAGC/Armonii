@@ -64,7 +64,7 @@ class ChatFragmentLocal : Fragment() {
             },
             onError = { error ->
                 activity?.runOnUiThread {
-                    //showErrorToast(error)
+                    showErrorToast(error)
                 }
             }
                                      )
