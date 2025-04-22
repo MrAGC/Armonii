@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    android:background="@drawable/background_item_evento"
+    android:orientation="horizontal">
+
+    <!-- Información del evento -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical|start"
+        android:orientation="vertical"
+        android:padding="8dp"
+        tools:ignore="RtlHardcoded">
+
+        <TextView
+            android:id="@+id/eventName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/oswald"
+            android:text="Nombre del Evento"
+            android:textColor="@color/naranja"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <!-- Descripción -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/oswald"
+                android:text="Descripción:"
+                android:textColor="@color/naranja"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/eventDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/oswald"
+                android:text="null"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Fecha -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/oswald"
+                android:text="Fecha:"
+                android:textColor="@color/naranja"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/eventDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/oswald"
+                android:text="null"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Botones laterales -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="12dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_editarEvento"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/degradado_boton"
+            app:backgroundTint="@null"
+            app:icon="@drawable/ic_edit_user"
+            app:iconGravity="textTop"
+            app:iconTint="@color/white"
+            android:contentDescription="Editar evento"
+            android:text="" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_eliminarEvento"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/degradado_boton"
+            app:backgroundTint="@null"
+            app:icon="@drawable/ic_delete"
+            app:iconGravity="textTop"
+            app:iconTint="@color/white"
+            android:contentDescription="Eliminar evento"
+            android:text="" />
+    </LinearLayout>
+</LinearLayout>

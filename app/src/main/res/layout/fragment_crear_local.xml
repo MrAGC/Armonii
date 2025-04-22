@@ -141,16 +141,10 @@
             android:paddingLeft="15dp"
             android:textSize="20sp" />
 
-        <ImageView
-            android:id="@+id/imgEvento"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/app_icon" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCrearEvento"
             android:layout_width="250dp"
+            android:layout_marginTop="40dp"
             android:layout_height="60dp"
             android:background="@drawable/degradado_boton"
             android:fontFamily="@font/oswald"

@@ -38,7 +38,7 @@ class EventoAdapter(private var eventList: List<Evento>, private val localList: 
         // Datos básicos
         holder.nameTextView.text = currentEvento.nombre
         holder.descriptionTextView.text = currentEvento.descripcion
-        holder.dateTextView.text = currentEvento.fecha.replace("T", " Hora: ")
+        holder.dateTextView.text = currentEvento.fecha.replace("T", "   ").replace(Regex(":00$"), "")
 
         // Imagen estática (ya que la API no envía imágenes)
         holder.imageView.setImageResource(R.drawable.logo_armonii) // Imagen por defecto

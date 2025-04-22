@@ -10,8 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.ermonii.R
@@ -53,7 +51,6 @@ class CrearEventoFragmentLocal : Fragment() {
         val edtHora = view.findViewById<EditText>(R.id.edtHora)
         val edtDescripcion = view.findViewById<EditText>(R.id.edtDescripcion)
         val edtDuracion = view.findViewById<EditText>(R.id.edtDuracion)
-        val imgEvento = view.findViewById<ImageView>(R.id.imgEvento)
         val btnCrearEvento = view.findViewById<Button>(R.id.btnCrearEvento)
 
 

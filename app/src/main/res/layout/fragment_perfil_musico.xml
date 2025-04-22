@@ -15,40 +15,38 @@
         android:gravity="center"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCerrarSesion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_weight="0.8"
-            android:background="@drawable/degradado_boton"
-            android:minWidth="120dp"
-            android:text="Cerrar Sesión"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:minWidth="0dp"
+            app:iconGravity="textStart"
+            app:icon="@drawable/ic_log_out"
+            android:text="Cerrar"
             android:textColor="@color/white"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textStyle="bold"
+            android:background="@drawable/degradado_boton"
             app:backgroundTint="@null" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.2" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_editarPerfil"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_weight="0.8"
-            android:background="@drawable/degradado_boton"
-            android:minWidth="120dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:minWidth="0dp"
+            app:iconGravity="textStart"
+            app:icon="@drawable/ic_edit_user"
             android:text="Editar"
             android:textColor="@color/white"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textStyle="bold"
+            android:background="@drawable/degradado_boton"
             app:backgroundTint="@null" />
 
     </LinearLayout>
@@ -61,11 +59,16 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="150dp"
-            android:layout_height="150dp"
             android:layout_margin="10dp"
-            android:src="@drawable/profile_icon" />
+            android:scaleType="centerCrop"
+            android:layout_height="150dp"
+            android:src="@drawable/profile_icon"
+            app:shapeAppearanceOverlay="@style/CircularImage">
+        </com.google.android.material.imageview.ShapeableImageView>
+
 
         <TextView
             android:id="@+id/txtNombreCompleto"

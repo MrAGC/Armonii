@@ -14,8 +14,11 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.ermonii.IniciarSesion
 import com.example.ermonii.R
+import com.example.ermonii.clases.Evento
 import com.example.ermonii.clases.Local
 import com.example.ermonii.clases.Musico
 import com.example.ermonii.clases.RetrofitClient
@@ -32,6 +35,8 @@ class PerfilFragmentLocal : Fragment() {
     private lateinit var btn_editarPerfil: Button
     private var usuarioId: Int = -1
     private var localUsuario: Local? = null
+    private lateinit var recyclerViewEventos: RecyclerView
+    private lateinit var eventoAdapter: EventoPerfilAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +61,10 @@ class PerfilFragmentLocal : Fragment() {
 
         Log.d("PerfilLocal", "Usuario ID: $usuarioId")
 
+        // Inicializamos el recyclerView
+        recyclerViewEventos = view.findViewById(R.id.recyclerViewPerfil)
+        recyclerViewEventos.layoutManager = LinearLayoutManager(requireContext()) // ← ESTO ES CLAVE
+
         // Llamamos la API dentro de una coroutine
         GlobalScope.launch(Dispatchers.Main) {
             val locales = withContext(Dispatchers.IO) {
@@ -77,6 +86,10 @@ class PerfilFragmentLocal : Fragment() {
             """.trimIndent())
 
                 actualizarUI(view)
+
+                // Llamamos al recycleView
+                llamarAPIEventos()
+
             } else {
                 Log.e("PerfilLocal", "No se encontró local para usuarioId: $usuarioId")
                 Toast.makeText(requireContext(), "No se encontró el local", Toast.LENGTH_SHORT).show()
@@ -170,4 +183,28 @@ class PerfilFragmentLocal : Fragment() {
             emptyList()
         }
     }
+
+    private suspend fun llamarAPIEventos() {
+        val eventosFiltrados = try {
+            val eventos = RetrofitClient.instance.getEventos()
+            eventos.filter { it.idLocal == localUsuario?.id }
+        } catch (e: Exception) {
+            Log.e("API_ERROR", "Error al obtener eventos", e)
+            emptyList<Evento>()
+        }
+
+        // Una vez que obtienes los eventos, actualiza el RecyclerView
+        if (eventosFiltrados.isNotEmpty()) {
+            eventoAdapter = EventoPerfilAdapter(eventosFiltrados, onEditarClick = { evento ->
+                // Aquí manejas el click del botón Editar
+            }, onEliminarClick = { evento ->
+                // Aquí manejas el click del botón Eliminar
+            })
+            recyclerViewEventos.adapter = eventoAdapter
+        } else {
+            Log.e("PerfilLocal", "No se encontraron eventos para este local")
+            Toast.makeText(requireContext(), "No se encontraron eventos", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 }
