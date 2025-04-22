@@ -14,7 +14,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.ermonii.R
 import com.example.ermonii.clases.Evento
+import com.example.ermonii.clases.Local
 import com.example.ermonii.clases.RetrofitClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,6 +28,7 @@ import java.util.Calendar
 class CrearEventoFragmentLocal : Fragment() {
 
     private var usuarioId: Int = -1
+    private var localUsuario: Local? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +60,6 @@ class CrearEventoFragmentLocal : Fragment() {
         val btnCrearEvento = view.findViewById<Button>(R.id.btnCrearEvento)
 
 
-
         // Fecha
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -62,10 +67,16 @@ class CrearEventoFragmentLocal : Fragment() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         edtFecha.setOnClickListener {
-            val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-                val selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
-                edtFecha.setText(selectedDate)
-            }, year, month, day)
+            val datePickerDialog =
+                DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+                    val selectedDate = String.format(
+                        "%04d-%02d-%02d",
+                        selectedYear,
+                        selectedMonth + 1,
+                        selectedDay
+                                                    )
+                    edtFecha.setText(selectedDate)
+                }, year, month, day)
             datePickerDialog.show()
         }
 
@@ -74,11 +85,12 @@ class CrearEventoFragmentLocal : Fragment() {
         val minute = calendar.get(Calendar.MINUTE)
 
         edtHora.setOnClickListener {
-            val timePickerDialog = TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
-                // Formato de 24 horas
-                val selectedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
-                edtHora.setText(selectedTime)
-            }, hour, minute, true)  // 'true' para formato de 24 horas
+            val timePickerDialog =
+                TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
+                    // Formato de 24 horas
+                    val selectedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
+                    edtHora.setText(selectedTime)
+                }, hour, minute, true)  // 'true' para formato de 24 horas
             timePickerDialog.show()
         }
 
@@ -143,62 +155,90 @@ class CrearEventoFragmentLocal : Fragment() {
                 // Concatenamos la fecha y hora en el formato "yyyy-MM-ddTHH:mm:ss"
                 val fechaHoraFinal = fechaString + "T" + horaString + ":00"
 
+
+                // Llamamos la API dentro de una coroutine
+                GlobalScope.launch(Dispatchers.Main) {
+                    val locales = withContext(Dispatchers.IO) {
+                        llamarAPILocales()
+                    }
+
+                    Log.d("PerfilLocal", "Locales obtenidos: ${locales}")
+
+                    val localEncontrado = locales.find { it.idUsuario == usuarioId }
+
+                    if (locales.isNotEmpty()) {
+                        localUsuario = localEncontrado
+
+                    } else {
+                        Log.e("PerfilLocal", "No se encontró local para usuarioId: $usuarioId")
+                        Toast.makeText(
+                            requireContext(),
+                            "No se encontró el local",
+                            Toast.LENGTH_SHORT
+                                      ).show()
+                    }
+                }
+
                 // HAY QUE CORREGIR EL ID DE LOCAL
-                val eventoNuevo = Evento(
-                    0,
-                    edtNombre.text.toString().trim(),
-                    fechaHoraFinal,
-                    edtDescripcion.text.toString().trim(),
-                    1,
-                    null,
-                    true,
-                    edtDuracion.text.toString().toInt()
-                                        )
+                val eventoNuevo = localUsuario?.let { it1 ->
+                    Evento(
+                        0,
+                        edtNombre.text.toString().trim(),
+                        fechaHoraFinal,
+                        edtDescripcion.text.toString().trim(),
+                        it1.id,
+                        null,
+                        true,
+                        edtDuracion.text.toString().toInt()
+                          )
+                }
 
-                Log.d(
-                    "API_EventoNuevo", """
-                    ===== EVENTO =====
-                    ID: ${eventoNuevo.id}
-                    Nombre: ${eventoNuevo.nombre}
-                    Local: ${eventoNuevo.idLocal}
-                    Musico: ${eventoNuevo.idMusico}
-                    Descripcion: ${eventoNuevo.descripcion}
-                    Fecha: ${eventoNuevo.fecha}
-                    Duracion: ${eventoNuevo.duracion}                
-                    """.trimIndent()
-                     )
+                if (eventoNuevo != null) {
+                    Log.d(
+                        "API_EventoNuevo", """
+                                    ===== EVENTO =====
+                                    ID: ${eventoNuevo.id}
+                                    Nombre: ${eventoNuevo.nombre}
+                                    Local: ${eventoNuevo.idLocal}
+                                    Musico: ${eventoNuevo.idMusico}
+                                    Descripcion: ${eventoNuevo.descripcion}
+                                    Fecha: ${eventoNuevo.fecha}
+                                    Duracion: ${eventoNuevo.duracion}                
+                                    """.trimIndent()
+                         )
+                }
 
 
-                RetrofitClient.instance.postEvento(eventoNuevo).enqueue(object : Callback<Boolean> {
-                    override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(
-                                requireContext(), "Creado correctamente!", Toast.LENGTH_SHORT
-                                          ).show()
+                if (eventoNuevo != null) {
+                    RetrofitClient.instance.postEvento(eventoNuevo).enqueue(object : Callback<Boolean> {
+                        override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(
+                                    requireContext(), "Creado correctamente!", Toast.LENGTH_SHORT
+                                              ).show()
 
-                            // Reseteamos los campos
-                            edtNombre.setText("")
-                            edtFecha.setText("")
-                            edtHora.setText("")
-                            edtDescripcion.setText("")
-                            edtDuracion.setText("")
+                                // Reseteamos los campos
+                                edtNombre.setText("")
+                                edtFecha.setText("")
+                                edtHora.setText("")
+                                edtDescripcion.setText("")
+                                edtDuracion.setText("")
 
-                            Log.d(
-                                "API_RESPONSE",
-                                "Evento registrado correctamente: ${response.body()}"
-                                 )
-                        } else {
-                            Log.e(
-                                "API_ERROR",
-                                "Error al registrar el evento: ${response.errorBody()?.string()}"
-                                 )
+                                Log.d(
+                                    "API_RESPONSE", "Evento registrado correctamente: ${response.body()}"
+                                     )
+                            } else {
+                                Log.e(
+                                    "API_ERROR", "Error al registrar el evento: ${response.errorBody()?.string()}"
+                                     )
+                            }
                         }
-                    }
 
-                    override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                        Log.e("API_FAILURE", "Fallo en la conexión: ${t.message}")
-                    }
-                })
+                        override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                            Log.e("API_FAILURE", "Fallo en la conexión: ${t.message}")
+                        }
+                    })
+                }
             }
         }
 
@@ -208,6 +248,13 @@ class CrearEventoFragmentLocal : Fragment() {
 
         return view
     }
-    }
 
-// .setBackgroundResource(R.drawable.redondear_edittext_error)
+    private suspend fun llamarAPILocales(): List<Local> {
+        return try {
+            RetrofitClient.instance.getLocales()  // ✅ Directamente devuelve la lista
+        } catch (e: Exception) {
+            Log.e("API_ERROR", "Error al obtener locales", e)
+            emptyList()
+        }
+    }
+}
