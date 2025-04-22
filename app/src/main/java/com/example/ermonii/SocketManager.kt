@@ -1,6 +1,7 @@
 package com.example.ermonii
 
 import android.util.Log
+import firebase.com.protolitewrapper.BuildConfig
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -28,6 +29,8 @@ class SocketManager(
     private val senderExecutor = Executors.newSingleThreadExecutor()
     private val receiverExecutor = Executors.newSingleThreadExecutor()
     private val connectionExecutor = Executors.newSingleThreadExecutor()
+    private val SERVER_IP = "10.0.1.192"
+    private val SERVER_PORT = 12345
 
     internal val isConnected = AtomicBoolean(false)
     private val reconnectDelay = AtomicLong(5000L)
@@ -47,8 +50,8 @@ class SocketManager(
                 Log.d("SocketManager", "🔗 Connecting...")
 
                 Socket().apply {
-                    connect(InetSocketAddress("10.0.2.2", 12345), 5000)
-                    soTimeout = 15000
+                    connect(InetSocketAddress(SERVER_IP, SERVER_PORT), 5000)
+                    soTimeout = 10000
                     keepAlive = true
                     socket = this
                 }
@@ -107,7 +110,6 @@ class SocketManager(
                                                   }
                                               }, 0, 15, TimeUnit.SECONDS)
     }
-
     private fun handlePong() {
         Log.d("SocketManager", "❤️ Received PONG")
     }
@@ -115,7 +117,7 @@ class SocketManager(
     private fun handleMessage(rawMessage: String) {
         try {
             val parts = rawMessage.split("|", limit = 3)
-            if (parts.size != 3) throw Exception("Invalid message format")
+            if (parts.size != 3) throw Exception("Invalid message format!")
 
             val remitente = parts[1]
             val contenido = parts[2]
