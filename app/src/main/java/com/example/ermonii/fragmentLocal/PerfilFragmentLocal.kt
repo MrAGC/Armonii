@@ -53,6 +53,16 @@ class PerfilFragmentLocal : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        // Verificamos que el local ya haya sido cargado
+        if (localUsuario != null) {
+            GlobalScope.launch(Dispatchers.Main) {
+                llamarAPIEventos()
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -167,11 +177,11 @@ class PerfilFragmentLocal : Fragment() {
 
 
         txtNombreLocal.text = localUsuario?.nombre
-        txtBiografia.text = "Biografía: " + localUsuario?.descripcion
-        txtCorreo.text = "Correo: " + localUsuario?.correo
-        txtTelefono.text = "Telefono: " + localUsuario?.telefono
-        txtTipoLocal.text = "Tipo de local: " + localUsuario?.tipoLocal
-        txtFechaRegistro.text = "Fecha de registro: " + localUsuario?.fechaRegistro
+        txtBiografia.text = localUsuario?.descripcion
+        txtCorreo.text = localUsuario?.correo
+        txtTelefono.text = localUsuario?.telefono
+        txtTipoLocal.text = localUsuario?.tipoLocal
+        txtFechaRegistro.text = localUsuario?.fechaRegistro
     }
 
 

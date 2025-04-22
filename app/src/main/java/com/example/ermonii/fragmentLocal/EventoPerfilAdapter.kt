@@ -33,7 +33,7 @@ class EventoPerfilAdapter(
         val evento = eventos[position]
         holder.nombre.text = evento.nombre
         holder.descripcion.text = evento.descripcion
-        holder.fecha.text = evento.fecha.replace("T", "   ").replace(Regex(":00$"), "")
+        holder.fecha.text = evento.fecha.replace("T", "   ").replace(Regex(":00$"), "h")
 
         holder.btnEditar.setOnClickListener { onEditarClick(evento) }
         holder.btnEliminar.setOnClickListener { onEliminarClick(evento) }
