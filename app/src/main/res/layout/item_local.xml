@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:padding="16dp">
 
@@ -32,9 +32,12 @@
     </LinearLayout>
 
     <!-- Imagen del local -->
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/localImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/BorderCircular" />
+
 </LinearLayout>

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="10dp"
     android:orientation="horizontal"
     android:background="@drawable/background_item_evento">
@@ -69,13 +70,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgMusico"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/profile_icon"
-            android:layout_gravity="center"
-            android:layout_margin="10dp" />
+            app:shapeAppearanceOverlay="@style/BorderCircular" />
+
 
         <LinearLayout
             android:layout_width="wrap_content"
