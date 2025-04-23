@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:orientation="horizontal"
-    android:background="@drawable/background_item_evento">
+    android:background="@drawable/background_item_evento"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -16,6 +17,7 @@
             android:id="@+id/txtNombreMusico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/oswald"
             android:text="Nombre"
             android:textColor="@color/naranja"
             android:textSize="28sp"
@@ -37,6 +39,7 @@
                 android:id="@+id/txtEdad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/oswald"
                 android:text="Edad: XX - "
                 android:textColor="@color/white" />
 
@@ -44,6 +47,7 @@
                 android:id="@+id/txtEstado"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/oswald"
                 android:text="Activo"
                 android:textColor="@color/green" />
         </LinearLayout>
@@ -52,6 +56,7 @@
             android:id="@+id/txtGeneroMusical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/oswald"
             android:text="Rock Metal Country"
             android:textColor="@color/white"
             android:textStyle="bold" />
@@ -60,6 +65,7 @@
             android:id="@+id/txtBiografia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/oswald"
             android:text="Biografía: Apasionado por la música y el arte, siempre en busca de nuevas experiencias. Amante de los viajes, la fotografía y la buena compañía."
             android:textColor="@color/white" />
     </LinearLayout>
@@ -69,13 +75,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgMusico"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/profile_icon"
-            android:layout_gravity="center"
-            android:layout_margin="10dp" />
+            app:shapeAppearanceOverlay="@style/BorderCircular" />
+
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -21,6 +21,7 @@ import com.example.ermonii.clases.ApiService
 import com.example.ermonii.clases.DataTransferObjectUsuario
 import com.example.ermonii.clases.Musico
 import com.example.ermonii.clases.RetrofitClient
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -98,12 +99,12 @@ class PerfilFragmentMusico : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun actualizarUI(view: View) {
         view.findViewById<TextView>(R.id.txtNombreCompleto).text = "${musico.nombre} ${musico.apellido}"
-        view.findViewById<TextView>(R.id.txtNombreArtistico).text = "Apodo: ${musico.apodo}"
-        view.findViewById<TextView>(R.id.txtBiografia).text = "Biografía: ${musico.biografia}"
-        view.findViewById<TextView>(R.id.txtCorreo).text = "Correo: ${musico.correo}"
-        view.findViewById<TextView>(R.id.txtTelefono).text = "Teléfono: ${musico.telefono}"
-        view.findViewById<TextView>(R.id.txtGenero).text = "Género: ${musico.genero}"
-        view.findViewById<TextView>(R.id.txtFechaRegistro).text = "Fecha de registro: ${musico.fechaRegistro}"
+        view.findViewById<TextView>(R.id.txtNombreArtistico).text = musico.apodo
+        view.findViewById<TextView>(R.id.txtBiografia).text = musico.biografia
+        view.findViewById<TextView>(R.id.txtCorreo).text = musico.correo
+        view.findViewById<TextView>(R.id.txtTelefono).text = musico.telefono
+        view.findViewById<TextView>(R.id.txtGenero).text = musico.genero
+        view.findViewById<TextView>(R.id.txtFechaRegistro).text = musico.fechaRegistro
     }
 
     // Configuración del botón de cerrar sesión
@@ -203,7 +204,7 @@ class PerfilFragmentMusico : Fragment() {
                     fechaRegistro = null,
                     estado = true,
                     valoracion = valoracion,
-                    tipo = "",
+                    tipo = "Musico",
                     apodo = edtApodo.text.toString(),
                     apellido = edtApellido.text.toString(),
                     genero = edtGenero.text.toString(),
@@ -225,6 +226,7 @@ class PerfilFragmentMusico : Fragment() {
                     if (musicoEditado != null) {
                         val response = RetrofitClient.instance.actualizarMusico(musico.id, musicoEditado)
                         withContext(Dispatchers.Main) {
+                            Log.d("Retrofit", Gson().toJson(musicoEditado))
                             if (response.isSuccessful) {
                                 Log.d("Retrofit", "Músico actualizado correctamente")
                             } else {

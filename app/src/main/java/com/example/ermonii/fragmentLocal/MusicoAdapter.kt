@@ -23,7 +23,6 @@ class MusicoAdapter(private val musicos: List<Musico>) :
         val tvEstado: TextView = itemView.findViewById(R.id.txtEstado)
         val tvGenero: TextView = itemView.findViewById(R.id.txtGeneroMusical)
         val tvBiografia: TextView = itemView.findViewById(R.id.txtBiografia)
-        val imgMusico: ImageView = itemView.findViewById(R.id.imgMusico)
         val imgVal1: ImageView = itemView.findViewById(R.id.imgVal1)
         val imgVal2: ImageView = itemView.findViewById(R.id.imgVal2)
         val imgVal3: ImageView = itemView.findViewById(R.id.imgVal3)
