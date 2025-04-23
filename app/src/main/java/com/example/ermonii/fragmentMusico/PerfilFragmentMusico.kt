@@ -21,6 +21,7 @@ import com.example.ermonii.clases.ApiService
 import com.example.ermonii.clases.DataTransferObjectUsuario
 import com.example.ermonii.clases.Musico
 import com.example.ermonii.clases.RetrofitClient
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -203,7 +204,7 @@ class PerfilFragmentMusico : Fragment() {
                     fechaRegistro = null,
                     estado = true,
                     valoracion = valoracion,
-                    tipo = "",
+                    tipo = "Musico",
                     apodo = edtApodo.text.toString(),
                     apellido = edtApellido.text.toString(),
                     genero = edtGenero.text.toString(),
@@ -225,6 +226,7 @@ class PerfilFragmentMusico : Fragment() {
                     if (musicoEditado != null) {
                         val response = RetrofitClient.instance.actualizarMusico(musico.id, musicoEditado)
                         withContext(Dispatchers.Main) {
+                            Log.d("Retrofit", Gson().toJson(musicoEditado))
                             if (response.isSuccessful) {
                                 Log.d("Retrofit", "Músico actualizado correctamente")
                             } else {
