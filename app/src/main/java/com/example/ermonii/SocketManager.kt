@@ -1,7 +1,8 @@
 package com.example.ermonii
 
 import android.util.Log
-import firebase.com.protolitewrapper.BuildConfig
+import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -16,11 +17,18 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 
+data class MessageDto(
+    @SerializedName("type") val type: String,
+    @SerializedName("sender") val sender: String? = null,
+    @SerializedName("recipient") val recipient: String? = null,
+    @SerializedName("content") val content: String? = null,
+    @SerializedName("error") val error: String? = null
+                     )
+
 class SocketManager(
     private val userId: String,
-    private val onMessageReceived: (String, String) -> Unit,
+    private val onMessageReceived: (MessageDto) -> Unit,
     private val onError: (String) -> Unit
-
                    ) {
     private var socket: Socket? = null
     private var output: PrintWriter? = null
@@ -29,14 +37,14 @@ class SocketManager(
     private val senderExecutor = Executors.newSingleThreadExecutor()
     private val receiverExecutor = Executors.newSingleThreadExecutor()
     private val connectionExecutor = Executors.newSingleThreadExecutor()
-    private val SERVER_IP = "10.0.1.192"
+    private val SERVER_IP = "10.0.1.41"
     private val SERVER_PORT = 12345
 
     internal val isConnected = AtomicBoolean(false)
     private val reconnectDelay = AtomicLong(5000L)
-    private val messageQueue = ConcurrentLinkedQueue<Pair<String, String>>()
+    private val messageQueue = ConcurrentLinkedQueue<MessageDto>()
     private val heartbeatExecutor = Executors.newSingleThreadScheduledExecutor()
-
+    private val gson = Gson()
 
     init {
         connectToServer()
@@ -51,7 +59,7 @@ class SocketManager(
 
                 Socket().apply {
                     connect(InetSocketAddress(SERVER_IP, SERVER_PORT), 5000)
-                    soTimeout = 10000
+                    soTimeout = 30000
                     keepAlive = true
                     socket = this
                 }
@@ -70,7 +78,11 @@ class SocketManager(
                                      )
                                       )
 
-                sendRawMessage(userId)
+                sendMessageDto(MessageDto(
+                    type = "AUTH",
+                    sender = userId
+                                         ))
+
                 isConnected.set(true)
                 processMessageQueue()
                 startMessageListener()
@@ -86,17 +98,20 @@ class SocketManager(
         receiverExecutor.execute {
             while (isConnected.get()) {
                 try {
-                    val message = input?.readLine() ?: throw IOException("Connection closed")
-                    Log.d("SocketManager", "📥 Received: $message")
+                    val jsonMessage = input?.readLine() ?: throw IOException("Connection closed")
+                    Log.d("SocketManager", "📥 Received: $jsonMessage")
 
-                    when {
-                        message.startsWith("MENSAJE|") -> handleMessage(message)
-                        message.startsWith("ERROR|") -> handleServerError(message)
-                        message == "PONG" -> handlePong()
+                    val message = gson.fromJson(jsonMessage, MessageDto::class.java)
+                    when (message.type) {
+                        "MESSAGE" -> handleMessage(message)
+                        "ERROR" -> handleError(message)
+                        "HEARTBEAT" -> handleHeartbeat(message)
                         else -> handleUnknownMessage(message)
                     }
                 } catch (e: Exception) {
-                    handleNetworkError("Listener error: ${e.message}")
+                    if (isConnected.get()) {
+                        handleNetworkError("Listener error: ${e.message}")
+                    }
                 }
             }
         }
@@ -105,71 +120,79 @@ class SocketManager(
     private fun startHeartbeat() {
         heartbeatExecutor.scheduleAtFixedRate({
                                                   if (isConnected.get()) {
-                                                      sendRawMessage("PING")
+                                                      sendMessageDto(MessageDto(
+                                                          type = "HEARTBEAT",
+                                                          content = "PING"
+                                                                               ))
                                                       Log.d("SocketManager", "❤️ Sent heartbeat")
                                                   }
                                               }, 0, 15, TimeUnit.SECONDS)
     }
-    private fun handlePong() {
-        Log.d("SocketManager", "❤️ Received PONG")
-    }
 
-    private fun handleMessage(rawMessage: String) {
-        try {
-            val parts = rawMessage.split("|", limit = 3)
-            if (parts.size != 3) throw Exception("Invalid message format!")
-
-            val remitente = parts[1]
-            val contenido = parts[2]
-            onMessageReceived(remitente, contenido)
-
-        } catch (e: Exception) {
-            onError("Failed to parse message: ${e.message}")
+    private fun handleMessage(message: MessageDto) {
+        if (message.sender == null || message.content == null) {
+            onError("Invalid message format")
+            return
         }
+        onMessageReceived(message)
     }
 
-    private fun handleServerError(rawMessage: String) {
-        val error = rawMessage.removePrefix("ERROR|")
+    private fun handleError(message: MessageDto) {
+        val error = message.error ?: "Unknown error"
         Log.e("SocketManager", "⛔ Server error: $error")
         onError(error)
     }
 
-    private fun handleUnknownMessage(message: String) {
-        Log.w("SocketManager", "⚠️ Unknown message type: $message")
-        onError("Received unknown message format")
+    private fun handleHeartbeat(message: MessageDto) {
+        if (message.content == "PONG") {
+            Log.d("SocketManager", "❤️ Received PONG")
+        }
     }
 
-    fun sendMessage(destinatario: String, contenido: String) {
+    private fun handleUnknownMessage(message: MessageDto) {
+        Log.w("SocketManager", "⚠️ Unknown message type: ${message.type}")
+        onError("Received unknown message type")
+    }
+
+    fun sendChatMessage(recipient: String, content: String) {
+        val message = MessageDto(
+            type = "MESSAGE",
+            sender = userId,
+            recipient = recipient,
+            content = content
+                                )
+
         senderExecutor.execute {
             if (!isConnected.get()) {
-                messageQueue.add(Pair(destinatario, contenido))
+                messageQueue.add(message)
                 reconnect()
                 return@execute
             }
 
             try {
-                sendRawMessage("MENSAJE|$destinatario|$contenido")
-                Log.d("SocketManager", "📤 Sent to $destinatario: $contenido")
+                sendMessageDto(message)
+                Log.d("SocketManager", "📤 Sent to $recipient: $content")
             } catch (e: Exception) {
-                messageQueue.add(Pair(destinatario, contenido))
+                messageQueue.add(message)
                 handleNetworkError("Send error: ${e.message}")
             }
+        }
+    }
+
+    private fun sendMessageDto(message: MessageDto) {
+        val json = gson.toJson(message)
+        output?.apply {
+            println(json)
+            flush()
         }
     }
 
     private fun processMessageQueue() {
         senderExecutor.execute {
             while (isConnected.get() && messageQueue.isNotEmpty()) {
-                val (destinatario, contenido) = messageQueue.poll()
-                sendMessage(destinatario, contenido)
+                val message = messageQueue.poll()
+                sendMessageDto(message)
             }
-        }
-    }
-
-    private fun sendRawMessage(message: String) {
-        output?.apply {
-            println(message)
-            flush()
         }
     }
 
@@ -188,7 +211,7 @@ class SocketManager(
         connectionExecutor.execute {
             try {
                 Thread.sleep(reconnectDelay.get())
-                reconnectDelay.set(minOf(reconnectDelay.get() * 2, 30000L)) // Backoff exponencial
+                reconnectDelay.set(minOf(reconnectDelay.get() * 2, 30000L))
                 connectToServer()
             } catch (e: InterruptedException) {
                 Thread.currentThread().interrupt()

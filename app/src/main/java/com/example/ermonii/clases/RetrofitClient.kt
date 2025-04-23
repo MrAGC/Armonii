@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.Date
 
 object RetrofitClient {
-    private const val BASE_URL = "http://10.0.0.213/ArmoniiAPI/"
+    private const val BASE_URL = "http://10.0.0.99/dam02/"
 
     val instance: ApiService by lazy {
         val gson: Gson = GsonBuilder()
