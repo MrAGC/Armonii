@@ -10,7 +10,7 @@ import com.example.ermonii.clases.Evento
 import com.google.android.material.button.MaterialButton
 
 class EventoPerfilAdapter(
-    private val eventos: List<Evento>,
+    private val eventos: MutableList<Evento>,
     private val onEditarClick: (Evento) -> Unit,
     private val onEliminarClick: (Evento) -> Unit
                          ) : RecyclerView.Adapter<EventoPerfilAdapter.EventoViewHolder>() {
@@ -40,4 +40,5 @@ class EventoPerfilAdapter(
     }
 
     override fun getItemCount(): Int = eventos.size
+
 }

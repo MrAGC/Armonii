@@ -205,16 +205,44 @@ class PerfilFragmentLocal : Fragment() {
 
         // Una vez que obtienes los eventos, actualiza el RecyclerView
         if (eventosFiltrados.isNotEmpty()) {
-            eventoAdapter = EventoPerfilAdapter(eventosFiltrados, onEditarClick = { evento ->
+            eventoAdapter = EventoPerfilAdapter(eventosFiltrados.toMutableList(), onEditarClick = { evento ->
                 // Aquí manejas el click del botón Editar
             }, onEliminarClick = { evento ->
-                // Aquí manejas el click del botón Eliminar
+                deleteEvento(evento)
             })
             recyclerViewEventos.adapter = eventoAdapter
         } else {
             Log.e("PerfilLocal", "No se encontraron eventos para este local")
             Toast.makeText(requireContext(), "No se encontraron eventos", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun deleteEvento(evento: Evento) {
+        val call = RetrofitClient.instance.deleteEvento(evento.id)
+
+        call.enqueue(object : Callback<Evento> {
+            override fun onResponse(call: Call<Evento>, response: Response<Evento>) {
+                if (response.isSuccessful) {
+                    val evento = response.body()
+                    evento?.let {
+                        Log.d("PerfilLocal", "Evento eliminado: ${it.nombre}")
+
+                        if (localUsuario != null) {
+                            GlobalScope.launch(Dispatchers.Main) {
+                                llamarAPIEventos()
+                            }
+                        }
+
+                    }
+                } else {
+                    Log.e("PerfilLocal", "Error al eliminar el evento: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Evento>, t: Throwable) {
+                Log.e("PerfilLocal", "Fallo la solicitud: ${t.message}")
+            }
+        })
     }
 
 }
